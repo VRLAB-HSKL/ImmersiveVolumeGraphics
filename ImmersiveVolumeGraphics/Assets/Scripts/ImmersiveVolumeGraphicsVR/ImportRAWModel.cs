@@ -86,8 +86,30 @@ namespace UnityVolumeRendering
                     // Spawn the object
                     if (dataset != null)
                     {
-                        VolumeObjectFactory.CreateObject(dataset);
-                    }
+                    VolumeObjectFactory.CreateObject(dataset);
+                    VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
+
+                    volobj.gameObject.transform.position = new Vector3(0,1.3f,0);
+                    Vector3 rotation = new Vector3(-90, 180, 0);
+                    volobj.gameObject.transform.rotation = Quaternion.Euler(rotation); 
+
+                    VolumeObjectFactory.SpawnCrossSectionPlane(volobj);
+                    GameObject quad = GameObject.Find("Quad");
+                    quad.name = "CrossSection";
+
+                    MeshRenderer meshRenderer = quad.GetComponent<MeshRenderer>();
+                    meshRenderer.enabled = false;
+                    
+
+
+                    GameObject crosssectionselection = GameObject.Find("CrosssectionSelection");
+                    quad.transform.SetParent(crosssectionselection.transform);
+                    crosssectionselection.gameObject.transform.position = new Vector3(0, 1.4f, 0);
+
+
+
+
+                }
                 }
             
         }
@@ -98,7 +120,16 @@ namespace UnityVolumeRendering
             foreach (VolumeRenderedObject volobj in volobjs)
             {
                 GameObject.Destroy(volobj.gameObject);
+
             }
+
+            Object crosssection = GameObject.Find("CrossSection");
+            GameObject.Destroy(crosssection);
+
+
+
+
+
         }
 
     }

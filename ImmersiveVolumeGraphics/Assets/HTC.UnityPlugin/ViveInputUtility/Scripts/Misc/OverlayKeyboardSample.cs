@@ -80,7 +80,7 @@ public class OverlayKeyboardSample : MonoBehaviour
                 }
                 vr.overlay.ShowKeyboard(0, 0, flag, "Description", 256, caller.text, 0);
 #else
-               // vr.overlay.ShowKeyboard(0, 0, "Description", 256, caller.text, caller.minimalMode, 0);
+               //vr.overlay.ShowKeyboard(0, 0, "Description", 256, caller.text, caller.minimalMode, 0);
 #endif
             }
 

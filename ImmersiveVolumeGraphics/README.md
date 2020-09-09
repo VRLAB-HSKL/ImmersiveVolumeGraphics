@@ -24,13 +24,13 @@ I also have [a tutorial video that shows how to use the project](https://bittube
 
 In the menu bar, click "Volume Rendering" and "Load raw dataset"
 
-<img src="Screenshots/menubar2.png" width="200px">
+<img src="Screenshots/UnityVolumeRendering/menubar2.png" width="200px">
 
 Then select the dataset you wish to import. Currently only raw datasets are supported (you can add your own importer for other datasets).
 
 In the next menu you can optionally set the import setting for the raw dataset. For the sample files you don't need to change anything.
 
-<img src="Screenshots/import.png" width="200px">
+<img src="Screenshots/UnityVolumeRendering/import.png" width="200px">
 
 **DICOM:**
 
@@ -41,21 +41,21 @@ The dataset must be of 3D nature, and contain several files - each being a slice
 
 You can move the model like any other GameObject. Simply select it in the scene view or scene hierarchy, and move/rotate it like normal.
 
-<img src="Screenshots/movement.gif" width="400px">
+<img src="Screenshots/UnityVolumeRendering/movement.gif" width="400px">
 
 **3. Changing the visualisation**
 
 Select the model and find the "Volume Render Object" in the inspector.
 
-<img src="Screenshots/component-inspector.png" width="200px">
+<img src="Screenshots/UnityVolumeRendering/component-inspector.png" width="200px">
 
 Here you can change the "Render mode":
 
-<img src="Screenshots/rendermode.png" width="200px">
+<img src="Screenshots/UnityVolumeRendering/rendermode.png" width="200px">
 
 Example:
 
-<img src="Screenshots/rendermodes.gif" width="500px">
+<img src="Screenshots/UnityVolumeRendering/rendermodes.gif" width="500px">
 
 There are 3 render modes:
 - Direct Volume Rendering (using transfer functions)
@@ -76,7 +76,7 @@ Direct volume rendering is the most standard rendering mode. It sends rays throu
 Isosurface rendering draws the first thing the ray hits, with a density higher than some threshold. You can set this threshold yourself, by selecting the object and changing the "Visible value range" in the inspector.
 These can also be used with direct volume rendering mode.
 
-<img src="Screenshots/isosurface.gif" width="500px">
+<img src="Screenshots/UnityVolumeRendering/isosurface.gif" width="500px">
 
 # (VR) performance
 
