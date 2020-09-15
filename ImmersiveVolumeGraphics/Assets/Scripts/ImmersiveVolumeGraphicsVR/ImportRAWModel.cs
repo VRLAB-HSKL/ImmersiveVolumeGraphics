@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,7 +42,7 @@ namespace UnityVolumeRendering
         public static void setModelPath(string Path)
         {
             ModelPath = Path;
-
+            
 
         }
 
@@ -65,7 +66,7 @@ namespace UnityVolumeRendering
         }
 
 
-        public void OpenRAWDataset()
+        public static void OpenRAWDataset()
         {
            
                 // We'll only allow one dataset at a time in the runtime GUI (for simplicity)
@@ -114,7 +115,7 @@ namespace UnityVolumeRendering
             
         }
 
-        private void DespawnAllDatasets()
+        private static void DespawnAllDatasets()
         {
             VolumeRenderedObject[] volobjs = GameObject.FindObjectsOfType<VolumeRenderedObject>();
             foreach (VolumeRenderedObject volobj in volobjs)
