@@ -1295,7 +1295,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 160224, guid: 2b3a4efa04a7cf2428e0835b20f15fdc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 475840, guid: 2b3a4efa04a7cf2428e0835b20f15fdc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1894,6 +1894,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1827897006}
     m_Modifications:
+    - target: {fileID: 197116, guid: cbfd31aaac017204885fcc03f0579a1a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 498762, guid: cbfd31aaac017204885fcc03f0579a1a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4427,6 +4431,7 @@ GameObject:
   - component: {fileID: 1643679173}
   - component: {fileID: 1643679174}
   - component: {fileID: 1643679175}
+  - component: {fileID: 1643679168}
   m_Layer: 0
   m_Name: CrosssectionSelection
   m_TagString: Untagged
@@ -4434,6 +4439,40 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1643679168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643679167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c1e088ce10ab7d4c87f03fd1f2dfcae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  posOffset: {x: 0, y: 0, z: 0}
+  rotOffset: {x: 0, y: 0, z: 0}
+  alignPosition: 0
+  alignRotation: 0
+  alignPositionOffset: {x: 0, y: 0, z: 0}
+  alignRotationOffset: {x: 0, y: 0, z: 0}
+  m_followingDuration: 0.04
+  m_overrideMaxAngularVelocity: 1
+  m_unblockableGrab: 1
+  m_primaryGrabButton: 0
+  m_secondaryGrabButton: 1
+  m_grabButton: 0
+  m_allowMultipleGrabbers: 1
+  m_afterGrabbed:
+    m_PersistentCalls:
+      m_Calls: []
+  m_beforeRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  m_onDrop:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &1643679169
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4534,7 +4573,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643679167}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d95cee40c33260044b37578281bc98a3, type: 3}
   m_Name: 
@@ -5350,7 +5389,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 175660, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 463184, guid: cb3370c18187bb444b240cfb08dcc02f, type: 3}
       propertyPath: m_LocalPosition.x

@@ -35,7 +35,7 @@ public class AddDropDownItems : MonoBehaviour
                 //Entfernt den Pfad aus dem Namen
                 // für Buildversion    string file2 = file.Remove(0,100);
                 // für Editorversion    string file2 = file.Remove(0,97);
-                string file2 = file.Remove(0, 97);
+                string file2 = file.Remove(0, 120);
                 DropDownOptions.Add(file2);
 
             }
