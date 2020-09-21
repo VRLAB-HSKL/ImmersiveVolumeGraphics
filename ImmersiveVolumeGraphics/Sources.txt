@@ -1,0 +1,56 @@
+ImageJ
+
+https://imagej.net/Headless
+https://imagej.net/Scripting_Headless
+https://forum.image.sc/t/running-plugins-macros-from-the-command-line/363/6
+https://imagej.nih.gov/ij/developer/macro/macros.html
+
+
+Unity
+
+https://docs.unity3d.com/ScriptReference/GUI.Box.html
+https://docs.unity3d.com/ScriptReference/GUI.html
+https://docs.unity3d.com/Manual/StreamingAssets.html
+https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/script-Dropdown.html
+https://docs.unity3d.com/2018.3/Documentation/ScriptReference/UI.Dropdown-onValueChanged.html
+https://docs.unity3d.com/2018.3/Documentation/ScriptReference/UI.Dropdown.AddOptions.html
+https://answers.unity.com/questions/50716/how-to-make-a-global-variable-in-unity.html
+https://answers.unity.com/questions/1167834/how-do-you-access-the-text-value-of-the-dropdown-u.html
+
+
+
+
+https://answers.unity.com/questions/16433/get-list-of-all-files-in-a-directory.html
+https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity5.html
+https://forum.unity.com/threads/remove-text-from-string.57431/
+
+
+FindObject
+https://docs.unity3d.com/ScriptReference/GameObject.Find.html
+Unity Tags
+https://docs.unity3d.com/540/Documentation/Manual/Tags.html#:~:text=To%20create%20a%20new%20Tag,render%20GameObjects%20in%20the%20Scene.
+https://forum.unity.com/threads/solved-how-to-set-a-gameobject-tag-through-a-script.56581/
+https://answers.unity.com/questions/472065/how-would-i-go-about-removing-a-mesh-renderer-comp.html
+
+
+Coroutine in Unity
+
+https://docs.unity3d.com/Manual/Coroutines.html
+https://answers.unity.com/questions/314697/is-there-any-way-to-catch-coroutine-ending.html
+
+
+
+Speech Recognition 
+
+
+http://gyanendushekhar.com/2016/10/11/speech-recognition-in-unity3d-windows-speech-api/
+https://docs.microsoft.com/de-de/windows/mixed-reality/voice-input-in-unity
+https://stackoverflow.com/questions/47471562/save-and-load-audio
+
+
+Saving Data
+
+https://stackoverflow.com/questions/54375044/the-best-way-to-save-game-data-in-unity-thats-secure-platfrom-independent
+
+IO
+https://github.com/Anker13/SequenceLearning/blob/master/Assets/Scripts/IO/CSVWriter.cs

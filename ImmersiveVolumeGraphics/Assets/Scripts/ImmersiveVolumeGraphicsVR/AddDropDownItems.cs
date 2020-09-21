@@ -13,34 +13,39 @@ public class AddDropDownItems : MonoBehaviour
     void Start()
     {
 
+#if UNITY_EDITOR
 
+         string path = "" + Application.dataPath + "/StreamingAssets/";
 
-        string path = "" + Application.dataPath + " /StreamingAssets/ ";
+#else 
+         string path = "" + Application.dataPath + "/StreamingAssets/";
 
-     
+#endif   
 
         List<string> DropDownOptions = new List<string>();
-      
 
+        int pathlength = path.Length;
         foreach (string file in System.IO.Directory.GetFiles(path))
         {
 
             // Nur Modelle werden gelistet 
 
-            if (file.EndsWith(".raw"))
+          if (file.EndsWith(".raw"))
             {
+
+               
+
+                string file2 = file.Remove(0, pathlength);
+
                 //Testen
                 //Debug.Log(file);
 
-                //Entfernt den Pfad aus dem Namen
-                // für Buildversion    string file2 = file.Remove(0,100);
-                // für Editorversion    string file2 = file.Remove(0,97);
-                string file2 = file.Remove(0, 120);
-                DropDownOptions.Add(file2);
 
+                DropDownOptions.Add(file2);
+              
             }
 
-
+            
 
 
 
