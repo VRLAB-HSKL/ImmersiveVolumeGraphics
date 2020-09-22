@@ -107,4 +107,18 @@ The project is divided into the following components:
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene5.PNG" width="500px">
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene6.PNG" width="500px">
 
+##  Feature List (so far)
+
+- Automated converting of DICOM-Files into RAW-File using ImageJ
+- Automated extracting of DICOM Metainformation eg. patient´s name , modality etc.
+- Dictation function ( speech to text) 
+- Voice commands in Unity 
+- VR-enabled volume rendering 
+- Creating a VR-based user experience 
+
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene7.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene8.PNG" width="500px">
+
+
+
 
