@@ -6,12 +6,12 @@ using UnityEngine.UI;
 namespace UnityVolumeRendering
 {
 
-
+   
 
     public class LoadModelPath : MonoBehaviour
     {
         public Dropdown dropdown;
-
+        public static  string path;
         // Start is called before the first frame update
         void Start()
         {
@@ -28,14 +28,14 @@ namespace UnityVolumeRendering
         {
 
             ImportRAWModel.setModelPath(dropdown.options[dropdown.value].text);
+            path = dropdown.options[dropdown.value].text;
             Debug.Log("Path loaded");
+        }
 
+        public void  setPath(string location)
+        {
 
-
-
-
-
-
+            path = location;
 
 
         }

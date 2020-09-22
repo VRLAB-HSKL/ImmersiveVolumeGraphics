@@ -3324,7 +3324,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 292.9, y: 263}
+  m_AnchoredPosition: {x: 65, y: 53}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &716794750
@@ -3344,7 +3344,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &716794751
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4326,8 +4326,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 292.9, y: -82.4}
-  m_SizeDelta: {x: 300, y: 400}
+  m_AnchoredPosition: {x: 293, y: 136.7}
+  m_SizeDelta: {x: 200, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1024125169
 MonoBehaviour:
@@ -4350,18 +4350,20 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 10
-    m_FontStyle: 0
+    m_FontSize: 15
+    m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 20
-    m_Alignment: 1
+    m_MaxSize: 30
+    m_Alignment: 0
     m_AlignByGeometry: 0
-    m_RichText: 1
+    m_RichText: 0
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "help \nrecord\nstop\nimport\n\n\n"
+  m_Text: '
+
+'
 --- !u!222 &1024125170
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8091,6 +8093,7 @@ GameObject:
   - component: {fileID: 2070016760}
   - component: {fileID: 2070016759}
   - component: {fileID: 2070016762}
+  - component: {fileID: 2070016763}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -8172,6 +8175,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 1
+      - m_Target: {fileID: 2070016763}
+        m_MethodName: ReadDICOMMetaInfo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2070016760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8221,6 +8235,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05524864f0bacde40bede0dde4024ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2070016763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070016757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3fb418b6f92bdd40a3a114ffa8fc622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  t: {fileID: 1024125169}
 --- !u!1 &2073675881
 GameObject:
   m_ObjectHideFlags: 0

@@ -54,3 +54,22 @@ https://stackoverflow.com/questions/54375044/the-best-way-to-save-game-data-in-u
 
 IO
 https://github.com/Anker13/SequenceLearning/blob/master/Assets/Scripts/IO/CSVWriter.cs
+
+DICOM
+https://github.com/pydicom/pydicom
+https://pydicom.github.io/pydicom/stable/tutorials/sr_basics.html
+https://pydicom.github.io/pydicom/stable/tutorials/dataset_basics.html#reading
+https://pydicom.github.io/pydicom/stable/tutorials/dataset_basics.html#writing
+https://www.w3schools.com/python/python_file_write.asp
+https://stackoverflow.com/questions/5214578/print-string-to-text-file
+http://dicom.nema.org/medical/dicom/current/output/chtml/part06/chapter_6.html
+http://dicom.nema.org/medical/dicom/current/output/chtml/part06/chapter_1.html
+
+
+VTK + VR
+https://vtk.org/flavors/#ar-and-vr
+
+Infos 
+DICOM 2020
+Am 1. Januar 2020 tritt die DIN 6862-2 in Kraft.
+
