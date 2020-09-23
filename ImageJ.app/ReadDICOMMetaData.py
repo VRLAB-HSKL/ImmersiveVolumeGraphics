@@ -9,7 +9,7 @@ print(ds)
 print("")
 print("")
 print("Exported successfully")
-print(ds, file=open('RAWMODEL/Rawmodelmetadata.txt', 'w'))
+print(ds, file=open('RAWMODEL/RawModelMetadata.txt', 'w'))
 
 
 

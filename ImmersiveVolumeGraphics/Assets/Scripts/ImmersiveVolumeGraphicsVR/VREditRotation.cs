@@ -6,61 +6,50 @@ using UnityEngine.UI;
 namespace UnityVolumeRendering {
     public class VREditRotation : MonoBehaviour
     {
-
+        //Slider for the GUI in VR
         public Slider s;
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-
-
-
-        }
-
-
-
-        
-
-
-
-
+ 
+        // OnValueChangedListener for the slider
+        // Edit the Rotation of the X-Axis in VR
     public void EditRotationX()
         {
-
+            // Find the Volume Object i.e. our model
             VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
+            // Do we have a model?
             if (volobj != null)
             {
-                Vector3 rotation = new Vector3(s.value, 0, 0);
-                volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
+            // Rotate it 
+            Vector3 rotation = new Vector3(s.value, 0, 0);
+             volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
             }
-
         }
 
-
+        // OnValueChangedListener for the slider
+        // Edit the Rotation of the Y-Axis in VR
         public void EditRotationY()
         {
-           
-                VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
-                if (volobj != null)
-                {
-                    Vector3 rotation = new Vector3(0, s.value, 0);
-                volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
+            // Find the Volume Object i.e. our model
+            VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
+            // Do we have a model?
+            if (volobj != null)
+            {
+            // Rotate it 
+            Vector3 rotation = new Vector3(0, s.value, 0);
+            volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
             }
         }
 
+        // OnValueChangedListener for the slider
+        // Edit the Rotation of the Z-Axis in VR
         public void EditRotationZ()
         {
-           
-           VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
+            // Find the Volume Object i.e. our model
+            VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
+            // Do we have a model?
             if (volobj != null)
             {
-                Vector3 rotation = new Vector3(0, 0, s.value);
+            // Rotate it 
+            Vector3 rotation = new Vector3(0, 0, s.value);
             volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
             }
         }

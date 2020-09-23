@@ -8,55 +8,22 @@ using UnityEngine.UI;
 namespace UnityVolumeRendering
 {
    
+    /// <summary>
+    /// Imports a Model into the Scene via Voice command or Import Button
+    /// </summary>
 
     public class ImportRAWModel : MonoBehaviour
     {
-
+        //Name or path of the model
         public static  string  ModelPath = "";
 
-        // Start is called before the first frame update
-
-        // "C:\\Users\\Marco\\Desktop\\ImmersiveVolumeGraphics\\ImmersiveVolumeGraphics\\DataFiles\\Male_Head.raw
-
-
-       /* public void Import()
-        {
-
-
-
-
-
-            RawDatasetImporter importer = new RawDatasetImporter(Application.dataPath + "/StreamingAssets/"+ModelPath, 512, 512, 245, DataContentFormat.Uint16, 0, 0);
-            VolumeDataset dataset = importer.Import();
-            // Spawn the object
-            if (dataset != null)
-            {
-                VolumeObjectFactory.CreateObject(dataset);
-            }
-
-
-
-
-        } */
-
+      
+        //setter-Method
         public static void setModelPath(string Path)
         {
             ModelPath = Path;
             
 
-        }
-
-
-
-
-
-
-
-
-
-         void Start()
-        {
-            
         }
 
         // Update is called once per frame
@@ -65,17 +32,12 @@ namespace UnityVolumeRendering
 
         }
 
-
+        // Importmethod for voice command
         public static void OpenRAWDataset()
         {
            
                 // We'll only allow one dataset at a time in the runtime GUI (for simplicity)
                 DespawnAllDatasets();
-
-                // Did the user try to import an .ini-file? Open the corresponding .raw file instead
-              //  string filePath = Application.dataPath + "/StreamingAssets/" ;
-                //if (System.IO.Path.GetExtension(filePath) == ".ini")
-                  //  filePath = filePath.Replace(".ini", ".raw");
 
                 // Parse .ini file
                 DatasetIniData initData = DatasetIniReader.ParseIniFile(Application.dataPath + "/StreamingAssets/"+ModelPath+".ini");
@@ -87,25 +49,57 @@ namespace UnityVolumeRendering
                     // Spawn the object
                     if (dataset != null)
                     {
+                    // Create the Volume Object
                     VolumeObjectFactory.CreateObject(dataset);
+                    
                     VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
 
-                    volobj.gameObject.transform.position = new Vector3(0,1.3f,0);
-                    Vector3 rotation = new Vector3(-90, 180, 0);
-                    volobj.gameObject.transform.rotation = Quaternion.Euler(rotation); 
+                    
 
+                    // Sets the model into the right place of the scene 
+                    volobj.gameObject.transform.position = new Vector3(0,1.3f,0);
+                    // Rotates the object facing us
+                    Vector3 rotation = new Vector3(-90, 0, 0);
+                    volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
+
+                    //SliceThickness can never be 0! except the metainfo file wasnt loaded , default dimensions (scales) are (x,y,z) = (1 meter , 1 meter , 1 meter)
+                    if (DICOMMetaReader.getThickness() > 0)
+                    {
+                        // Calculating the dimensions of the model 
+
+                        // Unity doesn't use units for its worldspace but the VR-Environment needs units for the object mapping. 
+                        // 1 unit in Unity equals to 1 meter in VR/Real Life
+                        // normally the VolumeObject has a default size of 1x1x1 
+
+                        // The Volume Objects size will be adjusted according to the DICOM information that we gathered
+                        // the scaling in x will be  (amount of slices in X  * slicethickness ) / 1000  
+                        // the scaling in y will be  (amount of slices in Y  * slicethickness ) / 1000  
+                        // the scaling in z will be  (amount of slices in Z  * slicethickness ) / 1000  
+
+                        // Remark:
+                        // the slicethickness is measured  in Millimeter but the mapped Worldspace is in Meter so we have to take the factor 1000 into consideration
+                        // the slicethickness is the same for every dimension 
+
+                        volobj.gameObject.transform.localScale = new Vector3((initData.dimX * DICOMMetaReader.getThickness()) / 1000, (initData.dimY * DICOMMetaReader.getThickness()) / 1000, (initData.dimZ * DICOMMetaReader.getThickness()) / 1000);
+                    }
+
+                    // Spawns a CrossSectionPlane  that can intersect the model and show its inside
                     VolumeObjectFactory.SpawnCrossSectionPlane(volobj);
+                    // Finding the Object
                     GameObject quad = GameObject.Find("Quad");
+                    // Renaming it
                     quad.name = "CrossSection";
 
+                    //Adding the MeshRenderer
                     MeshRenderer meshRenderer = quad.GetComponent<MeshRenderer>();
                     meshRenderer.enabled = false;
                     
-
-
+                    // Movable quad that can be interacted in VR with the controllers when  collided
                     GameObject crosssectionselection = GameObject.Find("CrosssectionSelection");
+                    //Sets the CrossSectionPlane to the Quad that they can move together
                     quad.transform.SetParent(crosssectionselection.transform);
-                    crosssectionselection.gameObject.transform.position = new Vector3(0, 1.4f, 0);
+                    // Fitting the Quad to the right position in the world space
+                    crosssectionselection.gameObject.transform.position = new Vector3(0, 1.6f, 0);
 
 
 
@@ -141,8 +135,14 @@ namespace UnityVolumeRendering
                     VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
 
                     volobj.gameObject.transform.position = new Vector3(0, 1.3f, 0);
-                    Vector3 rotation = new Vector3(-90, 180, 0);
+                    Vector3 rotation = new Vector3(-90, 0, 0);
                     volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
+
+                    //SliceThickness can never be 0! except the metainfo file wasnt loaded , default dimensions (scales) are (x,y,z) = (1 meter , 1 meter , 1 meter)
+                    if (DICOMMetaReader.getThickness() > 0)
+                    {
+                        volobj.gameObject.transform.localScale = new Vector3((initData.dimX * DICOMMetaReader.getThickness()) / 1000, (initData.dimY * DICOMMetaReader.getThickness()) / 1000, (initData.dimZ * DICOMMetaReader.getThickness()) / 1000);
+                    }
 
                     VolumeObjectFactory.SpawnCrossSectionPlane(volobj);
                     GameObject quad = GameObject.Find("Quad");
@@ -155,7 +155,7 @@ namespace UnityVolumeRendering
 
                     GameObject crosssectionselection = GameObject.Find("CrosssectionSelection");
                     quad.transform.SetParent(crosssectionselection.transform);
-                    crosssectionselection.gameObject.transform.position = new Vector3(0, 1.4f, 0);
+                    crosssectionselection.gameObject.transform.position = new Vector3(0, 1.6f, 0);
 
 
 

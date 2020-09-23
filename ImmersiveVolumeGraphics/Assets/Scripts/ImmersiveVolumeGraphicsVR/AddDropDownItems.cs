@@ -9,6 +9,9 @@ public class AddDropDownItems : MonoBehaviour
 
 
     public Dropdown dropdown;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,25 +25,24 @@ public class AddDropDownItems : MonoBehaviour
 
 #endif   
 
+        //Creates a new DropDownlist
         List<string> DropDownOptions = new List<string>();
 
+        //Length of the whole path
         int pathlength = path.Length;
+
+        //Lists all files 
         foreach (string file in System.IO.Directory.GetFiles(path))
         {
 
-            // Nur Modelle werden gelistet 
-
+          //Listing just the Rawmodels ending in .raw
           if (file.EndsWith(".raw"))
             {
 
-               
-
+                // removes the path and just leaves "Name.raw" 
                 string file2 = file.Remove(0, pathlength);
 
-                //Testen
-                //Debug.Log(file);
-
-
+                //Adds the Names of the Models to the DropDownLists 
                 DropDownOptions.Add(file2);
               
             }
@@ -51,7 +53,8 @@ public class AddDropDownItems : MonoBehaviour
 
         }
 
-        // Hinzufügen der Liste an Optionen
+        // Adds the List to the DropDown as available options
+
         dropdown.AddOptions(DropDownOptions);
 
 
