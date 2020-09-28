@@ -116,9 +116,15 @@ The project is divided into the following components:
 - VR-enabled volume rendering 
 - Creating a VR-based user experience 
 
+## Update 1
+
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene7.PNG" width="500px">
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene8.PNG" width="500px">
 
+## Update 2
+
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene9.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene10.PNG" width="500px">
 
 
 

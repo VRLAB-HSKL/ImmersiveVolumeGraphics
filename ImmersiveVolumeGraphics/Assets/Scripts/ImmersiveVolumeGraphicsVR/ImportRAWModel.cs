@@ -30,6 +30,7 @@ namespace UnityVolumeRendering
         void Update()
         {
 
+            
         }
 
         // Importmethod for voice command
@@ -101,7 +102,19 @@ namespace UnityVolumeRendering
                     // Fitting the Quad to the right position in the world space
                     crosssectionselection.gameObject.transform.position = new Vector3(0, 1.6f, 0);
 
+                    VolumeRenderedObject volRend = FindObjectOfType<VolumeRenderedObject>();
+                    if (volobj != null)
+                    {
 
+                        volobj.CreateSlicingPlane();
+
+                        // Finding the ImageViewer
+                        GameObject SlicingPlane = GameObject.Find("SlicingPlane(Clone)");
+                        GameObject ImageViewer = GameObject.Find("ImageViewer");
+
+                        ImageViewer.GetComponent<MeshRenderer>().sharedMaterial = SlicingPlane.GetComponent<MeshRenderer>().sharedMaterial;
+
+                    }
 
 
                 }
@@ -134,6 +147,9 @@ namespace UnityVolumeRendering
                     VolumeObjectFactory.CreateObject(dataset);
                     VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
 
+                 
+                   
+
                     volobj.gameObject.transform.position = new Vector3(0, 1.3f, 0);
                     Vector3 rotation = new Vector3(-90, 0, 0);
                     volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
@@ -157,8 +173,26 @@ namespace UnityVolumeRendering
                     quad.transform.SetParent(crosssectionselection.transform);
                     crosssectionselection.gameObject.transform.position = new Vector3(0, 1.6f, 0);
 
+                    GameObject rotTable = GameObject.Find("Rotatable Table");
+                   volobj.transform.SetParent(rotTable.transform);
+                   
 
 
+
+
+                    // Finding the ImageViewer
+                    //   GameObject SlicingPlane = GameObject.Find("SlicingPlane(Clone)");
+
+                    SlicingPlane SlicingPlane =  volobj.CreateSlicingPlane();
+                    GameObject ImageViewer = GameObject.Find("ImageViewer");
+
+                    MeshRenderer SlicerMeshrenderer = SlicingPlane.GetComponent<MeshRenderer>();
+                    SlicerMeshrenderer.enabled = false;
+
+                    ImageViewer.GetComponent<MeshRenderer>().sharedMaterial = SlicingPlane.GetComponent<MeshRenderer>().sharedMaterial;
+
+                  
+                    
 
                 }
             }
@@ -187,6 +221,9 @@ namespace UnityVolumeRendering
 
             Object crosssection = GameObject.Find("CrossSection");
             GameObject.Destroy(crosssection);
+
+            Object slicingplane = GameObject.Find("SlicingPlane(Clone)");
+            GameObject.Destroy(slicingplane);
 
 
 
