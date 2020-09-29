@@ -73,7 +73,7 @@ namespace UnityVolumeRendering
             int minValue = GetMinDataValue();
             int maxValue = GetMaxDataValue();
             int maxRange = maxValue - minValue;
-
+            
             Color[] cols = new Color[data.Length];
             for (int x = 0; x < dimX; x++)
             {

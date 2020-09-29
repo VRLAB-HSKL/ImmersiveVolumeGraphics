@@ -102,19 +102,19 @@ namespace UnityVolumeRendering
                     // Fitting the Quad to the right position in the world space
                     crosssectionselection.gameObject.transform.position = new Vector3(0, 1.6f, 0);
 
-                    VolumeRenderedObject volRend = FindObjectOfType<VolumeRenderedObject>();
-                    if (volobj != null)
-                    {
+                    GameObject rotTable = GameObject.Find("Rotatable Table");
+                    volobj.transform.SetParent(rotTable.transform);
 
-                        volobj.CreateSlicingPlane();
+                    // Finding the ImageViewer
+                    //   GameObject SlicingPlane = GameObject.Find("SlicingPlane(Clone)");
 
-                        // Finding the ImageViewer
-                        GameObject SlicingPlane = GameObject.Find("SlicingPlane(Clone)");
-                        GameObject ImageViewer = GameObject.Find("ImageViewer");
+                    SlicingPlane SlicingPlane = volobj.CreateSlicingPlane();
+                    GameObject ImageViewer = GameObject.Find("ImageViewer");
 
-                        ImageViewer.GetComponent<MeshRenderer>().sharedMaterial = SlicingPlane.GetComponent<MeshRenderer>().sharedMaterial;
+                    MeshRenderer SlicerMeshrenderer = SlicingPlane.GetComponent<MeshRenderer>();
+                    SlicerMeshrenderer.enabled = false;
 
-                    }
+                    ImageViewer.GetComponent<MeshRenderer>().sharedMaterial = SlicingPlane.GetComponent<MeshRenderer>().sharedMaterial;
 
 
                 }
@@ -122,9 +122,14 @@ namespace UnityVolumeRendering
             
         }
 
+
         //OnClickListener
         public  void OpenRAWData()
         {
+
+            GameObject EditSliceRenderer1 = GameObject.Find("EditSliceRenderer1");
+            Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
+
 
             // We'll only allow one dataset at a time in the runtime GUI (for simplicity)
             DespawnAllDatasets();
@@ -144,19 +149,35 @@ namespace UnityVolumeRendering
                 // Spawn the object
                 if (dataset != null)
                 {
+                    // Create the Volume Object
                     VolumeObjectFactory.CreateObject(dataset);
                     VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
-
-                 
-                   
-
+                    // Sets the model into the right place of the scene 
                     volobj.gameObject.transform.position = new Vector3(0, 1.3f, 0);
+                    // Rotates the object facing us
                     Vector3 rotation = new Vector3(-90, 0, 0);
                     volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
 
+                    // Calculating the dimensions of the model 
+
+                    // Unity doesn't use units for its worldspace but the VR-Environment needs units for the object mapping. 
+                    // 1 unit in Unity equals to 1 meter in VR/Real Life
+                    // normally the VolumeObject has a default size of 1x1x1 
+
+                    // The Volume Objects size will be adjusted according to the DICOM information that we gathered
+                    // the scaling in x will be  (amount of slices in X  * slicethickness ) / 1000  
+                    // the scaling in y will be  (amount of slices in Y  * slicethickness ) / 1000  
+                    // the scaling in z will be  (amount of slices in Z  * slicethickness ) / 1000  
+
+                    // Remark:
+                    // the slicethickness is measured  in Millimeter but the mapped Worldspace is in Meter so we have to take the factor 1000 into consideration
+                    // the slicethickness is the same for every dimension 
                     //SliceThickness can never be 0! except the metainfo file wasnt loaded , default dimensions (scales) are (x,y,z) = (1 meter , 1 meter , 1 meter)
                     if (DICOMMetaReader.getThickness() > 0)
                     {
+
+
+
                         volobj.gameObject.transform.localScale = new Vector3((initData.dimX * DICOMMetaReader.getThickness()) / 1000, (initData.dimY * DICOMMetaReader.getThickness()) / 1000, (initData.dimZ * DICOMMetaReader.getThickness()) / 1000);
                     }
 
@@ -171,7 +192,7 @@ namespace UnityVolumeRendering
 
                     GameObject crosssectionselection = GameObject.Find("CrosssectionSelection");
                     quad.transform.SetParent(crosssectionselection.transform);
-                    crosssectionselection.gameObject.transform.position = new Vector3(0, 1.6f, 0);
+                    crosssectionselection.gameObject.transform.position = new Vector3(0.5f, 0.86f, 0.643f);
 
                     GameObject rotTable = GameObject.Find("Rotatable Table");
                    volobj.transform.SetParent(rotTable.transform);
@@ -191,8 +212,22 @@ namespace UnityVolumeRendering
 
                     ImageViewer.GetComponent<MeshRenderer>().sharedMaterial = SlicingPlane.GetComponent<MeshRenderer>().sharedMaterial;
 
-                  
+
+                   
+
+                   
+
+                       // Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
+
+
                     
+
+
+                    EditSliceRenderer1.AddComponent<VRMoveWithObject>();
+                    //  EditSliceRenderer1.AddComponent<VRMoveWithObject>();
+                    // SlicingPlane.transform.SetParent(EditSliceRenderer1.transform);
+
+
 
                 }
             }

@@ -127,4 +127,8 @@ The project is divided into the following components:
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene10.PNG" width="500px">
 
 
+## Update 3
 
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene11.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene12.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene13.PNG" width="500px">

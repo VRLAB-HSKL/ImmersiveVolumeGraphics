@@ -22,6 +22,9 @@ https://answers.unity.com/questions/37756/how-to-turn-a-string-to-an-int.html
 https://answers.unity.com/questions/896125/convert-string-variable-into-floats.html
 https://docs.unity3d.com/ScriptReference/Transform-localScale.html?_ga=2.163144443.650048270.1600850737-1043844695.1600850737
 https://stackoverflow.com/questions/10260353/working-with-streamreader-and-text-files
+https://answers.unity.com/questions/967967/set-an-script-to-active.html
+https://stackoverflow.com/questions/42597501/unity-scripts-edited-in-visual-studio-dont-provide-autocomplete
+
 
 
 
