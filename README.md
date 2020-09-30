@@ -97,16 +97,6 @@ The project is divided into the following components:
 
 - Optimization
 
-
-## Screenshots (Basic examples in VR) 
-
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene1.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene2.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene3.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene4.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene5.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene6.PNG" width="500px">
-
 ##  Feature List (so far)
 
 - Automated converting of DICOM-Files into RAW-File using ImageJ
@@ -116,19 +106,37 @@ The project is divided into the following components:
 - VR-enabled volume rendering 
 - Creating a VR-based user experience 
 
-## Update 1
+
+## Update 1 : Basic examples in VR
+
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene1.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene2.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene3.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene4.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene5.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene6.PNG" width="500px">
+
+
+
+## Update 2 : Improved UI , more Information is presented
 
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene7.PNG" width="500px">
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene8.PNG" width="500px">
 
-## Update 2
+## Update 3 : Basic clinical VR Scene, Focus on the Model and Interaction
 
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene9.PNG" width="500px">
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene10.PNG" width="500px">
 
 
-## Update 3
+## Update 4 : semi-realistic feeling of a medical Workplace, Interactionarea on the right , Informationarea in the front, Rotating Table for presenting
 
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene11.PNG" width="500px">
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene12.PNG" width="500px">
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene13.PNG" width="500px">
+
+
+## Update 5 : Platform in the middle of the room,  Images of the Models are presented on the front wall , better interaction possibilities
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene14.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene15.PNG" width="500px">
+<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene16.PNG" width="500px">

@@ -12,7 +12,7 @@ public class VRClampDirection : MonoBehaviour
     public float offsetX;
     public float offsetY;
     public float offsetZ;
-    private Vector3 start;
+    public Vector3 start;
 
     void Start()
     {

@@ -130,6 +130,12 @@ namespace UnityVolumeRendering
             GameObject EditSliceRenderer1 = GameObject.Find("EditSliceRenderer1");
             Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
 
+            GameObject EditSliceRenderer2 = GameObject.Find("EditSliceRenderer2");
+            Destroy(EditSliceRenderer2.GetComponent<VRMoveWithObject>());
+
+            GameObject EditSliceRenderer3 = GameObject.Find("EditSliceRenderer3");
+            Destroy(EditSliceRenderer3.GetComponent<VRMoveWithObject>());
+
 
             // We'll only allow one dataset at a time in the runtime GUI (for simplicity)
             DespawnAllDatasets();
@@ -153,7 +159,7 @@ namespace UnityVolumeRendering
                     VolumeObjectFactory.CreateObject(dataset);
                     VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
                     // Sets the model into the right place of the scene 
-                    volobj.gameObject.transform.position = new Vector3(0, 1.3f, 0);
+                    volobj.gameObject.transform.position = new Vector3(0, 1.62f, 0);
                     // Rotates the object facing us
                     Vector3 rotation = new Vector3(-90, 0, 0);
                     volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
@@ -205,25 +211,61 @@ namespace UnityVolumeRendering
                     //   GameObject SlicingPlane = GameObject.Find("SlicingPlane(Clone)");
 
                     SlicingPlane SlicingPlane =  volobj.CreateSlicingPlane();
-                    GameObject ImageViewer = GameObject.Find("ImageViewer");
+                    SlicingPlane.name = "SlicingPlane1";
 
-                    MeshRenderer SlicerMeshrenderer = SlicingPlane.GetComponent<MeshRenderer>();
-                    SlicerMeshrenderer.enabled = false;
 
+                    SlicingPlane SlicingPlane2 = volobj.CreateSlicingPlane();
+                    SlicingPlane2.name = "SlicingPlane2";
+                    Vector3 rot2 = new Vector3(-90, 0, 90);
+                    SlicingPlane2.transform.rotation = Quaternion.Euler(rot2);
+
+                    SlicingPlane SlicingPlane3 = volobj.CreateSlicingPlane();
+                    SlicingPlane3.name = "SlicingPlane3";
+                    Vector3 rot3 = new Vector3(-180, 0, 0);
+                    SlicingPlane3.transform.rotation = Quaternion.Euler(rot3);
+
+
+
+                    GameObject ImageViewer = GameObject.Find("ImageViewer1");
+                    GameObject ImageViewer2 = GameObject.Find("ImageViewer2");
+                    GameObject ImageViewer3 = GameObject.Find("ImageViewer3");
+
+                    MeshRenderer SlicerMeshrenderer1 = SlicingPlane.GetComponent<MeshRenderer>();
+                    SlicerMeshrenderer1.enabled = false;
                     ImageViewer.GetComponent<MeshRenderer>().sharedMaterial = SlicingPlane.GetComponent<MeshRenderer>().sharedMaterial;
 
 
-                   
+                    MeshRenderer SlicerMeshrenderer2 = SlicingPlane2.GetComponent<MeshRenderer>();
+                    SlicerMeshrenderer2.enabled = false;
+                    ImageViewer2.GetComponent<MeshRenderer>().sharedMaterial = SlicingPlane2.GetComponent<MeshRenderer>().sharedMaterial;
 
-                   
-
-                       // Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
-
-
-                    
+                    MeshRenderer SlicerMeshrenderer3 = SlicingPlane3.GetComponent<MeshRenderer>();
+                    SlicerMeshrenderer3.enabled = false;
+                    ImageViewer3.GetComponent<MeshRenderer>().sharedMaterial = SlicingPlane3.GetComponent<MeshRenderer>().sharedMaterial;
 
 
-                    EditSliceRenderer1.AddComponent<VRMoveWithObject>();
+
+
+
+                    // Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
+
+
+
+
+
+                    //EditSliceRenderer1.AddComponent<VRMoveWithObject>();
+                    EditSliceRenderer1.AddComponent<VRMoveWithObject>().initObj("SlicingPlane1", "EditSliceRenderer1","z");
+                    // EditSliceRenderer2.AddComponent<VRMoveWithObject>().objname= "SlicingPlane2";
+                    EditSliceRenderer2.AddComponent<VRMoveWithObject>().initObj("SlicingPlane2", "EditSliceRenderer2","x");
+                   // EditSliceRenderer2.GetComponent<VRClampDirection>().start = new Vector3(0, 1.029f, -0.06f);
+                    //EditSliceRenderer2.GetComponent<VRMoveWithObject>().objname2 = "EditSliceRenderer2";
+
+
+
+                    //EditSliceRenderer3.AddComponent<VRMoveWithObject>().objname = "SlicingPlane3";
+                    EditSliceRenderer3.AddComponent<VRMoveWithObject>().initObj("SlicingPlane3", "EditSliceRenderer3", "y");
+                    //EditSliceRenderer3.GetComponent<VRMoveWithObject>().objname2 = "EditSliceRenderer3";
+
                     //  EditSliceRenderer1.AddComponent<VRMoveWithObject>();
                     // SlicingPlane.transform.SetParent(EditSliceRenderer1.transform);
 
