@@ -141,7 +141,7 @@ The project is divided into the following components:
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene15.PNG" width="500px">
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene16.PNG" width="500px">
 
-## Update 6 : Larger Models , the VISHuman Malemodel was imported , Fixes on the rotatable Table , Coloring according to the Sliders, Experiments with some Transferfunctions 
+## Update 6 : Larger Models up to 2048x2048x2048 Slices , the VISHuman Malemodel was imported , Fixes on the rotatable Table , Coloring according to the Sliders, Experiments with some Transferfunctions 
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene17.PNG" width="500px">
 
 <img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/visiblehumanmale_vr.PNG" width="500px">
