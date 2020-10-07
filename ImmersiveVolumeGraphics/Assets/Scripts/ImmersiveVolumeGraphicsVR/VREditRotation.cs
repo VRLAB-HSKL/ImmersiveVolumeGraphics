@@ -19,8 +19,8 @@ namespace UnityVolumeRendering {
             if (volobj != null)
             {
             // Rotate it 
-            Vector3 rotation = new Vector3(s.value, 0, 0);
-             volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
+            Vector3 rotation = new Vector3(s.value, volobj.transform.eulerAngles.y, volobj.transform.eulerAngles.z);
+             volobj.gameObject.transform.localRotation = Quaternion.Euler(rotation);
             }
         }
 
@@ -34,8 +34,8 @@ namespace UnityVolumeRendering {
             if (volobj != null)
             {
             // Rotate it 
-            Vector3 rotation = new Vector3(0, s.value, 0);
-            volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
+            Vector3 rotation = new Vector3(volobj.transform.eulerAngles.x, s.value, volobj.transform.eulerAngles.z);
+            volobj.gameObject.transform.localRotation = Quaternion.Euler(rotation);
             }
         }
 
@@ -49,8 +49,8 @@ namespace UnityVolumeRendering {
             if (volobj != null)
             {
             // Rotate it 
-            Vector3 rotation = new Vector3(0, 0, s.value);
-            volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
+            Vector3 rotation = new Vector3(volobj.transform.eulerAngles.x, volobj.transform.eulerAngles.y, s.value);
+            volobj.gameObject.transform.localRotation = Quaternion.Euler(rotation);
             }
         }
 

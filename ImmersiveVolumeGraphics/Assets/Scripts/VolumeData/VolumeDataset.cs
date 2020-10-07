@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using UnityEngine;
 
 namespace UnityVolumeRendering
@@ -23,10 +24,19 @@ namespace UnityVolumeRendering
         {
             if (dataTexture == null)
             {
-                dataTexture = CreateTextureInternal();
+                // NEU
+                 Debug.Log(ImportRAWModel.ModelPath);
+                // dataTexture = Resources.Load("Models/"+ImportRAWModel.ModelPath ) as Texture3D;
+                 dataTexture = CreateTextureInternal();
+                //
+
             }
+
+
             return dataTexture;
         }
+
+
 
         public Texture3D GetGradientTexture()
         {
@@ -73,24 +83,78 @@ namespace UnityVolumeRendering
             int minValue = GetMinDataValue();
             int maxValue = GetMaxDataValue();
             int maxRange = maxValue - minValue;
-            
-            Color[] cols = new Color[data.Length];
-            for (int x = 0; x < dimX; x++)
+
+
+
+
+            if (dimZ > 500)
             {
-                for (int y = 0; y < dimY; y++)
-                {
-                    for (int z = 0; z < dimZ; z++)
+
+               
+
+
+
+                    for (int x = 0; x < dimX; x++)
                     {
-                        int iData = x + y * dimX + z * (dimX * dimY);
-                        cols[iData] = new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f);
+                        for (int y = 0; y < dimY; y++)
+                        {
+                            for (int z = 0; z < (dimZ / 2) - 1; z++)
+                            {
+                                int iData = x + y * dimX + z * (dimX * dimY);
+                                texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
+                            }
+
+                            for (int z = dimZ / 2; z < dimZ; z++)
+                            {
+                                int iData = x + y * dimX + z * (dimX * dimY);
+                                texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
+                            }
+
+
+
+
+
+
+                        }
                     }
+
+                    texture.Apply();
+                    return texture;
+
+
                 }
-            }
-            texture.SetPixels(cols);
-            texture.Apply();
-            return texture;
+
+                else
+                {
+
+
+                    Color[] cols = new Color[data.Length];
+
+                    for (int x = 0; x < dimX; x++)
+                    {
+                        for (int y = 0; y < dimY; y++)
+                        {
+                            for (int z = 0; z < dimZ; z++)
+                            {
+                                int iData = x + y * dimX + z * (dimX * dimY);
+                                // cols[iData] = new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f);
+                                texture.SetPixel(x, y, z, new Color((float)(data[iData] - minValue) / maxRange, 0.0f, 0.0f, 0.0f));
+                            }
+                        }
+                    }
+
+                    //texture.SetPixels(cols);
+
+                    texture.Apply();
+                    return texture;
+                }
+
+              
+            
+            return null;
         }
 
+     
         private Texture3D CreateGradientTextureInternal()
         {
             TextureFormat texformat = SystemInfo.SupportsTextureFormat(TextureFormat.RGBAHalf) ? TextureFormat.RGBAHalf : TextureFormat.RGBAFloat;

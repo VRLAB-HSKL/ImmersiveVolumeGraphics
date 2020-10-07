@@ -81,6 +81,7 @@ namespace UnityVolumeRendering
             {
                 dataset.data[i] = ReadDataValue(reader);
             }
+          
             Debug.Log("Loaded dataset in range: " + dataset.GetMinDataValue() + "  -  " + dataset.GetMaxDataValue());
 
             reader.Close();

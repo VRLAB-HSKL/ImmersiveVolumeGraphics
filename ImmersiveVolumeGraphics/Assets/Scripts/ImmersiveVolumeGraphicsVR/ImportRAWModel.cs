@@ -16,8 +16,8 @@ namespace UnityVolumeRendering
     {
         //Name or path of the model
         public static  string  ModelPath = "";
+        public static DatasetIniData initData;
 
-      
         //setter-Method
         public static void setModelPath(string Path)
         {
@@ -127,6 +127,9 @@ namespace UnityVolumeRendering
         public  void OpenRAWData()
         {
 
+
+            //Resets for new Model
+
             GameObject EditSliceRenderer1 = GameObject.Find("EditSliceRenderer1");
             Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
 
@@ -135,6 +138,9 @@ namespace UnityVolumeRendering
 
             GameObject EditSliceRenderer3 = GameObject.Find("EditSliceRenderer3");
             Destroy(EditSliceRenderer3.GetComponent<VRMoveWithObject>());
+
+            GameObject rotTable = GameObject.Find("Rotatable Table");
+            Destroy(rotTable.GetComponent<VRRotateWithObject>());
 
 
             // We'll only allow one dataset at a time in the runtime GUI (for simplicity)
@@ -146,7 +152,7 @@ namespace UnityVolumeRendering
             //  filePath = filePath.Replace(".ini", ".raw");
 
             // Parse .ini file
-            DatasetIniData initData = DatasetIniReader.ParseIniFile(Application.dataPath + "/StreamingAssets/" + ModelPath + ".ini");
+             initData = DatasetIniReader.ParseIniFile(Application.dataPath + "/StreamingAssets/" + ModelPath + ".ini");
             if (initData != null)
             {
                 // Import the dataset
@@ -160,9 +166,10 @@ namespace UnityVolumeRendering
                     VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
                     // Sets the model into the right place of the scene 
                     volobj.gameObject.transform.position = new Vector3(0, 1.62f, 0);
+
                     // Rotates the object facing us
-                    Vector3 rotation = new Vector3(-90, 0, 0);
-                    volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
+                     Vector3 rotation = new Vector3(-90, 90, 0);
+                   volobj.gameObject.transform.rotation = Quaternion.Euler(rotation);
 
                     // Calculating the dimensions of the model 
 
@@ -184,7 +191,12 @@ namespace UnityVolumeRendering
 
 
 
-                        volobj.gameObject.transform.localScale = new Vector3((initData.dimX * DICOMMetaReader.getThickness()) / 1000, (initData.dimY * DICOMMetaReader.getThickness()) / 1000, (initData.dimZ * DICOMMetaReader.getThickness()) / 1000);
+                        // volobj.gameObject.transform.localScale = new Vector3((initData.dimX *DICOMMetaReader.getThickness())/ 1000, (initData.dimY * DICOMMetaReader.getThickness()) / 1000, (initData.dimZ * DICOMMetaReader.getThickness()) / 1000);
+
+                        // DICOMMetaReader.getThickness()
+                        // volobj.gameObject.transform.localScale = new Vector3((initData.dimX * 0.46875f) / 1000, (initData.dimY * 0.46875f) / 1000, (initData.dimZ * 0.46875f) / 1000);
+
+                        volobj.gameObject.transform.localScale = new Vector3((initData.dimX * 1.0f) / 1000, (initData.dimY *1.0f) / 1000, (initData.dimZ * 1.0f) / 1000);
                     }
 
                     VolumeObjectFactory.SpawnCrossSectionPlane(volobj);
@@ -200,8 +212,9 @@ namespace UnityVolumeRendering
                     quad.transform.SetParent(crosssectionselection.transform);
                     crosssectionselection.gameObject.transform.position = new Vector3(0.5f, 0.86f, 0.643f);
 
-                    GameObject rotTable = GameObject.Find("Rotatable Table");
-                   volobj.transform.SetParent(rotTable.transform);
+                   
+                    rotTable.AddComponent<VRRotateWithObject>().initObj(rotTable.name,volobj.name,"y");
+                 //  volobj.transform.SetParent(rotTable.transform);
                    
 
 
