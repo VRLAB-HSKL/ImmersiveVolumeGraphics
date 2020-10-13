@@ -1,0 +1,12 @@
+python 3.6
+
+
+certifi 2020.6.20
+pip 20.2.3
+pydicom 2.0.0
+PySide2 5.15.1
+setuptools 49.6.0.post20200925
+shobken2 5.15.1
+wheel 0.35.1
+wincertstore 0.2
+

@@ -156,7 +156,7 @@ namespace UnityVolumeRendering
             if (initData != null)
             {
                 // Import the dataset
-                RawDatasetImporter importer = new RawDatasetImporter(Application.dataPath + "/StreamingAssets/" + ModelPath, initData.dimX, initData.dimY, initData.dimZ, initData.format, initData.endianness, initData.bytesToSkip);
+                RawDatasetImporter importer = new RawDatasetImporter(Application.dataPath + "/StreamingAssets/" + ModelPath+".raw", initData.dimX, initData.dimY, initData.dimZ, initData.format, initData.endianness, initData.bytesToSkip);
                 VolumeDataset dataset = importer.Import();
                 // Spawn the object
                 if (dataset != null)

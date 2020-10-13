@@ -36,7 +36,7 @@ namespace UnityVolumeRendering {
             // The path to the meta information (saved as a text file) based on the model.
             //The model´s path or name is loaded when the user clicks on dropdown element
             // For Example : string path = Application.dataPath + "/StreamingAssets/" + "Male_Head.metainfo" + ".txt";
-            string path = Application.dataPath + "/StreamingAssets/" + ImportRAWModel.ModelPath + ".metainfo.txt";
+            string path = Application.dataPath + "/StreamingAssets/" + ImportRAWModel.ModelPath + ".txt";
           
             
             

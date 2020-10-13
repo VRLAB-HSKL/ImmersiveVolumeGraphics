@@ -41,7 +41,7 @@ public class AddDropDownItems : MonoBehaviour
 
                 // removes the path and just leaves "Name.raw" 
                 string file2 = file.Remove(0, pathlength);
-
+                file2 = file2.Remove(file2.Length - 4, 4);
                 //Adds the Names of the Models to the DropDownLists 
                 DropDownOptions.Add(file2);
               

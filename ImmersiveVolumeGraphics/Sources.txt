@@ -131,3 +131,14 @@ Moreover, for high-resolution displays, the available bandwidth on the link betw
 //Rotate two objects simulatanouesly
 
 https://www.reddit.com/r/Unity3D/comments/duf38l/rotate_two_objects_simultaneously/
+
+//Starting a  Batchfile in Unity 
+https://answers.unity.com/questions/1203577/how-to-execute-an-external-batch-file-with-argumen.html
+https://forum.unity.com/threads/running-external-exe-from-unity.541270/
+
+
+//Anaconda
+
+https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#sharing-an-environment 
+https://stackoverflow.com/questions/47914980/how-to-access-anaconda-command-prompt-in-windows-10-64-bit#:~:text=Go%20with%20the%20mouse%20to,%22Anaconda%20Prompt%22%20will%20open.
+https://stackoverflow.com/questions/42602024/windows-shortcut-to-run-python-script-in-anaconda-command-prompt

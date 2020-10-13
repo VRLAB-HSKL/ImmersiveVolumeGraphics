@@ -1,15 +1,5 @@
 from pydicom import dcmread
-
-
-
-#path = 'C:/Users/Noll/Desktop/ImmersiveVolumeGraphics/ImmersiveVolumeGraphics/VisibleHumanProject/VHP_MALE/VHMCT1mm_Head/Head/vhm.1001.dcm'
-path = 'DICOM/IM-0001-0001.dcm'
+path = 'INPUT/IM-0001-0001.dcm'
 ds =dcmread(path)
 print(ds)
-print("")
-print("")
-print("Exported successfully")
-print(ds, file=open('RAWMODEL/RawModelMetadata.txt', 'w'))
-
-
-
+print(ds, file = open('OUTPUT/test.txt', 'w'))

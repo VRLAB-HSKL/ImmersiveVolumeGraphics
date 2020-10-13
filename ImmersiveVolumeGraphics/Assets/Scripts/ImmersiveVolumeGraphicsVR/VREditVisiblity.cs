@@ -13,13 +13,18 @@ namespace UnityVolumeRendering
     // Edits the minimum Visibility 
         public void EditMinVisiblity()
         {   
+
+            
             // Find the Volume Object i.e. our model
             VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
-            // Get the visibily information
-            Vector2 visibilityWindow = volobj.GetVisibilityWindow();
-            // Set the visibility according to the slider´s value
-            visibilityWindow.x = s.value;
-            volobj.SetVisibilityWindow(visibilityWindow);
+            if (volobj != null)
+            {
+                // Get the visibily information
+                Vector2 visibilityWindow = volobj.GetVisibilityWindow();
+                // Set the visibility according to the slider´s value
+                visibilityWindow.x = s.value;
+                volobj.SetVisibilityWindow(visibilityWindow);
+            }
 
 
         }
@@ -29,12 +34,14 @@ namespace UnityVolumeRendering
         {
             // Find the Volume Object i.e. our model
             VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
-            // Get the visibily information
-            Vector2 visibilityWindow = volobj.GetVisibilityWindow();
+            if (volobj != null)
+            {
+                // Get the visibily information
+                Vector2 visibilityWindow = volobj.GetVisibilityWindow();
             // Set the visibility according to the slider´s value
             visibilityWindow.y = s.value;
             volobj.SetVisibilityWindow(visibilityWindow);
-
+            }
         }
 
 
