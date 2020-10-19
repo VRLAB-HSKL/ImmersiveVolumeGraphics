@@ -229,13 +229,13 @@ namespace UnityVolumeRendering
 
                     SlicingPlane SlicingPlane2 = volobj.CreateSlicingPlane();
                     SlicingPlane2.name = "SlicingPlane2";
-                    Vector3 rot2 = new Vector3(-90, 0, 90);
-                    SlicingPlane2.transform.rotation = Quaternion.Euler(rot2);
+                     Vector3 rot2 = new Vector3(0, 0, 90);
+                    SlicingPlane2.transform.localRotation = Quaternion.Euler(rot2);
 
                     SlicingPlane SlicingPlane3 = volobj.CreateSlicingPlane();
                     SlicingPlane3.name = "SlicingPlane3";
-                    Vector3 rot3 = new Vector3(-180, 0, 0);
-                    SlicingPlane3.transform.rotation = Quaternion.Euler(rot3);
+                    Vector3 rot3 = new Vector3(90, 0, 0);
+                    SlicingPlane3.transform.localRotation = Quaternion.Euler(rot3);
 
 
 

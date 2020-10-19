@@ -1,3 +1,3 @@
-run("Image Sequence...", "open=OUTPUT\\sort");
+run("Image Sequence...", "open=INPUT\\ sort");
 run("8-bit");
-saveAs("Raw Data", "OUTPUT\\test.raw");
+saveAs("Raw Data", "OUTPUT\\MAGIX.raw");
