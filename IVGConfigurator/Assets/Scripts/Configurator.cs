@@ -98,7 +98,7 @@ using System.Runtime.CompilerServices;
         Export();
 
         warningText.color = Color.green;
-        warningText.text = "EXPORT OF MODEL AND CONFIG FILES SUCCESSFULL";
+        warningText.text = "EXPORT OF MODEL AND CONFIG ";
 
     }
 
@@ -128,19 +128,52 @@ using System.Runtime.CompilerServices;
 
             StreamWriter MetaInfoWriter = new StreamWriter("ReadDICOMMetaData.py");
 
-            MetaInfoWriter.WriteLine("from pydicom import dcmread");
-            MetaInfoWriter.WriteLine("path = 'INPUT/IM-0001-0001.dcm'");
-            MetaInfoWriter.WriteLine("ds =dcmread(path)");
-            MetaInfoWriter.WriteLine("print(ds)");
-            MetaInfoWriter.WriteLine("print(ds, file = open('OUTPUT/" + FileNameInput.text + ".txt', 'w'))");
+        MetaInfoWriter.WriteLine("from pydicom import dcmread");
+        MetaInfoWriter.WriteLine("path = 'INPUT/IM-0001-0001.dcm'");
+        MetaInfoWriter.WriteLine("ds =dcmread(path)");
+        MetaInfoWriter.WriteLine("print(ds)");
+        MetaInfoWriter.WriteLine("sn=\" \u005C" + "n\"");
+
+        MetaInfoWriter.WriteLine("patientname = str(ds.PatientName)");
+        MetaInfoWriter.WriteLine("patientid= str(ds.PatientID)");
+        MetaInfoWriter.WriteLine("patientbirthdate=str(ds[0x10,0x30].value)");
+        MetaInfoWriter.WriteLine("patientsex=str(ds.PatientSex)");
+
+        MetaInfoWriter.WriteLine("institutionname = str(ds.InstitutionName)");
+        MetaInfoWriter.WriteLine("institutionaddress =str(ds.InstitutionAddress)");
+        MetaInfoWriter.WriteLine("physicianname= str(ds.ReferringPhysicianName)");
+        MetaInfoWriter.WriteLine("studydiscription=str(ds.StudyDescription)");
+
+        MetaInfoWriter.WriteLine("modality = str(ds.Modality)");
+        MetaInfoWriter.WriteLine("manufacturer = str(ds.Manufacturer)");
+
+        MetaInfoWriter.WriteLine("studyid = str(ds[0x20, 0x10].value)");
+        MetaInfoWriter.WriteLine("studydate=str(ds[0x8,0x20].value)");
+        MetaInfoWriter.WriteLine("seriesnumber=str(ds[0x20,0x11].value)");
+        MetaInfoWriter.WriteLine("pixelspacing=str(ds[0x28,0x30].value)");
+        MetaInfoWriter.WriteLine("slicethickness=str(ds[0x18,0x50].value)");
+        MetaInfoWriter.WriteLine("columns=str(ds[0x28,0x10].value)");
+        MetaInfoWriter.WriteLine("rows=str(ds[0x28,0x11].value)");
+        MetaInfoWriter.WriteLine("patientposition=str(ds[0x18,0x5100].value)");
+        MetaInfoWriter.WriteLine("imageorientationpatient=str(ds[0x20,0x37].value)");
+
+        MetaInfoWriter.WriteLine("patientinfo=patientname+sn+patientid+sn+patientbirthdate+sn+patientsex+sn");
+        MetaInfoWriter.WriteLine("institutioninfo=institutionname+sn+institutionaddress+sn+physicianname+sn+studydiscription+sn");
+        MetaInfoWriter.WriteLine("modalityinfo=modality+sn+manufacturer+sn");
+        MetaInfoWriter.WriteLine("imageinfo=studyid+sn+studydate+sn+seriesnumber+sn+pixelspacing+sn+slicethickness+sn+columns+sn+rows+sn+patientposition+sn+imageorientationpatient");
+
+        MetaInfoWriter.WriteLine("output = patientinfo + institutioninfo + modalityinfo + imageinfo");
+        MetaInfoWriter.WriteLine("print(output, file = open('OUTPUT/" + FileNameInput.text+".txt', 'w'))");
 
 
-            MetaInfoWriter.Flush();
+
+
+        MetaInfoWriter.Flush();
             MetaInfoWriter.Close();
 
-            //--------------------------------------------------------------
-
-            StreamWriter INIWriter = new StreamWriter("OUTPUT/" + FileNameInput.text + ".ini");
+        //--------------------------------------------------------------
+        //INI-File
+        StreamWriter INIWriter = new StreamWriter("OUTPUT/" + FileNameInput.text + ".ini");
 
             INIWriter.WriteLine("dimx:" + width);
             INIWriter.WriteLine("dimy:" + height);
@@ -155,8 +188,9 @@ using System.Runtime.CompilerServices;
 
             //-----------------------------------------------------------------------------------------------
 
-
+            //Decompression
             StreamWriter AnacondaWriter = new StreamWriter("Export.bat");
+            //Execute the Pythoncode in the premade Anaconda Environment
             AnacondaWriter.WriteLine("CALL D:\\Anaconda\\Scripts\\activate.bat py36");
 
             //  AnacondaWriter.WriteLine("CALL decompress.bat");
@@ -194,8 +228,9 @@ using System.Runtime.CompilerServices;
 
             }
 
-
+            //Reading and Exporting Metadata from DICOM-File
             AnacondaWriter.WriteLine("CALL python ReadDICOMMetaData.py");
+            //Using ImageJ to load in the DICOM-Files and Exporting the Model as Raw-File
             AnacondaWriter.WriteLine("CALL ImageJ-win64.exe --headless -macro DICOMTORAW8BIT.ijm");
             // AnacondaWriter.WriteLine("echo Exported successfully");
 

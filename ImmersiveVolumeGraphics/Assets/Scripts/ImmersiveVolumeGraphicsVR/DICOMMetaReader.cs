@@ -12,7 +12,7 @@ namespace UnityVolumeRendering {
 
         // Array of all  metainformation eg. patien´s name , modality etc.
         // Only reasonable information is included
-        private static string[] metainfo = new string[28];
+        private static string[] metainfo = new string[38];
         // Textfield which show the metainformation to the user 
         public static Text t;
         // This value represents the thickness of each slice made in the computer tomograph in Millimeter eg. 1.0 = 1 mm thickness
@@ -58,54 +58,45 @@ namespace UnityVolumeRendering {
                 if (streamReader != null)
                 {
 
-                    // the first 17 lines are not that important for a user. 
+                    // the first 19 lines are not that important for a user. 
                     // moving through the textfile
-                    for (int i = 0; i < 17; i++)
+
+                    //Displaying additional Information
+                    metainfo[0] = "patientname  :   ";
+                    metainfo[2] = "patientid    :   ";
+                    metainfo[4] = "patientbirthdate :   ";
+                    metainfo[6] = "patientsex   :   ";
+                    metainfo[8] = "institutionname  :   ";
+                    metainfo[10] = "institutionaddress  :   ";
+                    metainfo[12] = "physicianname   :   ";
+                    metainfo[14] = "studydiscription    :   ";
+                    metainfo[16] = "modality    :   ";
+                    metainfo[18] = "manufacturer    :   ";
+                    metainfo[20] = "studyid     :   ";
+                    metainfo[22] = "studydate   :   ";
+                    metainfo[24] = "seriesnumber    :   ";
+                    metainfo[26] = "pixelspacing    :   ";
+                    metainfo[28] = "slicethickness  :   ";
+                    metainfo[30] = "columns :   ";
+                    metainfo[32] = "rows    :   ";
+                    metainfo[34] = "patientposition     :   ";
+                    metainfo[36] = "imageorientationpatient     :   ";
+                   
+
+                    for (int i = 1; i < metainfo.Length; i+=2)
                     {
-                        streamReader.ReadLine();
+                        metainfo[i]=streamReader.ReadLine();
+
+                        t.text += metainfo[i-1] +metainfo[i] + "\n";
                     }
 
 
-                    // This counter is needed to get two values per line.  
-                    int ctr = 0;
 
-                    //Moving through the important parts of the textfile
-                    for (int i = 0; i < 13; i++)
-                    {
-                        // Read the line
-                        string mod = streamReader.ReadLine();
-
-                        // Cut the line into Part 1
-                        metainfo[ctr] = CutString1(mod);
-                        // Add the information to the textelement
-                        t.text += metainfo[ctr];
-                        // Increase the counter for the next Element
-                        ctr++;
-                        // Formating
-                        t.text += "\n";
-
-
-
-                        // Cut the line into Part 2
-                        metainfo[ctr] = CutString2(mod);
-                        // Add the information to the textelement
-                        t.text += metainfo[ctr];
-                        // Increase the counter for the next Element
-                        ctr++;
-                        // Formating
-                        t.text += "\n";
-
-                        //Debug
-                        // Debug.Log((ctr-2)+" "+ metainfo[ctr -2]+""+ (ctr-1) +"   "+metainfo[ctr-1]);
-
-                    }
-
+                    slicethickness = float.Parse(metainfo[29]);
                     //Parse the slicethickness from element 25 of the array and divide it by 10 because of float conversion
-                    slicethickness = float.Parse(metainfo[25]) / 10;
+                    //  slicethickness = int.Parse(metainfo[15]);
 
-                    //Debug
-                    //Debug.Log("Thickness"+slicethickness);
-
+                    t.text += slicethickness;
 
 
                 }
@@ -125,37 +116,7 @@ namespace UnityVolumeRendering {
 
         // Left column , name eg. : Slice Thickness 
 
-        private static string CutString1(string basestring)
-        {
-
-            // Start  eg. : (0018, 0050) Slice Thickness                     DS: "1.0"
-            //Removes the tagarea :  Slice Thickness                     DS: "1.0"
-            basestring = basestring.Remove(0, 12);
-            // Removes the letters and value :  Slice Thickness 
-            basestring = basestring.Remove(37, basestring.Length - 37);
-
-
-            return basestring;
-
-
-        }
-
-        //Right Column, value eg. : 1.0
-
-        private static string CutString2(string basestring)
-        {
-
-            // Start  eg. : (0018, 0050) Slice Thickness                     DS: "1.0"
-            //Removes the left part up to the ": 1.0"
-            basestring = basestring.Remove(0, 54);
-            // Removes the remaining " : 1.0 
-            basestring = basestring.Remove(basestring.Length-1,1);
-
-
-            return basestring;
-
-
-        }
+       
 
         // getter-Method 
         public static float getThickness()

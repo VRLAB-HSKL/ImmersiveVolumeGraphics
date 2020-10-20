@@ -1,3 +1,3 @@
 run("Image Sequence...", "open=INPUT\\ sort");
 run("8-bit");
-saveAs("Raw Data", "OUTPUT\\MAGIX.raw");
+saveAs("Raw Data", "OUTPUT\\VisibleHumanMale.raw");
