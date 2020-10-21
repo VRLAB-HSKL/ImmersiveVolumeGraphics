@@ -47,7 +47,7 @@ public class VRRotateWithObject : MonoBehaviour
             if (diry)
             {
 
-                Vector3 rot = new Vector3(obj2.transform.eulerAngles.x,obj.transform.eulerAngles.y, obj2.transform.eulerAngles.z);
+                Vector3 rot = new Vector3(obj2.transform.eulerAngles.x,obj.transform.eulerAngles.y*2, obj2.transform.eulerAngles.z);
                 obj2.transform.rotation = Quaternion.Euler(rot);
 
             }

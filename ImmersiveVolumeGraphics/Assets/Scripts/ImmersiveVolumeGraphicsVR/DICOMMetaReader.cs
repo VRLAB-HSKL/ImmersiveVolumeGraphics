@@ -12,10 +12,16 @@ namespace UnityVolumeRendering {
 
         // Array of all  metainformation eg. patien´s name , modality etc.
         // Only reasonable information is included
-        private static string[] metainfo = new string[38];
+        private static string[] metainfo = new string[50];
         // Textfield which show the metainformation to the user 
         public static Text t;
+
+
+
+        //DICOM-DATA
         // This value represents the thickness of each slice made in the computer tomograph in Millimeter eg. 1.0 = 1 mm thickness
+        private static float pixelspacingx = 0;
+        private static float pixelspacingy = 0;
         private static float slicethickness=0;
 
 
@@ -37,11 +43,12 @@ namespace UnityVolumeRendering {
             //The model´s path or name is loaded when the user clicks on dropdown element
             // For Example : string path = Application.dataPath + "/StreamingAssets/" + "Male_Head.metainfo" + ".txt";
             string path = Application.dataPath + "/StreamingAssets/" + ImportRAWModel.ModelPath + ".txt";
-          
-            
-            
-           // Resets when you change the model
 
+
+
+            // Resets when you change the model
+            pixelspacingx = 0;
+            pixelspacingy = 0;
             slicethickness = 0;
             t.text = "";
 
@@ -75,28 +82,58 @@ namespace UnityVolumeRendering {
                     metainfo[20] = "studyid     :   ";
                     metainfo[22] = "studydate   :   ";
                     metainfo[24] = "seriesnumber    :   ";
-                    metainfo[26] = "pixelspacing    :   ";
-                    metainfo[28] = "slicethickness  :   ";
-                    metainfo[30] = "columns :   ";
-                    metainfo[32] = "rows    :   ";
-                    metainfo[34] = "patientposition     :   ";
-                    metainfo[36] = "imageorientationpatient     :   ";
-                   
+                    metainfo[26] = "pixelspacingx    :   ";
+                    metainfo[28] = "pixelspacingy  :   ";
+                    metainfo[30] = "slicethickness  :   ";
+                    metainfo[32] = "columns :   ";
+                    metainfo[34] = "rows    :   ";
+                    metainfo[36] = "patientposition     :   ";
+                    metainfo[38] = "imageorientationpatientrowx     :   ";
+                    metainfo[40] = "imageorientationpatientrowy     :   ";
+                    metainfo[42] = "imageorientationpatientrowz     :   ";
+                    metainfo[44] = "imageorientationpatientcolumnx     :   ";
+                    metainfo[46] = "imageorientationpatientcolumny     :   ";
+                    metainfo[48] = "imageorientationpatientcolumnz     :   ";
 
                     for (int i = 1; i < metainfo.Length; i+=2)
                     {
                         metainfo[i]=streamReader.ReadLine();
 
-                        t.text += metainfo[i-1] +metainfo[i] + "\n";
+                        
+                       if (i <= 25)
+                        {
+                            t.text += metainfo[i - 1] + metainfo[i] + "\n";
+
+
+
+                        }
+                        
+
+
+
+
+
                     }
 
 
+                    //Parsing the incoming DICOM-Data into unity 
 
-                    slicethickness = float.Parse(metainfo[29]);
-                    //Parse the slicethickness from element 25 of the array and divide it by 10 because of float conversion
-                    //  slicethickness = int.Parse(metainfo[15]);
 
-                    t.text += slicethickness;
+                    //Converting  -> dot to  comma because of float parse (american vs european way of writing floats)
+                    metainfo[27]= metainfo[27].Replace(".",",");
+                    metainfo[29]= metainfo[29].Replace(".", ",");
+                    metainfo[31]= metainfo[31].Replace(".", ",");
+
+  
+                    pixelspacingx = float.Parse(metainfo[27]);
+                    pixelspacingy= float.Parse(metainfo[29]);
+                    slicethickness = float.Parse(metainfo[31]);
+
+
+                  
+                    t.text += metainfo[26]+pixelspacingx +" mm"+"\n"; ;
+                    t.text += metainfo[28]+pixelspacingy +" mm"+ "\n"; ;
+                    t.text += metainfo[30]+slicethickness +" mm"+"\n"; ;
 
 
                 }
@@ -125,6 +162,27 @@ namespace UnityVolumeRendering {
             return slicethickness;
         
         }
+
+
+        public static float getPixelSpacingX()
+        {
+
+            return pixelspacingx;
+
+        }
+
+        public static float getPixelSpacingY()
+        {
+
+            return pixelspacingy;
+
+        }
+
+
+
+
+
+
 
         // Checks if the File exists or not 
         private static bool IsFileValid(string filePath)

@@ -150,17 +150,24 @@ using System.Runtime.CompilerServices;
         MetaInfoWriter.WriteLine("studyid = str(ds[0x20, 0x10].value)");
         MetaInfoWriter.WriteLine("studydate=str(ds[0x8,0x20].value)");
         MetaInfoWriter.WriteLine("seriesnumber=str(ds[0x20,0x11].value)");
-        MetaInfoWriter.WriteLine("pixelspacing=str(ds[0x28,0x30].value)");
+        MetaInfoWriter.WriteLine("pixelspacingx=str(ds[0x28,0x30][0])");
+        MetaInfoWriter.WriteLine("pixelspacingy=str(ds[0x28,0x30][1])");
         MetaInfoWriter.WriteLine("slicethickness=str(ds[0x18,0x50].value)");
         MetaInfoWriter.WriteLine("columns=str(ds[0x28,0x10].value)");
         MetaInfoWriter.WriteLine("rows=str(ds[0x28,0x11].value)");
         MetaInfoWriter.WriteLine("patientposition=str(ds[0x18,0x5100].value)");
-        MetaInfoWriter.WriteLine("imageorientationpatient=str(ds[0x20,0x37].value)");
+        MetaInfoWriter.WriteLine("imageorientationpatientrowx=str(ds[0x20,0x37][0])");
+        MetaInfoWriter.WriteLine("imageorientationpatientrowy=str(ds[0x20,0x37][1])");
+        MetaInfoWriter.WriteLine("imageorientationpatientrowz=str(ds[0x20,0x37][2])");
+        MetaInfoWriter.WriteLine("imageorientationpatientcolumnx=str(ds[0x20,0x37][3])");
+        MetaInfoWriter.WriteLine("imageorientationpatientcolumny=str(ds[0x20,0x37][4])");
+        MetaInfoWriter.WriteLine("imageorientationpatientcolumnz=str(ds[0x20,0x37][5])");
+
 
         MetaInfoWriter.WriteLine("patientinfo=patientname+sn+patientid+sn+patientbirthdate+sn+patientsex+sn");
         MetaInfoWriter.WriteLine("institutioninfo=institutionname+sn+institutionaddress+sn+physicianname+sn+studydiscription+sn");
         MetaInfoWriter.WriteLine("modalityinfo=modality+sn+manufacturer+sn");
-        MetaInfoWriter.WriteLine("imageinfo=studyid+sn+studydate+sn+seriesnumber+sn+pixelspacing+sn+slicethickness+sn+columns+sn+rows+sn+patientposition+sn+imageorientationpatient");
+        MetaInfoWriter.WriteLine("imageinfo=studyid+sn+studydate+sn+seriesnumber+sn+pixelspacingx+sn+pixelspacingy+sn+slicethickness+sn+columns+sn+rows+sn+patientposition+sn+imageorientationpatientrowx+sn+imageorientationpatientrowy+sn+imageorientationpatientrowz+sn+imageorientationpatientcolumnx+sn+imageorientationpatientcolumny+sn+imageorientationpatientcolumnz");
 
         MetaInfoWriter.WriteLine("output = patientinfo + institutioninfo + modalityinfo + imageinfo");
         MetaInfoWriter.WriteLine("print(output, file = open('OUTPUT/" + FileNameInput.text+".txt', 'w'))");

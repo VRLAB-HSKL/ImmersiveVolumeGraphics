@@ -73,15 +73,15 @@ namespace UnityVolumeRendering
                         // normally the VolumeObject has a default size of 1x1x1 
 
                         // The Volume Objects size will be adjusted according to the DICOM information that we gathered
-                        // the scaling in x will be  (amount of slices in X  * slicethickness ) / 1000  
-                        // the scaling in y will be  (amount of slices in Y  * slicethickness ) / 1000  
+                        // the scaling in x will be  (amount of slices in X  * pixelspacingx ) / 1000  
+                        // the scaling in y will be  (amount of slices in Y  * pixelspacingy ) / 1000  
                         // the scaling in z will be  (amount of slices in Z  * slicethickness ) / 1000  
 
                         // Remark:
                         // the slicethickness is measured  in Millimeter but the mapped Worldspace is in Meter so we have to take the factor 1000 into consideration
                         // the slicethickness is the same for every dimension 
 
-                        volobj.gameObject.transform.localScale = new Vector3((initData.dimX * DICOMMetaReader.getThickness()) / 1000, (initData.dimY * DICOMMetaReader.getThickness()) / 1000, (initData.dimZ * DICOMMetaReader.getThickness()) / 1000);
+                        volobj.gameObject.transform.localScale = new Vector3((initData.dimX * DICOMMetaReader.getPixelSpacingX()) / 1000, (initData.dimY * DICOMMetaReader.getPixelSpacingY()) / 1000, (initData.dimZ * DICOMMetaReader.getThickness()) / 1000);
                     }
 
                     // Spawns a CrossSectionPlane  that can intersect the model and show its inside
