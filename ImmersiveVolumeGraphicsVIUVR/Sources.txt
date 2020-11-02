@@ -25,6 +25,7 @@ https://stackoverflow.com/questions/10260353/working-with-streamreader-and-text-
 https://answers.unity.com/questions/967967/set-an-script-to-active.html
 https://stackoverflow.com/questions/42597501/unity-scripts-edited-in-visual-studio-dont-provide-autocomplete
 https://answers.unity.com/questions/1189486/how-to-see-fps-frames-per-second.html
+https://docs.unity3d.com/2018.3/Documentation/ScriptReference/UI.Button-onClick.html
 
 
 

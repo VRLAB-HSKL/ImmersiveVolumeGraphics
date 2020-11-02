@@ -258,7 +258,7 @@ namespace UnityVolumeRendering
 
 
 
-
+                    
 
                     // Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
 

@@ -109,48 +109,48 @@ The project is divided into the following components:
 
 ## Update 1 : Basic examples in VR
 
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene1.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene2.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene3.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene4.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene5.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene6.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene1.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene2.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene3.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene4.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene5.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene6.PNG" width="500px">
 
 
 
 ## Update 2 : Improved UI , more Information is presented
 
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene7.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene8.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene7.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene8.PNG" width="500px">
 
 ## Update 3 : Basic clinical VR Scene, Focus on the Model and Interaction
 
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene9.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene10.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene9.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene10.PNG" width="500px">
 
 
 ## Update 4 : semi-realistic feeling of a medical Workplace, Interactionarea on the right , Informationarea in the front, Rotating Table for presenting
 
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene11.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene12.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene13.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene11.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene12.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene13.PNG" width="500px">
 
 
 ## Update 5 : Platform in the middle of the room,  Images of the Models are presented on the front wall , better interaction possibilities
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene14.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene15.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene16.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene14.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene15.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene16.PNG" width="500px">
 
 ## Update 6 : Larger Models up to 2048x2048x2048 Slices , the VISHuman Malemodel was imported , Fixes on the rotatable Table , Coloring according to the Sliders, Experiments with some Transferfunctions 
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/SampleScene17.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/SampleScene17.PNG" width="500px">
 
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/visiblehumanmale_vr.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/visiblehumanmaleskeleton_vr.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/visiblemale_preview.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/visiblehumanmale_vr.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/visiblehumanmaleskeleton_vr.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/visiblemale_preview.PNG" width="500px">
 
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/footct.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/footctbones.PNG" width="500px">
-<img src="ImmersiveVolumeGraphics/Screenshots/ImmersiveVolumeGraphics/footctwithskin.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/footct.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/footctbones.PNG" width="500px">
+<img src="ImmersiveVolumeGraphicsVIUVR/Screenshots/ImmersiveVolumeGraphics/footctwithskin.PNG" width="500px">
 
 
 
