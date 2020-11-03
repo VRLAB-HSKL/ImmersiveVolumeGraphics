@@ -64,38 +64,44 @@ namespace UnityVolumeRendering
             Debug.Log(args.text);
 
             // Did the user say "import" ?
-            if (args.text == "import")
+            if (VRGUI.status == 1)
             {
-                //Debuginformation
-                Debug.Log("Model loaded sucessfully");
-                //Imports the model using the OpenRAWDataset-Method
-                ImportRAWModel.OpenRAWDataset();
-  
+                if (args.text == "import")
+                {
+                    //Debuginformation
+                    Debug.Log("Model loaded sucessfully");
+                    //Imports the model using the OpenRAWDataset-Method
+                    ImportRAWModel.OpenRAWDataset();
+
+                }
             }
 
             // Did the user say "import" ?
-
-            if (args.text == "record")
+            if (VRGUI.status == 4)
             {
-                //Changes the text to "Recording" in the color red to signalize that the recorded actually started
-                
-                RecorderLabel.text = "Recording";
-                RecorderLabel.color = Color.red;
+                if (args.text == "record")
+                {
+                    //Changes the text to "Recording" in the color red to signalize that the recorded actually started
 
-                // Stops the keyword listener
-                keywordRecognizer.Stop();
-                //Shuts down the PhraseRecognitionSystem
-                // only one Recognizer can run 
-                PhraseRecognitionSystem.Shutdown();
-                //Debuginformation
-                Debug.Log("Recording started");
-                // Starts the dictation
-                dictationRecognizer.Start();
-              
+                    RecorderLabel.text = "Recording";
+                    RecorderLabel.color = Color.red;
+
+                    // Stops the keyword listener
+                    keywordRecognizer.Stop();
+                    //Shuts down the PhraseRecognitionSystem
+                    // only one Recognizer can run 
+                    PhraseRecognitionSystem.Shutdown();
+                    //Debuginformation
+                    Debug.Log("Recording started");
+                    // Starts the dictation
+                    dictationRecognizer.Start();
+
+                }
             }
 
 
             // Did the user say "import" ?
+
 
             if (args.text == "quit")
             {
@@ -104,7 +110,7 @@ namespace UnityVolumeRendering
                 
             }
 
-
+            /*
             //For Testing
             if (args.text == "load")
             {
@@ -115,7 +121,7 @@ namespace UnityVolumeRendering
                     string tempPath = Application.dataPath + "/Recording/";
                     Debug.Log(tempPath);
   
-            }
+            }*/
 
         }
 
@@ -178,7 +184,7 @@ namespace UnityVolumeRendering
         private void DictationRecognizer_DictationComplete(DictationCompletionCause cause)
         {
 
-            // Restars the  PhraseRecognitionSystem 
+            // Restarts the  PhraseRecognitionSystem 
             PhraseRecognitionSystem.Restart();
             // Starts the keywordRecognizer for new voice commands
             keywordRecognizer.Start();

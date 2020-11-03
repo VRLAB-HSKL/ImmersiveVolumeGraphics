@@ -32,16 +32,10 @@ public class VRGUI : MonoBehaviour
     //Backbutton to get back to the MainMenu
     public GameObject BackButton;
     public Button backbtn;
-    public int status = 0;
+    public static int status = 0;
 
 
-    /* private void OnGUI()
-     {
-         GUI.Box(new Rect(0, 0, Screen.width, 30), "");
-
-     }
-
-     */
+   
 
     private void Start()
     {
@@ -63,7 +57,7 @@ public class VRGUI : MonoBehaviour
     }
 
     //MainMenu  
-    void ToStatus0()
+   public  void ToStatus0()
     {
         BackButton.SetActive(false);
 
@@ -75,59 +69,72 @@ public class VRGUI : MonoBehaviour
         if (About.active == true) { About.SetActive(false); }
 
         MainMenu.SetActive(true);
-        
-       
+
+        status = 0;
     }
 
     //ModelImport 
-    void ToStatus1()
+    public void ToStatus1()
     {
 
         MainMenu.SetActive(false);
         BackButton.SetActive(true);
         BackButton.SetActive(true);
         ModelImport.SetActive(true);
+
+        status = 1;
     }
     //ModelEdit
-    void ToStatus2()
+    public void ToStatus2()
     {
         MainMenu.SetActive(false);
         BackButton.SetActive(true);
         BackButton.SetActive(true);
         ModelEdit.SetActive(true);
+
+        status = 2;
     }
 
     //Transferfunction 
-    void ToStatus3()
+    public void ToStatus3()
     {
         MainMenu.SetActive(false);
         BackButton.SetActive(true);
         BackButton.SetActive(true);
         Transferfunction.SetActive(true);
+
+        status = 3;
+
     }
     //Recorder 
-    void ToStatus4()
+    public  void ToStatus4()
     {
         MainMenu.SetActive(false);
         BackButton.SetActive(true);
         BackButton.SetActive(true);
         Recorder.SetActive(true);
+
+        status = 4;
     }
     //Dashboard  
-    void ToStatus5()
+    public void ToStatus5()
     {
         MainMenu.SetActive(false);
         BackButton.SetActive(true);
         BackButton.SetActive(true);
         Dashboard.SetActive(true);
+
+        status = 5;
     }
     //Info / About
-    void ToStatus6()
+    public void ToStatus6()
     {
         MainMenu.SetActive(false);
         BackButton.SetActive(true);
         BackButton.SetActive(true);
         About.SetActive(true);
+
+        status = 6;
 
     }
 

@@ -27,28 +27,33 @@ public class VRRotateWithObject : MonoBehaviour
     void Update()
     {
         // obj.transform.position = this.transform.position;
-        if (obj != null)
+        if (obj != null && obj2 != null)
         {
 
 
             if (dirz)
             {
-                Vector3 rot = new Vector3(0.0f, 0.0f, obj.transform.eulerAngles.z);
-                obj2.transform.rotation = Quaternion.Euler(rot);
+               
+                
+                    Vector3 rot = new Vector3(0.0f, 0.0f, obj.transform.eulerAngles.z);
+                    obj2.transform.rotation = Quaternion.Euler(rot);
+                    
             }
 
             if (dirx)
             {
-
-                Vector3 rot = new Vector3(obj.transform.eulerAngles.y, 0.0f, 0.0f);
-                obj2.transform.rotation = Quaternion.Euler(rot);
+                
+                    Vector3 rot = new Vector3(obj.transform.eulerAngles.y, 0.0f, 0.0f);
+                    obj2.transform.rotation = Quaternion.Euler(rot);
+                
             }
 
             if (diry)
             {
-
-                Vector3 rot = new Vector3(obj2.transform.eulerAngles.x,obj.transform.eulerAngles.y*2, obj2.transform.eulerAngles.z);
-                obj2.transform.rotation = Quaternion.Euler(rot);
+               
+                    Vector3 rot = new Vector3(obj2.transform.eulerAngles.x, obj.transform.eulerAngles.y * 2, obj2.transform.eulerAngles.z);
+                    obj2.transform.rotation = Quaternion.Euler(rot);
+                
 
             }
 

@@ -127,6 +127,19 @@ namespace UnityVolumeRendering
         public  void OpenRAWData()
         {
 
+            //Resets for Up+DownButton 
+            GameObject ConsoleBase = GameObject.Find("ConsoleBase");
+            GameObject Regulator1 = GameObject.Find("Regulator");
+            GameObject Regulator2 = GameObject.Find("Regulator (1)");
+            GameObject Regulator3 = GameObject.Find("Regulator (2)");
+
+            ConsoleBase.transform.localPosition = new Vector3(-0.01464599f, -0.399f, 0.3748505f);
+
+            Regulator1.transform.localPosition = new Vector3(-0.620646f, 0.004025102f, 0.4748505f);
+            Regulator2.transform.localPosition = new Vector3(0.03635401f, -0.002974927f, 0.9838505f);
+            Regulator3.transform.localPosition = new Vector3(0.6293541f, 0.00402510f, 0.3688505f);
+
+
 
             //Resets for new Model
 
@@ -143,8 +156,12 @@ namespace UnityVolumeRendering
             Destroy(rotTable.GetComponent<VRRotateWithObject>());
 
 
+
             // We'll only allow one dataset at a time in the runtime GUI (for simplicity)
             DespawnAllDatasets();
+
+           
+
 
             // Did the user try to import an .ini-file? Open the corresponding .raw file instead
             //  string filePath = Application.dataPath + "/StreamingAssets/" ;
@@ -152,7 +169,7 @@ namespace UnityVolumeRendering
             //  filePath = filePath.Replace(".ini", ".raw");
 
             // Parse .ini file
-             initData = DatasetIniReader.ParseIniFile(Application.dataPath + "/StreamingAssets/" + ModelPath + ".ini");
+            initData = DatasetIniReader.ParseIniFile(Application.dataPath + "/StreamingAssets/" + ModelPath + ".ini");
             if (initData != null)
             {
                 // Import the dataset
@@ -196,7 +213,7 @@ namespace UnityVolumeRendering
                         // DICOMMetaReader.getThickness()
                         // volobj.gameObject.transform.localScale = new Vector3((initData.dimX * 0.46875f) / 1000, (initData.dimY * 0.46875f) / 1000, (initData.dimZ * 0.46875f) / 1000);
 
-                        volobj.gameObject.transform.localScale = new Vector3((initData.dimX * 1.0f) / 1000, (initData.dimY *1.0f) / 1000, (initData.dimZ * 1.0f) / 1000);
+                        volobj.gameObject.transform.localScale = new Vector3((initData.dimX *DICOMMetaReader.getPixelSpacingX() * 1.0f) / 1000, (initData.dimY *1.0f * DICOMMetaReader.getPixelSpacingX()) / 1000, (initData.dimZ * 1.0f * DICOMMetaReader.getThickness()) / 1000);
                     }
 
                     VolumeObjectFactory.SpawnCrossSectionPlane(volobj);
