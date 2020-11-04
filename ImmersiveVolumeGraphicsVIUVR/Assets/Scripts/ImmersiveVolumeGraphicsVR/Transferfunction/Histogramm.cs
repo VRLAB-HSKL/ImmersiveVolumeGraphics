@@ -68,6 +68,20 @@ namespace UnityVolumeRendering
                 tfGUIMat.SetTexture("_TFTex", tf.GetTexture());
                 tfGUIMat.SetTexture("_HistTex", histTex);
 
+                for (int iAlpha = 0; iAlpha < tf.alphaControlPoints.Count; iAlpha++)
+                {
+
+                    Debug.Log("Alpha datavalue   "+tf.alphaControlPoints[iAlpha].alphaValue);
+                }
+
+                for (int iAlpha = 0; iAlpha < tf.colourControlPoints.Count; iAlpha++)
+                {
+
+                    Debug.Log("Color datavalue   "+tf.colourControlPoints[iAlpha].colourValue);
+                }
+
+
+
 
             }
 

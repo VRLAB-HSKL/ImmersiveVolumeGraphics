@@ -46,7 +46,7 @@ public class TransferfunctionLoad : MonoBehaviour
                     volobj.SetTransferFunctionMode(TFRenderMode.TF1D);
 
 
-                    //Updates Histogramm and Transferfunctionviewer according to newst Transferfunction
+                    //Updates Histogramm and Transferfunctionviewer according to newest Transferfunction
                     Histogramm.LoadHistogramm();
 
                     /*
@@ -59,11 +59,12 @@ public class TransferfunctionLoad : MonoBehaviour
                     ImageViewer3.GetComponent<MeshRenderer>().material.SetTexture("_TFTex", newTF.GetTexture());
                     */
 
+                    //Find the Slicing Planes
                     GameObject SlicingPlane1 = GameObject.Find("SlicingPlane1");
                     GameObject SlicingPlane2 = GameObject.Find("SlicingPlane2");
                     GameObject SlicingPlane3 = GameObject.Find("SlicingPlane3");
 
-
+                    //Sets new Texture to SlicingPlanes' Material 
                     SlicingPlane1.GetComponent<MeshRenderer>().sharedMaterial.SetTexture("_TFTex", newTF.GetTexture());
                     SlicingPlane2.GetComponent<MeshRenderer>().sharedMaterial.SetTexture("_TFTex", newTF.GetTexture());
                     SlicingPlane3.GetComponent<MeshRenderer>().sharedMaterial.SetTexture("_TFTex", newTF.GetTexture());
