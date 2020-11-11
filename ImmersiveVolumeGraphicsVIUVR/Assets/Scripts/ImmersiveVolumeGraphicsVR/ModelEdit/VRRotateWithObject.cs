@@ -3,98 +3,162 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class VRRotateWithObject : MonoBehaviour
-{
-
-    public GameObject obj;
-    public GameObject obj2;
-    public string objname = "";
-    public string objname2 = "";
-    public bool dirx;
-    public bool diry;
-    public bool dirz;
-
-    // Start is called before the first frame update
-    void Start()
+namespace ImmersiveVolumeGraphics {
+    namespace ModelEdit
     {
-        //
-        obj = GameObject.Find(objname);
-        obj2 = GameObject.Find(objname2);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // obj.transform.position = this.transform.position;
-        if (obj != null && obj2 != null)
+        /// <summary>
+        /// Rotate an GameObject in relation to another GameObject, this script is needed for the RotatableTable
+        /// </summary>
+        public class VRRotateWithObject : MonoBehaviour
         {
+            /// <summary>
+            /// First GameObject
+            /// </summary>
+            public GameObject Object1;
+            /// <summary>
+            /// Second GameObject
+            /// </summary>
+            public GameObject Object2;
+            /// <summary>
+            /// Name of the first GameObject
+            /// </summary>
+            public string ObjectName1 = "";
+            /// <summary>
+            /// Name of the second GameObject
+            /// </summary>
+            public string ObjectName2 = "";
+            /// <summary>
+            /// Check if the movement is in x-Direction
+            /// </summary>
+            public bool XDirection;
+            /// <summary>
+            /// Check if the movement is in y-Direction
+            /// </summary>
+            public bool YDirection;
+            /// <summary>
+            /// Check if the movement is in z-Direction
+            /// </summary>
+            public bool ZDirection;
 
 
-            if (dirz)
+            /// <summary>
+            /// Find both Objects in the Scene
+            /// </summary>
+            /// <remarks>
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>void</returns>
+            void Start()
             {
-               
-                
-                    Vector3 rot = new Vector3(0.0f, 0.0f, obj.transform.eulerAngles.z);
-                    obj2.transform.rotation = Quaternion.Euler(rot);
-                    
+                //
+                Object1 = GameObject.Find(ObjectName1);
+                Object2 = GameObject.Find(ObjectName2);
+
             }
 
-            if (dirx)
+            // Update is called once per frame
+
+            /// <summary>
+            /// Change the rotation  of the second GameObject in relation of the first GameObject
+            /// </summary>
+            /// <remarks>
+            /// <ul>
+            /// <li>Check whether the first Object exists or not</li>
+            /// <li>Check in which direction the rotation happens</li>
+            /// <li>Calculate the rotation vector</li>
+            /// <li>Set the second Object´s rotation to the rotation of the first Object (in the correct direction) </li>
+            /// <li>Find  the Objects when the first Object doesnt exist (updating Objectreference)  </li>
+            /// </ul> 
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>void</returns>
+
+            void Update()
             {
-                
-                    Vector3 rot = new Vector3(obj.transform.eulerAngles.y, 0.0f, 0.0f);
-                    obj2.transform.rotation = Quaternion.Euler(rot);
-                
+                // obj.transform.position = this.transform.position;
+                if (Object1 != null && Object2 != null)
+                {
+
+
+                    if (ZDirection)
+                    {
+
+
+                        Vector3 rotation = new Vector3(0.0f, 0.0f, Object1.transform.eulerAngles.z);
+                        Object2.transform.rotation = Quaternion.Euler(rotation);
+
+                    }
+
+                    if (XDirection)
+                    {
+
+                        Vector3 rotation = new Vector3(Object1.transform.eulerAngles.y, 0.0f, 0.0f);
+                        Object2.transform.rotation = Quaternion.Euler(rotation);
+
+                    }
+
+                    if (YDirection)
+                    {
+
+                        Vector3 rotation = new Vector3(Object2.transform.eulerAngles.x, Object1.transform.eulerAngles.y * 2, Object2.transform.eulerAngles.z);
+                        Object2.transform.rotation = Quaternion.Euler(rotation);
+
+
+                    }
+
+
+
+                }
+                else
+                {
+
+                    Object1 = GameObject.Find(ObjectName1);
+                    Object2 = GameObject.Find(ObjectName2);
+
+                }
             }
 
-            if (diry)
+            /// <summary>
+            /// Initialize the Variables and Objects
+            /// </summary>
+            /// <remarks>
+            /// This Method is used in the ImportRAWModel-Script to initialize this class
+            /// <ul>
+            /// <li>Hand over the Objectnames</li>
+            /// <li>Set the Direction-Booleans</li>
+            /// </ul> 
+            /// </remarks>
+            /// <param name="name1"></param>
+            /// <param name="name2"></param>
+            /// <param name="dir"></param>
+            /// <returns>void</returns>
+            public void initObj(string name1, string name2, string dir)
             {
-               
-                    Vector3 rot = new Vector3(obj2.transform.eulerAngles.x, obj.transform.eulerAngles.y * 2, obj2.transform.eulerAngles.z);
-                    obj2.transform.rotation = Quaternion.Euler(rot);
-                
+                ObjectName1 = name1;
+                ObjectName2 = name2;
+
+
+                if (dir.Equals("x"))
+                {
+                   XDirection = true;
+
+                }
+
+                if (dir.Equals("y"))
+                {
+                    YDirection = true;
+
+                }
+
+                if (dir.Equals("z"))
+                {
+                    ZDirection = true;
+
+                }
 
             }
-
-
-
-        }
-        else
-        {
-
-            obj = GameObject.Find(objname);
-            obj2 = GameObject.Find(objname2);
 
         }
     }
-
-    public void initObj(string name1, string name2, string dir)
-    {
-        objname = name1;
-        objname2 = name2;
-
-
-        if (dir.Equals("x"))
-        {
-            dirx = true;
-
-        }
-
-        if (dir.Equals("y"))
-        {
-            diry = true;
-
-        }
-
-        if (dir.Equals("z"))
-        {
-            dirz = true;
-
-        }
-
-    }
-
-
 
 }

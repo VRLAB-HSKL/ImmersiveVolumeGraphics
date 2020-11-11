@@ -2,44 +2,79 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ImmersiveVolumeGraphics.ModelImport;
+using UnityVolumeRendering;
 
-namespace UnityVolumeRendering
-{
+namespace ImmersiveVolumeGraphics {
 
-   
-
-    public class LoadModelPath : MonoBehaviour
+    namespace ModelImport
     {
-        public Dropdown dropdown;
-        public static  string path;
-        // Start is called before the first frame update
-   
 
-        public void LoadPath()
+        public class LoadModelPath : MonoBehaviour
         {
-            //Sets the model´s path 
-            ImportRAWModel.setModelPath(dropdown.options[dropdown.value].text);
-            //
+            /// <summary>
+            /// Loading the model´s path and DICOM-Information
+            /// </summary>
+            
+            /// <summary>
+            /// The DropDown-Object
+            /// </summary>
+            public Dropdown DropDown;
 
-            path = dropdown.options[dropdown.value].text;
-           //Reads the MetaInformation in 
-            DICOMMetaReader.ReadDICOMMetaInfo();
-            Debug.Log("Path + MetaInfo loaded");
+            /// <summary>
+            /// The model´s path
+            /// </summary>
+            public static string Path;
+            // Start is called before the first frame update
+
+            /// <summary>
+            /// The OnValueChanged-Listener for the DropDown-Object
+            /// </summary>
+            /// <remarks>
+            /// Loading the model´s path and DICOM-Information
+            /// <ul>
+            /// <li>Sets the model´s path </li>
+            /// <li>Get the path from the DropDown-Object and set the path-variable</li>
+            /// <li>Read the DICOM-Information</li>
+            /// </ul> 
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>void</returns>
+            public void LoadPath()
+            {
+                //Sets the model´s path 
+                ImportRAWModel.SetModelPath(DropDown.options[DropDown.value].text);
+                //
+
+                Path = DropDown.options[DropDown.value].text;
+                //Reads the MetaInformation in 
+                DICOMMetaReader.ReadDICOMMetaInformation();
+                Debug.Log("Path + MetaInfo loaded");
+            }
+
+            //setter-Method for the path variable
+            /// <summary>
+            /// Setter-Method for the path-variable
+            /// </summary>
+            /// <remarks>
+            /// <ul>
+            /// <li>Sets the model´s path </li>
+            /// </ul> 
+            /// </remarks>
+            /// <param name="location"></param>
+            /// <returns>void</returns>
+            public void setPath(string location)
+            {
+
+                Path = location;
+
+
+            }
+
+
+
+
+
         }
-
-        //setter-Method for the path variable
-        public void  setPath(string location)
-        {
-
-            path = location;
-
-
-        }
-
-
-
-
-
     }
-
 }

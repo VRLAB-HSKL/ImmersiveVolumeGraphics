@@ -2,49 +2,85 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityVolumeRendering;
 
-namespace UnityVolumeRendering
+namespace ImmersiveVolumeGraphics
 {
-    public class VREditVisiblity : MonoBehaviour
-    {
-        //Slider for the GUI in VR
-        public Slider s;
 
-    // Edits the minimum Visibility 
-        public void EditMinVisiblity()
-        {   
-
-            
-            // Find the Volume Object i.e. our model
-            VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
-            if (volobj != null)
-            {
-                // Get the visibily information
-                Vector2 visibilityWindow = volobj.GetVisibilityWindow();
-                // Set the visibility according to the slider´s value
-                visibilityWindow.x = s.value;
-                volobj.SetVisibilityWindow(visibilityWindow);
-            }
-
-
-        }
-
-        // Edits the maximum Visibility 
-        public void EditMaxVisiblity() 
+    namespace ModelEdit {
+        /// <summary>
+        /// This class provides the Function of changing the Visibility of the 3D-Model
+        /// </summary>
+        public class VREditVisiblity : MonoBehaviour
         {
-            // Find the Volume Object i.e. our model
-            VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
-            if (volobj != null)
+            
+
+            /// <summary>
+            ///  Slider for the GUI in VR
+            /// </summary>
+            public Slider Slider;
+
+
+
+            /// <summary>
+            /// Edits the minimum Visibility 
+            /// </summary>
+            /// <remarks>
+            /// <ul>
+            /// <li>Find the Volume Object i.e. our model</li>
+            /// <li>Get the visibily information</li>
+            /// <li>Set the visibility according to the Slider´s value</li>
+            /// </ul>
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>void</returns>
+            public void EditMinVisiblity()
             {
-                // Get the visibily information
-                Vector2 visibilityWindow = volobj.GetVisibilityWindow();
-            // Set the visibility according to the slider´s value
-            visibilityWindow.y = s.value;
-            volobj.SetVisibilityWindow(visibilityWindow);
+
+
+                // Find the Volume Object i.e. our model
+                VolumeRenderedObject volumeObject = GameObject.FindObjectOfType<VolumeRenderedObject>();
+                if (volumeObject != null)
+                {
+                    // Get the visibily information
+                    Vector2 visibilityWindow = volumeObject.GetVisibilityWindow();
+                    // Set the visibility according to the slider´s value
+                    visibilityWindow.x = Slider.value;
+                    volumeObject.SetVisibilityWindow(visibilityWindow);
+                }
+
+
             }
+
+       
+            /// <summary>
+            /// Edits the maximum Visibility 
+            /// </summary>
+            /// <remarks>
+            /// <ul>
+            /// <li>Find the Volume Object i.e. our model</li>
+            /// <li>Get the visibily information</li>
+            /// <li>Set the visibility according to the Slider´s value</li>
+            /// </ul>
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>void</returns>
+            
+            public void EditMaxVisiblity()
+            {
+                // Find the Volume Object i.e. our model
+                VolumeRenderedObject volumeObject = GameObject.FindObjectOfType<VolumeRenderedObject>();
+                if (volumeObject != null)
+                {
+                    // Get the visibily information
+                    Vector2 visibilityWindow = volumeObject.GetVisibilityWindow();
+                    // Set the visibility according to the slider´s value
+                    visibilityWindow.y = Slider.value;
+                    volumeObject.SetVisibilityWindow(visibilityWindow);
+                }
+            }
+
+
         }
-
-
-
     }
 }

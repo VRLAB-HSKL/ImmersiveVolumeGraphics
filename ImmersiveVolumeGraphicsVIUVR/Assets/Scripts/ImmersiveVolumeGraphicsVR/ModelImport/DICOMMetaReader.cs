@@ -4,204 +4,555 @@ using UnityEngine;
 using System.IO;
 using System;
 using UnityEngine.UI;
-
-
-namespace UnityVolumeRendering {
-    public class DICOMMetaReader : MonoBehaviour
-    {
-
-        // Array of all  metainformation eg. patien´s name , modality etc.
-        // Only reasonable information is included
-        private static string[] metainfo = new string[50];
-        // Textfield which show the metainformation to the user 
-        public static Text t;
+using UnityVolumeRendering;
 
 
 
-        //DICOM-DATA
-        // This value represents the thickness of each slice made in the computer tomograph in Millimeter eg. 1.0 = 1 mm thickness
-        private static float pixelspacingx = 0;
-        private static float pixelspacingy = 0;
-        private static float slicethickness=0;
+namespace ImmersiveVolumeGraphics {
 
 
-        // Start is called before the first frame update
-        void Start()
+    namespace ModelImport
+    { 
+        /// <summary>
+        ///This class reads DICOM-Metadata from a Textfile in and stores them in Variables 
+        /// </summary>
+        public class DICOMMetaReader : MonoBehaviour
         {
-        // Finding the text in the scene 
-            t = GameObject.Find("MetaInfoLabel").GetComponent<Text>();
+            /// <summary>
+            /// Array of all  metainformation eg. patient´s name , modality etc.
+            /// Only reasonable information is included
+            /// </summary>
+            private static string[] metaInformation = new string[50];
+         
+            /// <summary>
+            /// Textfield which shows the metainformation to the user 
+            /// </summary>
+            public static Text MetaInformationText;
+          
 
-        }
-
-
-
-
-
-        public static void ReadDICOMMetaInfo()
-        {
-            // The path to the meta information (saved as a text file) based on the model.
-            //The model´s path or name is loaded when the user clicks on dropdown element
-            // For Example : string path = Application.dataPath + "/StreamingAssets/" + "Male_Head.metainfo" + ".txt";
-            string path = Application.dataPath + "/StreamingAssets/" + ImportRAWModel.ModelPath + ".txt";
+           
 
 
+            /// <summary>
+            /// Distance from the center of a pixel to the border in x-Direction in Millimeter(mm), eg. 1.0 = 1 mm distance
+            /// </summary>
+            private static float pixelSpacingX = 0;
+            /// <summary>
+            /// Distance from the center of a pixel to the border in y-Direction in Millimeter(mm),  eg. 1.0 = 1 mm distance
+            /// </summary>
+            private static float pixelSpacingY = 0;
 
-            // Resets when you change the model
-            pixelspacingx = 0;
-            pixelspacingy = 0;
-            slicethickness = 0;
-            t.text = "";
+            /// <summary>
+            /// This value represents the thickness of each slice made in the computertomograph in Millimeter eg. 1.0 = 1 mm thickness
+            /// </summary>
+            private static float sliceThickness = 0;
 
-            // check if the model has a corresponding metainfo file
-            bool FileValid = IsFileValid(path);
 
-            // When the File exists 
-            if (FileValid)
+            // Start is called before the first frame update
+
+            /// <summary>
+            /// Findings the MetaInfoLabel in the Scene and sets MetaInformationText
+            /// </summary>
+            /// <remarks>
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>void</returns>
+            void Start()
             {
-                //StreamReader reads the meta-information of the text file 
-                StreamReader streamReader = new StreamReader(path);
+                // Finding the text in the scene 
+                MetaInformationText = GameObject.Find("MetaInfoLabel").GetComponent<Text>();
 
-                // Safety check
-                if (streamReader != null)
+            }
+
+
+
+            /// <summary>
+            /// Read the DICOM-Metainformation from a Textfile
+            /// </summary>
+
+            /// <remarks>
+
+            /// Finding the GameObjects in the Scene
+            /// <ul>
+            /// <li>Set the Filepath</li>
+            /// <li> Path to the File: Application.dataPath + "/StreamingAssets/" + ImportRAWModel.ModelPath + ".txt" </li>
+            /// <li>Set the pixelSpacingX, pixelSpacingY , sliceThickness to 0 and MetaInformationText to empty (for resetting when a new Model will be loaded) </li>
+            /// <li>Check if the Textfile exists</li>
+            /// <li>Create a new StreamReader that reads the Data</li>
+            /// <li>The datastructure for the metaInformation-Array which stores the data looks like this: </li>
+            /// </ul>   
+
+            /// <table>
+
+            /// <tr>
+            /// <th> metaInformation[] </th>
+            /// <th> Value </th>
+
+            /// </tr>
+
+            /// <tr>
+            /// <td>0</td>
+            /// <td>Patientname </td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>1</td>
+            /// <td>Patienname.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>2</td>
+            /// <td>Patientid </td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>3</td>
+            /// <td>Patientid.value</td>
+            /// </tr>
+            /// 
+
+            /// <tr>
+            /// <td>4</td>
+            /// <td>Patientbirthdate</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>5</td>
+            /// <td>Patientbirthdate.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>6</td>
+            /// <td>Patientsex</td>
+            /// </tr>
+            /// 
+
+            /// <tr>
+            /// <td>7</td>
+            /// <td>Patientsex.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>8</td>
+            /// <td>Institutionname</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>9</td>
+            /// <td>Institutionname.value</td>
+            /// </tr>
+            /// 
+
+            /// <tr>
+            /// <td>10</td>
+            /// <td>Institutionaddress</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>11</td>
+            /// <td>Institutionaddress.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>12</td>
+            /// <td>Physicianname</td>
+            /// </tr>
+            /// 
+
+            /// <tr>
+            /// <td>13</td>
+            /// <td>Physicianname.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>14</td>
+            /// <td>Studydiscription</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>15</td>
+            /// <td>Studydiscription.value</td>
+            /// </tr>
+            /// 
+
+            /// <tr>
+            /// <td>16</td>
+            /// <td>Modality</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>17</td>
+            /// <td>Modality.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>18</td>
+            /// <td>Manufacturer</td>
+            /// </tr>
+            /// 
+
+            /// <tr>
+            /// <td>19</td>
+            /// <td>Manufacturer.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>20</td>
+            /// <td>Studyid</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>21</td>
+            /// <td>Studyid.value</td>
+            /// </tr>
+            /// 
+
+            /// <tr>
+            /// <td>22</td>
+            /// <td>Studydate</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>23</td>
+            /// <td>Studydate.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>24</td>
+            /// <td>Seriesnumber</td>
+            /// </tr>
+            /// 
+
+            /// <tr>
+            /// <td>25</td>
+            /// <td>Seriesnumber.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>26</td>
+            /// <td>Pixelspacing in X-Direction</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>27</td>
+            /// <td>PixelspacingX.value</td>
+            /// </tr>
+            /// 
+
+            /// <tr>
+            /// <td>28</td>
+            /// <td>Pixelspacing in Y-Direction</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>29</td>
+            /// <td>PixelspacingY.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>30</td>
+            /// <td>Slicethickness in mm</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>31</td>
+            /// <td>Slicethickness.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>32</td>
+            /// <td>Amount of columns of the model</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>33</td>
+            /// <td>Columns.value</td>
+            /// </tr> 
+
+            /// <tr>
+            /// <td>34</td>
+            /// <td>Amount of rows of the model</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>35</td>
+            /// <td>Rows.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>36</td>
+            /// <td>Patientposition</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>37</td>
+            /// <td>Patientposition.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>38</td>
+            /// <td>ImageorientationPatientRowX</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>39</td>
+            /// <td>ImageorientationPatientRowX.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>40</td>
+            /// <td>ImageorientationPatientRowY</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>41</td>
+            /// <td>ImageorientationPatientRowX.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>42</td>
+            /// <td>ImageorientationPatientRowZ</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>43</td>
+            /// <td>ImageorientationPatientRowZ.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>44</td>
+            /// <td>ImageorientationPatientColumnX</td>
+            /// </tr>  
+
+            /// <tr>
+            /// <td>45</td>
+            /// <td>ImageorientationPatientColumnX.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>46</td>
+            /// <td>ImageorientationPatientColumnY</td>
+            /// </tr>   
+
+            /// <tr>
+            /// <td>47</td>
+            /// <td>ImageorientationPatientColumnY.value</td>
+            /// </tr>
+
+            /// <tr>
+            /// <td>48</td>
+            /// <td>ImageorientationPatientColumnZ</td>
+            /// </tr> 
+
+            /// <tr>
+            /// <td>49</td>
+            /// <td>ImageorientationPatientColumnZ.value</td>
+            /// </tr>
+
+
+            /// </table>
+            /// <ul>
+            /// <li>The Streamwriter reads the datavalues in for-loop and fills them into the array </li>
+            /// <li>The strings of  pixelSpacingX, pixelSpacingY and sliceThickness are converted from dot to  comma representation because of the  float parse (american vs european way of writing floats) </li>
+            /// <li>Afterwards these values are parsed into floats </li>
+            /// </ul>
+            
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>void</returns>
+
+            public static void ReadDICOMMetaInformation()
+            {
+                // The path to the meta information (saved as a text file) based on the model.
+                //The model´s path or name is loaded when the user clicks on dropdown element
+                // For Example : string path = Application.dataPath + "/StreamingAssets/" + "Male_Head.metainfo" + ".txt";
+                string path = Application.dataPath + "/StreamingAssets/" + ImportRAWModel.ModelPath + ".txt";
+
+
+
+                // Resets when you change the model
+                pixelSpacingX = 0;
+                pixelSpacingY = 0;
+                sliceThickness = 0;
+                MetaInformationText.text = "";
+
+                // Check if the model has a corresponding metainfo file
+                bool FileValid = IsFileValid(path);
+
+                // When the File exists 
+                if (FileValid)
                 {
+                    //StreamReader reads the meta-information of the text file 
+                    StreamReader streamReader = new StreamReader(path);
 
-                    // the first 19 lines are not that important for a user. 
-                    // moving through the textfile
-
-                    //Displaying additional Information
-                    metainfo[0] = "patientname  :   ";
-                    metainfo[2] = "patientid    :   ";
-                    metainfo[4] = "patientbirthdate :   ";
-                    metainfo[6] = "patientsex   :   ";
-                    metainfo[8] = "institutionname  :   ";
-                    metainfo[10] = "institutionaddress  :   ";
-                    metainfo[12] = "physicianname   :   ";
-                    metainfo[14] = "studydiscription    :   ";
-                    metainfo[16] = "modality    :   ";
-                    metainfo[18] = "manufacturer    :   ";
-                    metainfo[20] = "studyid     :   ";
-                    metainfo[22] = "studydate   :   ";
-                    metainfo[24] = "seriesnumber    :   ";
-                    metainfo[26] = "pixelspacingx    :   ";
-                    metainfo[28] = "pixelspacingy  :   ";
-                    metainfo[30] = "slicethickness  :   ";
-                    metainfo[32] = "columns :   ";
-                    metainfo[34] = "rows    :   ";
-                    metainfo[36] = "patientposition     :   ";
-                    metainfo[38] = "imageorientationpatientrowx     :   ";
-                    metainfo[40] = "imageorientationpatientrowy     :   ";
-                    metainfo[42] = "imageorientationpatientrowz     :   ";
-                    metainfo[44] = "imageorientationpatientcolumnx     :   ";
-                    metainfo[46] = "imageorientationpatientcolumny     :   ";
-                    metainfo[48] = "imageorientationpatientcolumnz     :   ";
-
-                    for (int i = 1; i < metainfo.Length; i+=2)
+                    // Safety check
+                    if (streamReader != null)
                     {
-                        metainfo[i]=streamReader.ReadLine();
 
-                        
-                       if (i <= 25)
+
+                        //Displaying additional Information
+                        metaInformation[0] = "patientname  :   ";
+                        metaInformation[2] = "patientid    :   ";
+                        metaInformation[4] = "patientbirthdate :   ";
+                        metaInformation[6] = "patientsex   :   ";
+                        metaInformation[8] = "institutionname  :   ";
+                        metaInformation[10] = "institutionaddress  :   ";
+                        metaInformation[12] = "physicianname   :   ";
+                        metaInformation[14] = "studydiscription    :   ";
+                        metaInformation[16] = "modality    :   ";
+                        metaInformation[18] = "manufacturer    :   ";
+                        metaInformation[20] = "studyid     :   ";
+                        metaInformation[22] = "studydate   :   ";
+                        metaInformation[24] = "seriesnumber    :   ";
+                        metaInformation[26] = "pixelspacingx    :   ";
+                        metaInformation[28] = "pixelspacingy  :   ";
+                        metaInformation[30] = "slicethickness  :   ";
+                        metaInformation[32] = "columns :   ";
+                        metaInformation[34] = "rows    :   ";
+                        metaInformation[36] = "patientposition     :   ";
+                        metaInformation[38] = "imageorientationpatientrowx     :   ";
+                        metaInformation[40] = "imageorientationpatientrowy     :   ";
+                        metaInformation[42] = "imageorientationpatientrowz     :   ";
+                        metaInformation[44] = "imageorientationpatientcolumnx     :   ";
+                        metaInformation[46] = "imageorientationpatientcolumny     :   ";
+                        metaInformation[48] = "imageorientationpatientcolumnz     :   ";
+
+                        for (int i = 1; i < metaInformation.Length; i += 2)
                         {
-                            t.text += metainfo[i - 1] + metainfo[i] + "\n";
+                            metaInformation[i] = streamReader.ReadLine();
+
+
+                            if (i <= 25)
+                            {
+                                MetaInformationText.text += metaInformation[i - 1] + metaInformation[i] + "\n";
+
+
+
+                            }
+
+
+
 
 
 
                         }
-                        
+
+
+                        //Parsing the incoming DICOM-Data into unity 
+
+
+                        //Converting  -> dot to  comma because of float parse (american vs european way of writing floats)
+                        metaInformation[27] = metaInformation[27].Replace(".", ",");
+                        metaInformation[29] = metaInformation[29].Replace(".", ",");
+                        metaInformation[31] = metaInformation[31].Replace(".", ",");
+
+
+                        pixelSpacingX = float.Parse(metaInformation[27]);
+                        pixelSpacingY = float.Parse(metaInformation[29]);
+                        sliceThickness = float.Parse(metaInformation[31]);
 
 
 
+                        MetaInformationText.text += metaInformation[26] + pixelSpacingX + " mm" + "\n"; ;
+                        MetaInformationText.text += metaInformation[28] + pixelSpacingY + " mm" + "\n"; ;
+                        MetaInformationText.text += metaInformation[30] + sliceThickness + " mm" + "\n"; ;
 
 
                     }
 
-
-                    //Parsing the incoming DICOM-Data into unity 
-
-
-                    //Converting  -> dot to  comma because of float parse (american vs european way of writing floats)
-                    metainfo[27]= metainfo[27].Replace(".",",");
-                    metainfo[29]= metainfo[29].Replace(".", ",");
-                    metainfo[31]= metainfo[31].Replace(".", ",");
-
-  
-                    pixelspacingx = float.Parse(metainfo[27]);
-                    pixelspacingy= float.Parse(metainfo[29]);
-                    slicethickness = float.Parse(metainfo[31]);
-
-
-                  
-                    t.text += metainfo[26]+pixelspacingx +" mm"+"\n"; ;
-                    t.text += metainfo[28]+pixelspacingy +" mm"+ "\n"; ;
-                    t.text += metainfo[30]+slicethickness +" mm"+"\n"; ;
-
-
                 }
-              
             }
-        }
 
 
 
-        // Approach
-        // The data is structured like a table
-        // On the left side is a tag and the name of the value
-        // On the right side are some letters and the actual value
-        // eg. (0018, 0050) Slice Thickness                     DS: "1.0"
-        // 
+            // Approach
+            // The data is structured like a table
+            // On the left side is a tag and the name of the value
+            // On the right side are some letters and the actual value
+            // eg. (0018, 0050) Slice Thickness                     DS: "1.0"
+            // 
 
 
-        // Left column , name eg. : Slice Thickness 
-
-       
-
-        // getter-Method 
-        public static float getThickness()
-        {
-
-            return slicethickness;
-        
-        }
-
-
-        public static float getPixelSpacingX()
-        {
-
-            return pixelspacingx;
-
-        }
-
-        public static float getPixelSpacingY()
-        {
-
-            return pixelspacingy;
-
-        }
+            // Left column , name eg. : Slice Thickness 
 
 
 
+            // Getter-Method 
 
+           
 
-
-
-        // Checks if the File exists or not 
-        private static bool IsFileValid(string filePath)
-        {
-            bool IsValid = true;
-
-            if (!File.Exists(filePath))
+            /// <summary>
+            /// Getter-Method for SliceThickness
+            /// </summary>
+            /// <remarks>
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>sliceThickness</returns>
+            public static float GetThickness()
             {
-                IsValid = false;
+
+                return sliceThickness;
+
             }
-            else if (Path.GetExtension(filePath).ToLower() != ".txt")
+
+
+            /// <summary>
+            /// Getter-Method for pixelSpacingX
+            /// </summary>
+            /// <remarks>
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>pixelSpacingX</returns>
+            public static float GetPixelSpacingX()
             {
-                IsValid = false;
+
+                return pixelSpacingX;
+
             }
 
-            return IsValid;
-        }
 
+
+            /// <summary>
+            /// Getter-Method for pixelSpacingY
+            /// </summary>
+            /// <remarks>
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>pixelSpacingY</returns>
+            public static float GetPixelSpacingY()
+            {
+
+                return pixelSpacingY;
+
+            }
+
+
+            /// <summary>
+            /// Checks if the File exists or not 
+            /// </summary>
+            /// <remarks>
+            /// </remarks>
+            /// <param name="filePath"></param>
+            /// <returns>isValid</returns>
+            private static bool IsFileValid(string filePath)
+            {
+                bool IsValid = true;
+
+                if (!File.Exists(filePath))
+                {
+                    IsValid = false;
+                }
+                else if (Path.GetExtension(filePath).ToLower() != ".txt")
+                {
+                    IsValid = false;
+                }
+
+                return IsValid;
+            }
+
+
+        }
 
     }
-
 }
+

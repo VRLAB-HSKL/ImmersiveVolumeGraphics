@@ -3,64 +3,66 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TransferfunctionDropDown : MonoBehaviour
-{
 
+namespace ImmersiveVolumeGraphics {
 
-    public Dropdown dropdown;
-
-
-
-    // Start is called before the first frame update
-    void Start()
+    namespace Transferfunctions
     {
-
-        string path = "" + Application.dataPath + "/TransferFunctions/";
-  
-
-        //Creates a new DropDownlist
-        List<string> DropDownOptions = new List<string>();
-
-        //Length of the whole path
-        int pathlength = path.Length;
-
-        //Lists all files 
-        foreach (string file in System.IO.Directory.GetFiles(path))
+        public class TransferfunctionDropDown : MonoBehaviour
         {
 
-           //Lists all Transferfunctions
-            if (file.EndsWith(".tf"))
+
+            public Dropdown DropDown;
+
+
+
+            // Start is called before the first frame update
+            void Start()
             {
 
-                // removes the path and just leaves "Name.tf" 
-                string file2 = file.Remove(0, pathlength);
-                file2 = file2.Remove(file2.Length - 3, 3);
-                //Adds the Names of the Transferfunctions to the DropDownLists 
-                DropDownOptions.Add(file2);
+                string path = "" + Application.dataPath + "/TransferFunctions/";
+
+
+                //Creates a new DropDownlist
+                List<string> DropDownOptions = new List<string>();
+
+                //Length of the whole path
+                int pathlength = path.Length;
+
+                //Lists all files 
+                foreach (string file in System.IO.Directory.GetFiles(path))
+                {
+
+                    //Lists all Transferfunctions
+                    if (file.EndsWith(".tf"))
+                    {
+
+                        // removes the path and just leaves "Name.tf" 
+                        string file2 = file.Remove(0, pathlength);
+                        file2 = file2.Remove(file2.Length - 3, 3);
+                        //Adds the Names of the Transferfunctions to the DropDownLists 
+                        DropDownOptions.Add(file2);
+
+                    }
+
+
+
+
+
+                }
+
+                // Adds the List to the DropDown as available options
+
+                DropDown.AddOptions(DropDownOptions);
+
+
 
             }
 
-
-
-
+           
 
         }
-
-        // Adds the List to the DropDown as available options
-
-        dropdown.AddOptions(DropDownOptions);
-
-
-
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
 
 
 }

@@ -4,70 +4,94 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 
-public class AddDropDownItems : MonoBehaviour
-{
-
-
-    public Dropdown dropdown;
-
-
-
-    // Start is called before the first frame update
-    void Start()
+namespace ImmersiveVolumeGraphics {
+    namespace ModelImport
     {
+
+        /// <summary>
+        /// Adding the Modelnames to the Dropdownobject 
+        /// </summary>
+        public class AddDropDownItems : MonoBehaviour
+        {
+
+            /// <summary>
+            /// The Dropdownobject 
+            /// </summary>
+            public Dropdown Dropdown;
+            /// <summary>
+            /// <ul>
+            /// <li>This is the Path to the 3D-Models in the Unityfolderstructure</li>
+            /// <li>Application.dataPath + "/StreamingAssets/" </li>
+            /// </ul>
+            /// </summary>
+            private string path="";
+
+
+
+            /// <summary>
+            /// Adding Options to the DropDownObject
+            /// </summary>
+            /// <remarks>
+            /// <ul>
+            /// <li>Creates a new DropDownlist</li>
+            /// <li>Lists just the 3D-Models ending in .raw</li>
+            /// <li>Adds the Names of the Models to the List </li>
+            /// <li>Adds the List to the DropDown as available options</li>
+            /// </ul>
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>void</returns>
+            void Start()
+            {
 
 #if UNITY_EDITOR
 
+                
+
+                 path = "" + Application.dataPath + "/StreamingAssets/";
+
+#else
          string path = "" + Application.dataPath + "/StreamingAssets/";
 
-#else 
-         string path = "" + Application.dataPath + "/StreamingAssets/";
+#endif
 
-#endif   
+                //Creates a new DropDownlist
+                List<string> dropDownOptions = new List<string>();
 
-        //Creates a new DropDownlist
-        List<string> DropDownOptions = new List<string>();
+                //Length of the whole path
+                int pathLength = path.Length;
 
-        //Length of the whole path
-        int pathlength = path.Length;
+                //Lists all files 
+                foreach (string file in System.IO.Directory.GetFiles(path))
+                {
 
-        //Lists all files 
-        foreach (string file in System.IO.Directory.GetFiles(path))
-        {
+                    //Listing just the Rawmodels ending in .raw
+                    if (file.EndsWith(".raw"))
+                    {
 
-          //Listing just the Rawmodels ending in .raw
-          if (file.EndsWith(".raw"))
-            {
+                        // removes the path and just leaves "Name.raw" 
+                        string file2 = file.Remove(0, pathLength);
+                        file2 = file2.Remove(file2.Length - 4, 4);
+                        //Adds the Names of the Models to the DropDownLists 
+                        dropDownOptions.Add(file2);
 
-                // removes the path and just leaves "Name.raw" 
-                string file2 = file.Remove(0, pathlength);
-                file2 = file2.Remove(file2.Length - 4, 4);
-                //Adds the Names of the Models to the DropDownLists 
-                DropDownOptions.Add(file2);
-              
+                    }
+
+
+
+
+
+                }
+
+                // Adds the List to the DropDown as available options
+
+                Dropdown.AddOptions(dropDownOptions);
+
+
+
             }
 
-            
-
-
-
         }
-
-        // Adds the List to the DropDown as available options
-
-        dropdown.AddOptions(DropDownOptions);
-
-
-
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-
 
 }

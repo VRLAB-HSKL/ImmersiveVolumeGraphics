@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransferfunctionSave : MonoBehaviour
+namespace ImmersiveVolumeGraphics
 {
-    // Start is called before the first frame update
-    void Start()
+    namespace Transferfunctions
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public class TransferfunctionSave : MonoBehaviour
+        {
+            // Start is called before the first frame update
+            void Start()
+            {
+
+            }
+
+            // Update is called once per frame
+            void Update()
+            {
+
+            }
+        }
     }
 }
+
