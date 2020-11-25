@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using UnityVolumeRendering;
-
+using ImmersiveVolumeGraphics.Transferfunctions;
 namespace ImmersiveVolumeGraphics
 {
     /// <summary>
@@ -29,6 +29,10 @@ namespace ImmersiveVolumeGraphics
             /// This is the transferfunctionmaterial of the 3D-Model
             /// </summary>
             private static Material tfGUIMat = null;
+            /// <summary>
+            /// This is the colormaterial for the Transferfunction
+            /// </summary>
+            private static Material tfPaletteGUIMat = null;
             /// <summary>
             /// This is the histogramtexture
             /// </summary>
@@ -63,7 +67,8 @@ namespace ImmersiveVolumeGraphics
         {
 
             tfGUIMat = Resources.Load<Material>("TransferFunctionGUIMat");
-                volumeObject = GameObject.FindObjectOfType<VolumeRenderedObject>();
+            tfPaletteGUIMat = Resources.Load<Material>("TransferFunctionPaletteGUIMat");
+            volumeObject = GameObject.FindObjectOfType<VolumeRenderedObject>();
 
             if (volumeObject != null)
             {
@@ -74,9 +79,9 @@ namespace ImmersiveVolumeGraphics
 
                 tfGUIMat.SetTexture("_TFTex", transferfunction.GetTexture());
                 tfGUIMat.SetTexture("_HistTex", histTex);
-
-
-            }
+                tfPaletteGUIMat.SetTexture("_TFTex", transferfunction.GetTexture());
+                    
+                }
 
 
         }
@@ -100,7 +105,8 @@ namespace ImmersiveVolumeGraphics
             public static void LoadHistogramm()
         {
 
-            tfGUIMat = Resources.Load<Material>("TransferFunctionGUIMat");
+                tfGUIMat = Resources.Load<Material>("TransferFunctionGUIMat");
+                tfPaletteGUIMat = Resources.Load<Material>("TransferFunctionPaletteGUIMat");
                 volumeObject = GameObject.FindObjectOfType<VolumeRenderedObject>();
 
             if (volumeObject != null)
@@ -112,27 +118,37 @@ namespace ImmersiveVolumeGraphics
 
                 tfGUIMat.SetTexture("_TFTex", transferfunction.GetTexture());
                 tfGUIMat.SetTexture("_HistTex", histTex);
+                tfPaletteGUIMat.SetTexture("_TFTex", transferfunction.GetTexture());
 
+
+                   
+
+                    /*
                 for (int iAlpha = 0; iAlpha < transferfunction.alphaControlPoints.Count; iAlpha++)
                 {
 
-                    Debug.Log("Alpha datavalue   "+ transferfunction.alphaControlPoints[iAlpha].alphaValue);
-                }
+                    Debug.Log("Alpha alpha   "+ transferfunction.alphaControlPoints[iAlpha].alphaValue);
+                        Debug.Log("Alpha datavalue   " + transferfunction.alphaControlPoints[iAlpha].dataValue);
+                    }
 
                 for (int iAlpha = 0; iAlpha < transferfunction.colourControlPoints.Count; iAlpha++)
                 {
 
-                    Debug.Log("Color datavalue   "+ transferfunction.colourControlPoints[iAlpha].colourValue);
+                    Debug.Log("Color value   "+ transferfunction.colourControlPoints[iAlpha].colourValue);
+                        Debug.Log("Color datavalue   " + transferfunction.colourControlPoints[iAlpha].dataValue);
+                    }
+
+                    Debug.Log(transferfunction.alphaControlPoints.Count);
+                    Debug.Log(transferfunction.colourControlPoints.Count);
+                    */
+
+
+
                 }
-
-
-
-
             }
 
+      
 
-        }
-
-    }
+            }
   }
 }

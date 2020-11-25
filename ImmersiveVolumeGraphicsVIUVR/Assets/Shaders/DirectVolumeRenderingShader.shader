@@ -1,53 +1,77 @@
 ﻿Shader "VolumeRendering/DirectVolumeRenderingShader"
 {
     Properties
-    {
+	{
+		//Texture that stores the Data
         _DataTex ("Data Texture (Generated)", 3D) = "" {}
+	    //Texture that stores the gradient
         _GradientTex("Gradient Texture (Generated)", 3D) = "" {}
+		//Texture that stores a noise function
         _NoiseTex("Noise Texture (Generated)", 2D) = "white" {}
+		//Texture that stores the Transferfuncttion
         _TFTex("Transfer Function Texture (Generated)", 2D) = "" {}
+		//Minimum value
         _MinVal("Min val", Range(0.0, 1.0)) = 0.0
+	    //Maximum value
         _MaxVal("Max val", Range(0.0, 1.0)) = 1.0
     }
     SubShader
     {
         Tags { "Queue" = "Transparent" "RenderType" = "Transparent" }
+		//Level of Detail
         LOD 100
+	    //Culls Frontface
         Cull Front
         ZTest LEqual
         ZWrite On
+		//Blendingmode
         Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
             CGPROGRAM
+			//Rendermodes
             #pragma multi_compile MODE_DVR MODE_MIP MODE_SURF
+			//Transferfunction
             #pragma multi_compile __ TF2D_ON
+			//Slicing Plane
             #pragma multi_compile __ SLICEPLANE_ON
+			//Lighting
             #pragma multi_compile __ LIGHTING_ON
+			//Depthwriter
             #pragma multi_compile DEPTHWRITE_ON DEPTHWRITE_OFF
+			//Vertex
             #pragma vertex vert
+			//Fragment
             #pragma fragment frag
 
             #include "UnityCG.cginc"
 
             struct vert_in
             {
+			//Vertexposition
                 float4 vertex : POSITION;
+		    //Vertexnormal (for Lighting)
                 float4 normal : NORMAL;
+			//Texturecoordinates
                 float2 uv : TEXCOORD0;
             };
 
             struct frag_in
             {
+				//Vertexposition
                 float4 vertex : SV_POSITION;
+				//Texturecoordinates
                 float2 uv : TEXCOORD0;
+				//Vertexlocaltexturecoordinates
                 float3 vertexLocal : TEXCOORD1;
+				//Framentnormal
                 float3 normal : NORMAL;
             };
 
             struct frag_out
             {
+				//Outputcolor
                 float4 colour : SV_TARGET;
 #if DEPTHWRITE_ON
                 float depth : SV_DEPTH;
@@ -63,7 +87,9 @@
             float _MaxVal;
 
 #if SLICEPLANE_ON
+			//Position of Slicingplane
             float3 _PlanePos;
+			//Normal of Slicingplane
             float3 _PlaneNormal;
 #endif
 
@@ -143,6 +169,7 @@
                 return o;
             }
 
+			//Mainmethod
             // Direct Volume Rendering
             frag_out frag_dvr (frag_in i)
             {
@@ -150,20 +177,31 @@
 
                 const float stepSize = 1.732f/*greatest distance in box*/ / NUM_STEPS;
 
+				//Raystarting position
                 float3 rayStartPos = i.vertexLocal + float3(0.5f, 0.5f, 0.5f);
+				// Direction of the light
                 float3 lightDir = normalize(ObjSpaceViewDir(float4(float3(0.0f, 0.0f, 0.0f), 0.0f)));
+				//Raydirection
                 float3 rayDir = ObjSpaceViewDir(float4(i.vertexLocal, 0.0f));
+				//Normalize Raydirection
                 rayDir = normalize(rayDir);
 
                 // Create a small random offset in order to remove artifacts
                 rayStartPos = rayStartPos + (2.0f * rayDir / NUM_STEPS) * tex2D(_NoiseTex, float2(i.uv.x, i.uv.y)).r;
 
+				//Coloroutput
                 float4 col = float4(0.0f, 0.0f, 0.0f, 0.0f);
                 uint iDepth = 0;
+
+				//Raymarching!
                 for (uint iStep = 0; iStep < NUM_STEPS; iStep++)
                 {
+					//T-Value
                     const float t = iStep * stepSize;
+					//Currentpositiong
                     const float3 currPos = rayStartPos + rayDir * t;
+
+					//Outsideboundings of the Box 
                     if (currPos.x < 0.0f || currPos.x >= 1.0f || currPos.y < 0.0f || currPos.y > 1.0f || currPos.z < 0.0f || currPos.z > 1.0f) // TODO: avoid branch?
                         break;
 
@@ -189,20 +227,25 @@
                     float4 src = getTF1DColour(density);
 #endif
 
-                    // Apply lighting
+                    // Apply lighting when Lighting is enabled
 #ifdef LIGHTING_ON
                     src.rgb = calculateLighting(src.rgb, normalize(gradient), lightDir, rayDir, 0.3f);
 #endif
-
+					//When Lighting is not enabled
+					//Calculate Color
                     if (density < _MinVal || density > _MaxVal)
                         src.a = 0.0f;
 
+
+					//Adding colors and their corresponding alpha values along the ray. eg 
                     col.rgb = src.a * src.rgb + (1.0f - src.a)*col.rgb;
                     col.a = src.a + (1.0f - src.a)*col.a;
 
                     if (src.a > 0.15f)
                         iDepth = iStep;
 
+					// When the Alpha is bigger than 1 then all previous colors in the cube are added.
+					// eg. additive processing of grayscale values 100% Alpha = 3%+5%+15%+30%+7%+40%  
                     if (col.a > 1.0f)
                         break;
                 }
@@ -216,6 +259,7 @@
                 else
                     output.depth = 0;
 #endif
+				//Output
                 return output;
             }
 
@@ -244,6 +288,7 @@
 #endif
 
                     const float density = getDensity(currPos);
+					//Maximumintensity!
                     if (density > _MinVal && density < _MaxVal)
                         maxDensity = max(density, maxDensity);
                 }
@@ -262,6 +307,8 @@
             frag_out frag_surf(frag_in i)
             {
 #define NUM_STEPS 1024
+
+				//Greatest Distance in a Box = SQRT(3)
                 const float stepSize = 1.732f/*greatest distance in box*/ / NUM_STEPS;
 
                 float3 rayStartPos = i.vertexLocal + float3(0.5f, 0.5f, 0.5f);
@@ -290,6 +337,8 @@
                     const float density = getDensity(currPos);
                     if (density > _MinVal && density < _MaxVal)
                     {
+
+						//Calculate surfaces
                         float3 normal = normalize(getGradient(currPos));
                         col = getTF1DColour(density);
                         col.rgb = calculateLighting(col.rgb, normal, -rayDir, -rayDir, 0.15);

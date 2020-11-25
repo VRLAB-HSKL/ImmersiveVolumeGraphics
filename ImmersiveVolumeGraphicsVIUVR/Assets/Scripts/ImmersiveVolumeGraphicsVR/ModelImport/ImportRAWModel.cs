@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityVolumeRendering;
 using ImmersiveVolumeGraphics.ModelEdit;
 using ImmersiveVolumeGraphics.ModelImport;
-using JetBrains.Annotations;
+
 
 /// <summary>
 /// Main Namespace for the Immersive Volume Graphics Applikation

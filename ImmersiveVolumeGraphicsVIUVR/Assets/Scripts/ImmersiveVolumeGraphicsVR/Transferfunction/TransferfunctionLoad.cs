@@ -59,7 +59,7 @@ namespace ImmersiveVolumeGraphics {
             public void load() {
 
                 //Path in the Project for the Transferfunctions
-                FilePath = Application.dataPath + "/TransferFunctions/" + dropdown.options[dropdown.value].text + ".tf";
+                FilePath = Application.dataPath + "/StreamingAssets/TransferFunctions/" + dropdown.options[dropdown.value].text + ".tf";
 
 
 

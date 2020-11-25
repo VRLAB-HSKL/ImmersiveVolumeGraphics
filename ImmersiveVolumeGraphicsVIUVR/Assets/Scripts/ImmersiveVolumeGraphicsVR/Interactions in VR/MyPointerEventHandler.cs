@@ -48,7 +48,7 @@ namespace TestScripts {
                 Debug.Log("Trigger betätigt");
                 //Testtexture
                 // testtex = new Texture2D(10, 10); 
-                testtex = new Texture2D(256, 256);
+                testtex = new Texture2D(64, 64);
 
                 Debug.Log(HitMarker.transform.position.x + "      " + HitMarker.transform.position.y);
                 Debug.Log(this.transform.localPosition);

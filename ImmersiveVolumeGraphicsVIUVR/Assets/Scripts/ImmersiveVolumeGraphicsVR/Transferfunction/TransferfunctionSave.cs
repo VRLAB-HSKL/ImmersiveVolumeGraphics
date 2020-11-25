@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityVolumeRendering;
+using ImmersiveVolumeGraphics.ModelImport;
 namespace ImmersiveVolumeGraphics
 {
     namespace Transferfunctions
@@ -9,17 +10,27 @@ namespace ImmersiveVolumeGraphics
 
         public class TransferfunctionSave : MonoBehaviour
         {
-            // Start is called before the first frame update
-            void Start()
+        
+            public void SaveTransferFunction()
             {
+              
+                
+                VolumeRenderedObject volumeObject = GameObject.FindObjectOfType<VolumeRenderedObject>();
+                if (volumeObject != null)
+                {
+                    string filePath = Application.dataPath + "/StreamingAssets/TransferFunctions/" + LoadModelPath.Path + ".tf";
+
+                    TransferFunction newTF = volumeObject.transferFunction;
+                    if (filePath != "")
+                        TransferFunctionDatabase.SaveTransferFunction(newTF, filePath);
+
+                }
+
 
             }
 
-            // Update is called once per frame
-            void Update()
-            {
 
-            }
+
         }
     }
 }

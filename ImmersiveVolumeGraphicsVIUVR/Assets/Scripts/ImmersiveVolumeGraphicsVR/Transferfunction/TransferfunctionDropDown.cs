@@ -20,7 +20,14 @@ namespace ImmersiveVolumeGraphics {
             void Start()
             {
 
-                string path = "" + Application.dataPath + "/TransferFunctions/";
+                AddDropDownList();
+
+
+            }
+
+            public  void  AddDropDownList()
+            {
+                string path = "" + Application.dataPath + "/StreamingAssets/TransferFunctions/";
 
 
                 //Creates a new DropDownlist
@@ -29,35 +36,39 @@ namespace ImmersiveVolumeGraphics {
                 //Length of the whole path
                 int pathlength = path.Length;
 
-                //Lists all files 
-                foreach (string file in System.IO.Directory.GetFiles(path))
-                {
+                //Reset
+                DropDown.ClearOptions();
+                
 
-                    //Lists all Transferfunctions
-                    if (file.EndsWith(".tf"))
+                    //Lists all files 
+                    foreach (string file in System.IO.Directory.GetFiles(path))
                     {
 
-                        // removes the path and just leaves "Name.tf" 
-                        string file2 = file.Remove(0, pathlength);
-                        file2 = file2.Remove(file2.Length - 3, 3);
-                        //Adds the Names of the Transferfunctions to the DropDownLists 
-                        DropDownOptions.Add(file2);
+                        //Lists all Transferfunctions
+                        if (file.EndsWith(".tf"))
+                        {
+
+                            // removes the path and just leaves "Name.tf" 
+                            string file2 = file.Remove(0, pathlength);
+                            file2 = file2.Remove(file2.Length - 3, 3);
+                            //Adds the Names of the Transferfunctions to the DropDownLists 
+                            DropDownOptions.Add(file2);
+
+                        }
+
+
+
+
 
                     }
 
+                    // Adds the List to the DropDown as available options
 
-
-
-
-                }
-
-                // Adds the List to the DropDown as available options
-
-                DropDown.AddOptions(DropDownOptions);
-
-
+                    DropDown.AddOptions(DropDownOptions);
+               
 
             }
+
 
            
 
