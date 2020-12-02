@@ -11,6 +11,17 @@ namespace ImmersiveVolumeGraphics {
         /// <summary>
         /// Adding the Modelnames to the Dropdownobject 
         /// </summary>
+        /// 
+        /// <seealso>
+        /// <ul>
+        /// <li>Sources:</li>
+        /// <li> [1] https://answers.unity.com/questions/16433/get-list-of-all-files-in-a-directory.html </li>
+        /// <li> [2] https://forum.unity.com/threads/remove-text-from-string.57431/ </li>
+        /// <li> [3] https://docs.unity3d.com/Manual/StreamingAssets.html </li>
+        /// </ul>
+        /// </seealso>
+
+
         public class AddDropDownItems : MonoBehaviour
         {
 

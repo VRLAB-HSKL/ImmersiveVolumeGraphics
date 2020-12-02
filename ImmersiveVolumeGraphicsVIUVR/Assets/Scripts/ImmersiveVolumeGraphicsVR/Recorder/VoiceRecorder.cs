@@ -15,6 +15,15 @@ namespace ImmersiveVolumeGraphics
     /// <summary>
     /// This namespace containts all components for the VoiceRecorder aka Recorder 
     /// </summary>
+
+    /// <seealso>
+    /// <ul>
+    /// <li>Sources:</li>
+    /// <li> [1] http://gyanendushekhar.com/2016/10/11/speech-recognition-in-unity3d-windows-speech-api/ </li>
+    /// <li> [2] https://docs.microsoft.com/de-de/windows/mixed-reality/voice-input-in-unity </li>
+    /// <li> [3] https://stackoverflow.com/questions/47471562/save-and-load-audio </li>
+    /// </ul>
+    /// </seealso>
     namespace Recorder
     {
         public class VoiceRecorder: MonoBehaviour

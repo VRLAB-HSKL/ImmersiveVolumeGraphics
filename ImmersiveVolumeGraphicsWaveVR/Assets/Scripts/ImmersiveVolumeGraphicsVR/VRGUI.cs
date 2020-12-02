@@ -5,6 +5,15 @@ using UnityEngine.UI;
 
 public class VRGUI : MonoBehaviour
 {
+
+
+    /// <seealso>
+    /// <ul>
+    /// <li>Sources:</li>
+    /// <li> [1] https://answers.unity.com/questions/1189486/how-to-see-fps-frames-per-second.html </li>
+    /// </ul>
+    /// </seealso>
+
     public Text fpsText;
     public float deltaTime;
 

@@ -27,14 +27,16 @@ https://stackoverflow.com/questions/42597501/unity-scripts-edited-in-visual-stud
 https://answers.unity.com/questions/1189486/how-to-see-fps-frames-per-second.html
 https://docs.unity3d.com/2018.3/Documentation/ScriptReference/UI.Button-onClick.html
 
-
-
-
-
+https://docs.unity3d.com/Packages/com.unity.textmeshpro@1.3/api/TMPro.TMP_Text.html
+https://answers.unity.com/questions/207238/why-does-my-textmesh-dissappear-from-certain-camer.html
 
 https://answers.unity.com/questions/16433/get-list-of-all-files-in-a-directory.html
-https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity5.html
 https://forum.unity.com/threads/remove-text-from-string.57431/
+
+
+//Optimization
+https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity5.html
+
 
 
 FindObject
@@ -70,9 +72,9 @@ https://github.com/Anker13/SequenceLearning/blob/master/Assets/Scripts/IO/CSVWri
 DICOM
 https://github.com/pydicom/pydicom
 https://pydicom.github.io/pydicom/stable/tutorials/sr_basics.html
+https://pydicom.github.io/pydicom/stable/old/base_element.html
 https://pydicom.github.io/pydicom/stable/tutorials/dataset_basics.html#reading
 https://pydicom.github.io/pydicom/stable/tutorials/dataset_basics.html#writing
-https://www.w3schools.com/python/python_file_write.asp
 https://stackoverflow.com/questions/5214578/print-string-to-text-file
 http://dicom.nema.org/medical/dicom/current/output/chtml/part06/chapter_6.html
 http://dicom.nema.org/medical/dicom/current/output/chtml/part06/chapter_1.html
@@ -131,7 +133,6 @@ Moreover, for high-resolution displays, the available bandwidth on the link betw
 
 
 //Rotate two objects simulatanouesly
-
 https://www.reddit.com/r/Unity3D/comments/duf38l/rotate_two_objects_simultaneously/
 
 //Starting a  Batchfile in Unity 
@@ -146,8 +147,8 @@ https://stackoverflow.com/questions/47914980/how-to-access-anaconda-command-prom
 https://stackoverflow.com/questions/42602024/windows-shortcut-to-run-python-script-in-anaconda-command-prompt
 
 
-//python 
-
+//Python 
+https://www.w3schools.com/python/python_file_write.asp
 Strings
 
 

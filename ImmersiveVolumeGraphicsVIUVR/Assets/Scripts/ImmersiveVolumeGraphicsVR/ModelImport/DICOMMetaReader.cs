@@ -5,17 +5,26 @@ using System.IO;
 using System;
 using UnityEngine.UI;
 using UnityVolumeRendering;
-
-
+using TMPro;
 
 namespace ImmersiveVolumeGraphics {
 
 
     namespace ModelImport
-    { 
+    {
         /// <summary>
         ///This class reads DICOM-Metadata from a Textfile in and stores them in Variables 
         /// </summary>
+
+
+        /// <seealso>
+        /// <ul>
+        /// <li>Sources:</li>
+        /// <li> [1] http://dicom.nema.org/medical/dicom/current/output/chtml/part06/chapter_1.html </li>
+        /// <li> [2] http://dicom.nema.org/medical/dicom/current/output/chtml/part06/chapter_6.html </li>
+        /// </ul>
+        /// </seealso>
+
         public class DICOMMetaReader : MonoBehaviour
         {
             /// <summary>
@@ -27,7 +36,7 @@ namespace ImmersiveVolumeGraphics {
             /// <summary>
             /// Textfield which shows the metainformation to the user 
             /// </summary>
-            public static Text MetaInformationText;
+            public static TMP_Text MetaInformationText;
           
 
            
@@ -60,7 +69,7 @@ namespace ImmersiveVolumeGraphics {
             void Start()
             {
                 // Finding the text in the scene 
-                MetaInformationText = GameObject.Find("MetaInfoLabel").GetComponent<Text>();
+                MetaInformationText = GameObject.Find("MetaInfoLabel").GetComponent<TMP_Text>();
 
             }
 
@@ -457,7 +466,7 @@ namespace ImmersiveVolumeGraphics {
                         MetaInformationText.text += metaInformation[28] + pixelSpacingY + " mm" + "\n"; ;
                         MetaInformationText.text += metaInformation[30] + sliceThickness + " mm" + "\n"; ;
 
-
+                        MetaInformationText.fontSize = 70;
                     }
 
                 }
@@ -534,6 +543,14 @@ namespace ImmersiveVolumeGraphics {
             /// </remarks>
             /// <param name="filePath"></param>
             /// <returns>isValid</returns>
+
+            /// <seealso>
+            /// <ul>
+            /// <li>Sources:</li>
+            /// <li> [1] https://stackoverflow.com/questions/10260353/working-with-streamreader-and-text-files </li>
+            /// </ul>
+            /// </seealso>
+
             private static bool IsFileValid(string filePath)
             {
                 bool IsValid = true;

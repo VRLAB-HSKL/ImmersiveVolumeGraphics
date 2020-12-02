@@ -9,6 +9,15 @@ namespace ImmersiveVolumeGraphics {
         /// <summary>
         /// Rotate an GameObject in relation to another GameObject, this script is needed for the RotatableTable
         /// </summary>
+        /// 
+
+
+        /// <seealso>
+        /// <ul>
+        /// <li>Sources:</li>
+        /// <li> [1] https://www.reddit.com/r/Unity3D/comments/duf38l/rotate_two_objects_simultaneously/f7518gl/</li>
+        /// </ul>
+        /// </seealso>
         public class VRRotateWithObject : MonoBehaviour
         {
             /// <summary>

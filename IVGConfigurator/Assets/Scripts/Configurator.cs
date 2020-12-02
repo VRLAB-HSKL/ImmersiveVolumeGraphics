@@ -113,13 +113,14 @@ using System.Runtime.CompilerServices;
             StreamWriter ModelWriter = new StreamWriter("DICOMTORAW8BIT.ijm");
 
 
-            // You have to keep a space between the name and the keyword sort otherwise the system will search for the filename "sort" and it will not work
-            ModelWriter.WriteLine("run(\"Image Sequence...\", \"open=INPUT\\" + "\u005C" + " " + "sort\");");
-            ModelWriter.WriteLine("run(\"8-bit\");");
-            ModelWriter.WriteLine("saveAs(\"Raw Data\", \"OUTPUT\\" + "\u005C" + FileNameInput.text + ".raw\");");
+        // You have to keep a space between the name and the keyword sort otherwise the system will search for the filename "sort" and it will not work
+        // Source: https://imagej.nih.gov/ij/developer/macro/macros.html
+        ModelWriter.WriteLine("run(\"Image Sequence...\", \"open=INPUT\\" + "\u005C" + " " + "sort\");");
+        ModelWriter.WriteLine("run(\"8-bit\");");
+        ModelWriter.WriteLine("saveAs(\"Raw Data\", \"OUTPUT\\" + "\u005C" + FileNameInput.text + ".raw\");");
 
-            ModelWriter.Flush();
-            ModelWriter.Close();
+        ModelWriter.Flush();
+        ModelWriter.Close();
 
 
 
@@ -235,10 +236,11 @@ using System.Runtime.CompilerServices;
 
             }
 
-            //Reading and Exporting Metadata from DICOM-File
-            AnacondaWriter.WriteLine("CALL python ReadDICOMMetaData.py");
-            //Using ImageJ to load in the DICOM-Files and Exporting the Model as Raw-File
-            AnacondaWriter.WriteLine("CALL ImageJ-win64.exe --headless -macro DICOMTORAW8BIT.ijm");
+        //Reading and Exporting Metadata from DICOM-File
+        AnacondaWriter.WriteLine("CALL python ReadDICOMMetaData.py");
+        //Using ImageJ to load in the DICOM-Files and Exporting the Model as Raw-File
+        //Source:"https://imagej.net/Headless" , "https://imagej.net/Scripting_Headless", https://forum.image.sc/t/running-plugins-macros-from-the-command-line/363/6
+        AnacondaWriter.WriteLine("CALL ImageJ-win64.exe --headless -macro DICOMTORAW8BIT.ijm");
             // AnacondaWriter.WriteLine("echo Exported successfully");
 
 

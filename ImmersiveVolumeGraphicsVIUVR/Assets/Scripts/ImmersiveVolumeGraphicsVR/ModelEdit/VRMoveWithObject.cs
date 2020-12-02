@@ -4,12 +4,26 @@ using UnityEditor;
 using UnityEngine;
 
 
-namespace ImmersiveVolumeGraphics {
+namespace ImmersiveVolumeGraphics
+{
+
+
+  
+
     namespace ModelEdit
     {
         /// <summary>
-        /// Move an GameObject in relation to another GameObject
+        /// Move an GameObject in relation to another GameObject , similar to VRRotateWithObject
         /// </summary>
+        /// 
+
+        /// <seealso>
+        /// <ul>
+        /// <li>VRRotateWithObject</li>
+        /// </ul>
+        /// </seealso>
+
+
         public class VRMoveWithObject : MonoBehaviour
         {
             /// <summary>

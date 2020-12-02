@@ -11,12 +11,24 @@ namespace ImmersiveVolumeGraphics {
         public class TransferfunctionDropDown : MonoBehaviour
         {
 
-
+            /// <summary>
+            /// The DropdownMenu-Element
+            /// </summary>
             public Dropdown DropDown;
 
 
 
-            // Start is called before the first frame update
+            /// <summary>
+            /// Adds the DropDownList on Start
+            /// </summary>
+            /// <remarks>
+            /// <ul>
+            /// <li>Adds the DropDownList on Start</li>
+            /// </ul> 
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>void</returns>
+
             void Start()
             {
 
@@ -25,7 +37,21 @@ namespace ImmersiveVolumeGraphics {
 
             }
 
-            public  void  AddDropDownList()
+            /// <summary>
+            /// Adds the DropDownList on Start
+            /// </summary>
+            /// <remarks>
+            /// <ul>
+            /// <li>Creates a new DropDownlist</li>
+            /// <li>Creates a new DropDownlist</li>
+            /// <li>Lists all Transferfunctionfiles</li>
+            /// <li>Add the list of available transferfunctions to the DropDown</li>
+            /// </ul> 
+            /// </remarks>
+            /// <param name="void"></param>
+            /// <returns>void</returns>
+
+            public void  AddDropDownList()
             {
                 string path = "" + Application.dataPath + "/StreamingAssets/TransferFunctions/";
 

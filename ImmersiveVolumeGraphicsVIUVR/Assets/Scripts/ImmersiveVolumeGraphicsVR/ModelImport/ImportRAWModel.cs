@@ -32,6 +32,16 @@ namespace ImmersiveVolumeGraphics
         /// This Class handles the Import of a 3D-RAW-Model
         /// </summary>
 
+
+        /// <seealso>
+        /// <ul>
+        /// <li>Sources:</li>
+        /// <li> [1] https://github.com/mlavik1/UnityVolumeRendering </li>
+        /// <li> [2] UnityVolumeRendering </li>
+        /// </ul>
+        /// </seealso>
+
+
         public class ImportRAWModel : MonoBehaviour
         {
 
@@ -552,6 +562,15 @@ namespace ImmersiveVolumeGraphics
             /// </remarks>
             /// <param name="void"></param>
             /// <returns>void</returns>
+            /// 
+
+            /// <seealso>
+            /// <ul>
+            /// <li>Sources:</li>
+            /// <li> [1] UnityVolumeRendering</li>
+            /// </ul>
+            /// </seealso>
+
 
             private static void DespawnAllDatasets()
             {

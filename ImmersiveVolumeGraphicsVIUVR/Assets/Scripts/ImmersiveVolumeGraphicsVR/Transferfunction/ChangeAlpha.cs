@@ -8,8 +8,18 @@ namespace ImmersiveVolumeGraphics
 {
     namespace Transferfunctions
 {
+        /// <summary>
+        /// This class changes the AlphaControlPoints of the Transferfunction
+        /// </summary>
 
-       
+
+        /// <seealso>
+        /// <ul>
+        /// <li>Sources:</li>
+        /// <li> [1] TransferFunctionEditorWindow </li>
+        /// </ul>
+        /// </seealso>
+
 
         public class ChangeAlpha : MonoBehaviour
         {
@@ -17,29 +27,45 @@ namespace ImmersiveVolumeGraphics
 
 
 
+            /// <summary>
+            /// This is the VolumeObject (the 3D Model)
+            /// </summary>
             static VolumeRenderedObject volumeObject;
+
+            /// <summary>
+            /// This is the transferfunction of the VolumeObject
+            /// </summary>
             private static TransferFunction transferfunction = null;
-            public  Slider AlphaSlider;
+
+            /// <summary>
+            /// This is the slider used to change the alphavalue
+            /// </summary>
+            public Slider AlphaSlider;
+
+            /// <summary>
+            /// This represents an alphapoint of the transferfunction
+            /// </summary>
             private TFAlphaControlPoint alphaPoint = new TFAlphaControlPoint();
+
+            /// <summary>
+            /// This is the material used for the transferfunction
+            /// </summary>
             private static Material tfGUIMat = null;
 
-
-
-
-            // Start is called before the first frame update
-            void Start()
-            {
-
-            }
-
-            // Update is called once per frame
-            void Update()
-            {
-
-            }
-
-
-            public  void ChangeAlphaValue()
+            /// <summary>
+            /// Imports a 3D-RAW-Model into the scene by using voice commands 
+            /// </summary>
+            /// <remarks>
+            /// 
+            /// <ul>
+            /// <li>Find the VolumeObject </li>
+            /// <li>Load the TransferfunctionMaterial</li>
+            /// <li>Set the alphapointsvalue according to the slider´s value</li>
+            /// <li>Set the datavalue according to the current AlphaControlPoint´s datavalue</li>
+            /// <li>Swap the oldpoint with the new AlphaControlPoint</li>
+            /// <li>Update the Materials</li>
+            /// </ul>
+            public void ChangeAlphaValue()
             {
 
 

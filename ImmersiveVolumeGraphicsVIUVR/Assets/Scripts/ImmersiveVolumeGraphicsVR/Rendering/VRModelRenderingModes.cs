@@ -25,6 +25,14 @@ namespace ImmersiveVolumeGraphics
         /// </ul> 
         /// </remarks>
 
+        /// <seealso>
+        /// <ul>
+        /// <li>Sources:</li>
+        /// <li> [1] RenderMode </li>
+        /// </ul>
+        /// </seealso>
+
+
         public class VRModelRenderingModes : MonoBehaviour
         {
             /// <summary>

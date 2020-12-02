@@ -34,6 +34,14 @@ namespace ImmersiveVolumeGraphics
             /// </remarks>
             /// <param name="void"></param>
             /// <returns>void</returns>
+            /// 
+
+            /// <seealso>
+            /// <ul>
+            /// <li>Sources:</li>
+            /// <li>ValueRangeEditorWindow</li>
+            /// </ul>
+            /// </seealso>
             public void EditMinVisiblity()
             {
 
