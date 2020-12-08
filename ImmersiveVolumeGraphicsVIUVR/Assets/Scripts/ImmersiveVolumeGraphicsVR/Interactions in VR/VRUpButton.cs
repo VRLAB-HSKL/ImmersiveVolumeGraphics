@@ -11,8 +11,10 @@ namespace ImmersiveVolumeGraphics
     {
 
         /// <summary>
-        /// This class handles Logic of the Upbutton
+        /// This class handles Logic of the Upbutton 
         /// </summary>
+        /// 
+
         public class VRUpButton : MonoBehaviour, IColliderEventPressEnterHandler
             , IColliderEventPressExitHandler
         {

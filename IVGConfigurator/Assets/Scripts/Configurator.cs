@@ -12,32 +12,79 @@ using System.Runtime.CompilerServices;
 
 
 
+    /// <summary>
+    /// The Input and Outputpath 
+    /// </summary>
+    string inputPath, outputPath;
+    /// <summary>
+    /// Width, Height and Depth of the Model
+    /// </summary>
+    int width = 512, height = 512, depth = 245;
+    /// <summary>
+    /// Strings for the Input of the Width, Height and Depth of the Model
+    /// </summary>
+    string widthstring = "3"; string heightstring = "4"; string depthstring = "3";
+    /// <summary>
+    /// The Path of the Anaconda activate script
+    /// </summary>
+    string anacondafilepath = "";
+    /// <summary>
+    /// The GameObject that contains the  WidthInput of the Model
+    /// </summary>
+    public GameObject widthinputfield;
+    /// <summary>
+    /// The GameObject that contains the HeightInput of the Model
+    /// </summary>
+    public GameObject heightinputfield;
+    /// <summary>
+    ///  The GameObject that contains the DepthInput of the Model
+    /// </summary>
+    public GameObject depthinputfield;
+    /// <summary>
+    /// The GameObject that contains the FileNameInput of the Model
+    /// </summary>
+    public GameObject fileNameinputfield;
+    /// <summary>
+    /// The GameObject that contains the AnacondaFilePathInput of the Model
+    /// </summary>
+    public GameObject anacondafilepathinputfield;
 
-        string inputPath, outputPath;
-        int width = 512, height = 512, depth = 245;
-        string widthstring = "3"; string heightstring = "4"; string depthstring = "3";
-        //Object asset;
+    /// <summary>
+    /// The Inputfield for the Depth of the Model
+    /// </summary>
+    private InputField widthInput;
+    /// <summary>
+    /// The Inputfield for the Depth of the Model
+    /// </summary>
+    private InputField heightInput;
+    /// <summary>
+    /// The Inputfield for the Depth of the Model
+    /// </summary>
+    private InputField depthInput;
+    /// <summary>
+    /// The Inputfield for the Depth of the Model
+    /// </summary>
+    private InputField FileNameInput;
+    /// <summary>
+    /// The Inputfield for the AnacondafilePath of the Model
+    /// </summary>
+    private InputField AnacondafilePathInput;
 
-        public GameObject widthinputfield;
-        public GameObject heightinputfield;
-        public GameObject depthinputfield;
-        public GameObject fileNameinputfield;
+    /// <summary>
+    /// The Text that shows Userinformation
+    /// </summary>
+    public Text warningText;
+    /// <summary>
+    /// The Exportbutton
+    /// </summary>
+    public Button exportbtn;
 
-
-
-        private InputField widthInput;
-        private InputField heightInput;
-        private InputField depthInput;
-        private InputField FileNameInput;
-
-        public Text warningText;
-
-        static string data;
-        public static Color[] colors;
-
-
-        public Button exportbtn;
-        private void Start()
+    /// <summary>
+    /// Initialization: Find the Textfileds and set the WarningText
+    /// </summary>
+    /// <param name="void"></param>
+    /// <returns>void</returns>
+    private void Start()
         {
 
 
@@ -48,6 +95,7 @@ using System.Runtime.CompilerServices;
             heightInput = heightinputfield.GetComponent<InputField>();
             depthInput = depthinputfield.GetComponent<InputField>();
             FileNameInput = fileNameinputfield.GetComponent<InputField>();
+            AnacondafilePathInput= anacondafilepathinputfield.GetComponent<InputField>();
             FileNameInput.text = "Modelname";
 
         
@@ -55,7 +103,21 @@ using System.Runtime.CompilerServices;
         warningText.text = "Please configure your Model";
 
         }
-        private void Update()
+
+    /// <summary>
+    /// Validate the Textfields that only Intergers can be used, change the AnacondaFilePath
+    /// </summary>
+    /// <param name="void"></param>
+    /// <returns>void</returns>
+
+    /// <seealso>
+    /// <ul>
+    /// <li>Sources:</li>
+    /// <li> [1] https://answers.unity.com/questions/794388/making-a-input-field-only-accepting-numbers.html </li>
+    /// </ul>
+    /// </seealso>
+
+    private void Update()
         {
 
 
@@ -80,12 +142,34 @@ using System.Runtime.CompilerServices;
             if (depthInput.text != "")
                 depth = int.Parse(depthInput.text);
 
+            anacondafilepath = AnacondafilePathInput.text;
+
+        if (anacondafilepath =="")
+        {
+            anacondafilepath = "C:\\Users\\Marco\\anaconda3\\Scripts\\activate.bat";
+
         }
 
 
 
 
-        public void StartPipeline()
+        }
+
+
+
+    /// <summary>
+    /// This Method handles the complete pipleline
+    /// </summary>
+    /// <remarks>
+    /// Start the pipeline and give information to the user
+    /// <ul>
+    /// <li>After the user did his inputs, save the configuration</li>
+    /// <li>Use the Export-Method to execute the Export.bat</li>
+    /// </ul> 
+    /// </remarks>
+    /// <param name="void"></param>
+    /// <returns>void</returns>
+    public void StartPipeline()
         {
 
         warningText.color = Color.green;
@@ -105,7 +189,39 @@ using System.Runtime.CompilerServices;
 
 
 
-        public void SaveConfig()
+
+    /// <summary>
+    /// This Method handles the savingprocess of the textinputs and writes them into seperate files 
+    /// </summary>
+    /// <remarks>
+    /// 
+    /// <ul>
+    /// <li>DICOMTORAW8BIT.ijm: use ImageJ Macros to load in the data and generate the Raw-Model </li>
+    /// <li>ReadDICOMMetaData.py: Use the pydicom-package to load metainformation of the DICOM-Files and save them in a Textfile </li>
+    /// <li>FileNameInput.ini: This file stores information about the model´s height, width , number of slices , dataformat e.g 8 Bit for Unity  </li>+
+    /// <li>Export.bat: This file does the exportingprocess  </li>
+    /// <li>1. Activate the Anaconda VM </li>
+    /// <li>2. Decompress the DICOM-Files </li>
+    /// <li>3. Read the  DICOM-Metainformation </li>
+    /// <li>4. Use the converted DICOM-Files and export the Model </li>
+    /// </ul> 
+    /// </remarks>
+    /// <param name="void"></param>
+    /// <returns>void</returns>
+    /// 
+
+
+    /// <seealso>
+    /// <ul>
+    /// <li>Sources:</li>
+    /// <li> [1] https://imagej.nih.gov/ij/developer/macro/macros.html </li>
+    /// <li> [2] https://imagej.net/Headless </li>
+    /// <li> [3] https://imagej.net/Scripting_Headless </li>
+    /// <li> [4] https://forum.image.sc/t/running-plugins-macros-from-the-command-line/363/6 </li>
+    /// </ul>
+    /// </seealso>
+
+    public void SaveConfig()
         {
 
             //-----------------------------------------------------------------------------------------------
@@ -127,7 +243,7 @@ using System.Runtime.CompilerServices;
             //--------------------------------------------------------------
             //DicomMetaData
 
-            StreamWriter MetaInfoWriter = new StreamWriter("ReadDICOMMetaData.py");
+       StreamWriter MetaInfoWriter = new StreamWriter("ReadDICOMMetaData.py");
 
         MetaInfoWriter.WriteLine("from pydicom import dcmread");
         MetaInfoWriter.WriteLine("path = 'INPUT/IM-0001-0001.dcm'");
@@ -176,7 +292,7 @@ using System.Runtime.CompilerServices;
 
 
 
-        MetaInfoWriter.Flush();
+            MetaInfoWriter.Flush();
             MetaInfoWriter.Close();
 
         //--------------------------------------------------------------
@@ -198,12 +314,14 @@ using System.Runtime.CompilerServices;
 
             //Decompression
             StreamWriter AnacondaWriter = new StreamWriter("Export.bat");
-            //Execute the Pythoncode in the premade Anaconda Environment
-            AnacondaWriter.WriteLine("CALL D:\\Anaconda\\Scripts\\activate.bat py36");
+        //Execute the Pythoncode in the premade Anaconda Environment
 
-            //  AnacondaWriter.WriteLine("CALL decompress.bat");
+        //AnacondaWriter.WriteLine("CALL D:\\Anaconda\\Scripts\\activate.bat py36");
+        // C:\\Users\\Marco\\anaconda3\\Scripts\\activate.bat
+        AnacondaWriter.WriteLine("CALL "+anacondafilepath+" py36");
+        //  AnacondaWriter.WriteLine("CALL decompress.bat");
 
-            for (int i = 1; i <= depth; i++)
+        for (int i = 1; i <= depth; i++)
             {
                 if (i >= 1 && i < 10)
 
@@ -253,7 +371,24 @@ using System.Runtime.CompilerServices;
         }
 
 
-        public void Export()
+
+    /// <summary>
+    /// Executes the Export.bat
+    /// </summary>
+    /// <remarks>
+    /// Exporting
+    /// </remarks>
+    /// <param name="void"></param>
+    /// <returns>void</returns>
+
+    /// <seealso>
+    /// <ul>
+    /// <li>Sources:</li>
+    /// <li> [1] https://answers.unity.com/questions/1203577/how-to-execute-an-external-batch-file-with-argumen.html </li>
+    /// <li> [2] https://forum.unity.com/threads/running-external-exe-from-unity.541270/ </li>
+    /// </ul>
+    /// </seealso>
+    public void Export()
         {
 
 

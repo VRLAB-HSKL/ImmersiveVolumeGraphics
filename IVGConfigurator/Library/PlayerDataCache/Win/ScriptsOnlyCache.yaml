@@ -386,7 +386,7 @@ ScriptsOnlyBuild:
     className: BeforeAfterTestCommandState
   - hash:
       serializedVersion: 2
-      Hash: 7b76b3f52ef14e7c7beb274ad41e56cd
+      Hash: 32bba2d1e0035a367e5c41208447dfcd
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Configurator
@@ -501,4 +501,4 @@ ScriptsOnlyBuild:
   platform: 5
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/Noll/Desktop/IVGConfiguratorBuild/IVGConfigurator.exe
+  playerPath: C:/Users/Marco/Desktop/IVGConfigurator/IVGConfigurator.exe

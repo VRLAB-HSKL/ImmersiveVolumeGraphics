@@ -33,4 +33,4 @@ institutioninfo=institutionname+sn+institutionaddress+sn+physicianname+sn+studyd
 modalityinfo=modality+sn+manufacturer+sn
 imageinfo=studyid+sn+studydate+sn+seriesnumber+sn+pixelspacingx+sn+pixelspacingy+sn+slicethickness+sn+columns+sn+rows+sn+patientposition+sn+imageorientationpatientrowx+sn+imageorientationpatientrowy+sn+imageorientationpatientrowz+sn+imageorientationpatientcolumnx+sn+imageorientationpatientcolumny+sn+imageorientationpatientcolumnz
 output = patientinfo + institutioninfo + modalityinfo + imageinfo
-print(output, file = open('OUTPUT/VisibleHumanMale.txt', 'w'))
+print(output, file = open('OUTPUT/IVGTestModel.txt', 'w'))

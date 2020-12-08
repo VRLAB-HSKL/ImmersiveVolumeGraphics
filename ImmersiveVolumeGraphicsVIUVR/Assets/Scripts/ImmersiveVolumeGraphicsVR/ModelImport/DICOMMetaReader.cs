@@ -365,11 +365,17 @@ namespace ImmersiveVolumeGraphics {
             /// <li>The strings of  pixelSpacingX, pixelSpacingY and sliceThickness are converted from dot to  comma representation because of the  float parse (american vs european way of writing floats) </li>
             /// <li>Afterwards these values are parsed into floats </li>
             /// </ul>
-            
+
             /// </remarks>
             /// <param name="void"></param>
             /// <returns>void</returns>
-
+            /// <seealso>
+            /// <ul>
+            /// <li>Sources:</li>
+            /// <li> [1] http://dicom.nema.org/medical/dicom/current/output/chtml/part06/chapter_1.html </li>
+            /// <li> [2] http://dicom.nema.org/medical/dicom/current/output/chtml/part06/chapter_6.html </li>
+            /// </ul>
+            /// </seealso>
             public static void ReadDICOMMetaInformation()
             {
                 // The path to the meta information (saved as a text file) based on the model.
@@ -485,11 +491,10 @@ namespace ImmersiveVolumeGraphics {
             // Left column , name eg. : Slice Thickness 
 
 
+ 
+
 
             // Getter-Method 
-
-           
-
             /// <summary>
             /// Getter-Method for SliceThickness
             /// </summary>
