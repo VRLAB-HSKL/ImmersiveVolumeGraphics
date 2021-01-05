@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using ImmersiveVolumeGraphics.ModelImport;
 using UnityVolumeRendering;
+using TMPro;
 
 namespace ImmersiveVolumeGraphics {
 
@@ -19,7 +20,7 @@ namespace ImmersiveVolumeGraphics {
             /// <summary>
             /// The DropDown-Object
             /// </summary>
-            public Dropdown DropDown;
+            public TMP_Dropdown DropDown;
 
             /// <summary>
             /// The model´s path
@@ -47,6 +48,8 @@ namespace ImmersiveVolumeGraphics {
                 //
 
                 Path = DropDown.options[DropDown.value].text;
+
+
                 //Reads the MetaInformation in 
                 DICOMMetaReader.ReadDICOMMetaInformation();
                 Debug.Log("Path + MetaInfo loaded");

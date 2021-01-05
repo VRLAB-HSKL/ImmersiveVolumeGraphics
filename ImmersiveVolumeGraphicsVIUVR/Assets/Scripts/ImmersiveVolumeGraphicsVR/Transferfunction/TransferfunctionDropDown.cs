@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +15,7 @@ namespace ImmersiveVolumeGraphics {
             /// <summary>
             /// The DropdownMenu-Element
             /// </summary>
-            public Dropdown DropDown;
+            public TMP_Dropdown DropDown;
 
 
 

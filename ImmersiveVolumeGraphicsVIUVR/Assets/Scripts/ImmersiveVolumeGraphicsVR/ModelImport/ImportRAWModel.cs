@@ -129,14 +129,14 @@ namespace ImmersiveVolumeGraphics
             /// <returns>void</returns>
             public static void OpenRAWDataset()
             {
-                
+
                 //Resets for Up+DownButton 
                 GameObject consoleBase = GameObject.Find("ConsoleBase");
                 GameObject regulator1 = GameObject.Find("Regulator");
                 GameObject regulator2 = GameObject.Find("Regulator (1)");
                 GameObject regulator3 = GameObject.Find("Regulator (2)");
 
-                consoleBase.transform.localPosition = new Vector3(-0.01464599f, -0.399f, 0.3748505f);
+                consoleBase.transform.localPosition = new Vector3(0, -0.4f, 0);
 
                 regulator1.transform.localPosition = new Vector3(-0.620646f, 0.004025102f, 0.4748505f);
                 regulator2.transform.localPosition = new Vector3(0.03635401f, -0.002974927f, 0.9838505f);
@@ -185,7 +185,7 @@ namespace ImmersiveVolumeGraphics
                         VolumeObjectFactory.CreateObject(dataset);
                         VolumeRenderedObject volobj = GameObject.FindObjectOfType<VolumeRenderedObject>();
                         // Sets the model into the right place of the scene 
-                        volobj.gameObject.transform.position = new Vector3(0, 1.62f, 0);
+                        volobj.gameObject.transform.position = new Vector3(0, 1.62f, -0.1f);
 
                         // Rotates the object facing us
                         Vector3 rotation = new Vector3(-90, 90, 0);
@@ -234,7 +234,6 @@ namespace ImmersiveVolumeGraphics
 
 
                         rotTable.AddComponent<VRRotateWithObject>().initObj(rotTable.name, volobj.name, "y");
-                        //  volobj.transform.SetParent(rotTable.transform);
 
 
 
@@ -276,15 +275,7 @@ namespace ImmersiveVolumeGraphics
                         SlicerMeshrenderer3.enabled = false;
                         ImageViewer3.GetComponent<MeshRenderer>().sharedMaterial = SlicingPlane3.GetComponent<MeshRenderer>().sharedMaterial;
 
-
-
-
-
                         // Destroy(EditSliceRenderer1.GetComponent<VRMoveWithObject>());
-
-
-
-
 
                         //EditSliceRenderer1.AddComponent<VRMoveWithObject>();
                         editSliceRenderer1.AddComponent<VRMoveWithObject>().initObj("SlicingPlane1", "EditSliceRenderer1", "z");
@@ -292,8 +283,6 @@ namespace ImmersiveVolumeGraphics
                         editSliceRenderer2.AddComponent<VRMoveWithObject>().initObj("SlicingPlane2", "EditSliceRenderer2", "x");
                         // EditSliceRenderer2.GetComponent<VRClampDirection>().start = new Vector3(0, 1.029f, -0.06f);
                         //EditSliceRenderer2.GetComponent<VRMoveWithObject>().objname2 = "EditSliceRenderer2";
-
-
 
                         //EditSliceRenderer3.AddComponent<VRMoveWithObject>().objname = "SlicingPlane3";
                         editSliceRenderer3.AddComponent<VRMoveWithObject>().initObj("SlicingPlane3", "EditSliceRenderer3", "y");

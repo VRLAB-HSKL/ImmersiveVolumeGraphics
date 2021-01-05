@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.Windows.Speech;
 using UnityVolumeRendering;
 using ImmersiveVolumeGraphics.ModelImport;
-
+using TMPro;
 
 namespace ImmersiveVolumeGraphics
 {
@@ -52,7 +52,7 @@ namespace ImmersiveVolumeGraphics
             /// <summary>
             /// Informationhint for the user in VR
             /// </summary
-            public Text RecorderLabel;
+            public TMP_Text RecorderLabel;
 
             /// <summary>
             /// List of keywords that are usued for the voice commands
@@ -161,7 +161,7 @@ namespace ImmersiveVolumeGraphics
                     {
                         //Changes the text to "Recording" in the color red to signalize that the recorded actually started
 
-                        RecorderLabel.text = "Recording";
+                        RecorderLabel.text = "recording";
                         RecorderLabel.color = Color.red;
 
                         // Stops the keyword listener
@@ -249,7 +249,7 @@ namespace ImmersiveVolumeGraphics
                     //Debuinformation
                     Debug.Log("Recording stopped ");
                     //Changes the text to "Not Recording" in the color black to signalize that the recorded actually stopped
-                    RecorderLabel.text = "Not Recording";
+                    RecorderLabel.text = "not recording";
                     RecorderLabel.color = Color.black;
 
                     //adds the current date and time to the filename

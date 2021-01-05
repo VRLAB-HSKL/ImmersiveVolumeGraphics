@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
+using TMPro;
 
 namespace ImmersiveVolumeGraphics {
     namespace ModelImport
@@ -28,7 +29,7 @@ namespace ImmersiveVolumeGraphics {
             /// <summary>
             /// The Dropdownobject 
             /// </summary>
-            public Dropdown Dropdown;
+            public TMP_Dropdown Dropdown;
             /// <summary>
             /// <ul>
             /// <li>This is the Path to the 3D-Models in the Unityfolderstructure</li>
@@ -85,6 +86,8 @@ namespace ImmersiveVolumeGraphics {
                         file2 = file2.Remove(file2.Length - 4, 4);
                         //Adds the Names of the Models to the DropDownLists 
                         dropDownOptions.Add(file2);
+
+                        
 
                     }
 

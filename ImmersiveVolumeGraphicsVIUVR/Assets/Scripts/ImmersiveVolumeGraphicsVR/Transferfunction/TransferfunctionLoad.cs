@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityVolumeRendering;
@@ -19,7 +20,7 @@ namespace ImmersiveVolumeGraphics {
             /// <summary>
             /// The DropDown-Object of the TransferfunctionMenu
             /// </summary>
-            public Dropdown dropdown;
+            public TMP_Dropdown dropdown;
             /// <summary>
             /// The Button-Object of the TransferfunctionMenu
             /// </summary>

@@ -28,18 +28,20 @@ https://answers.unity.com/questions/1189486/how-to-see-fps-frames-per-second.htm
 https://docs.unity3d.com/2018.3/Documentation/ScriptReference/UI.Button-onClick.html
 
 https://docs.unity3d.com/Packages/com.unity.textmeshpro@1.3/api/TMPro.TMP_Text.html
+https://docs.unity3d.com/Packages/com.unity.textmeshpro@2.0/api/TMPro.TMP_Dropdown.html
 https://answers.unity.com/questions/207238/why-does-my-textmesh-dissappear-from-certain-camer.html
 
 https://answers.unity.com/questions/16433/get-list-of-all-files-in-a-directory.html
 https://forum.unity.com/threads/remove-text-from-string.57431/
 
 
-//Optimization
+Optimization
 https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity5.html
 
 
 
 FindObject
+
 https://docs.unity3d.com/ScriptReference/GameObject.Find.html
 Unity Tags
 https://docs.unity3d.com/540/Documentation/Manual/Tags.html#:~:text=To%20create%20a%20new%20Tag,render%20GameObjects%20in%20the%20Scene.
@@ -55,7 +57,6 @@ https://answers.unity.com/questions/314697/is-there-any-way-to-catch-coroutine-e
 
 
 Speech Recognition 
-
 
 http://gyanendushekhar.com/2016/10/11/speech-recognition-in-unity3d-windows-speech-api/
 https://docs.microsoft.com/de-de/windows/mixed-reality/voice-input-in-unity
@@ -97,7 +98,6 @@ https://stackoverflow.com/questions/24021749/unable-to-get-dicom-image-for-displ
 https://stackoverflow.com/questions/45838783/how-to-decompress-a-compressed-dicom-image-with-gdcm-and-python
 
 //Forloop in Batchfile 
-
 https://stackoverflow.com/questions/1355791/how-do-you-loop-in-a-windows-batch-file
 
 Find Texture 
