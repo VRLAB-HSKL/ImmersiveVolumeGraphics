@@ -1,4 +1,4 @@
-﻿//========= Copyright 2016-2020, HTC Corporation. All rights reserved. ===========
+﻿//========= Copyright 2016-2022, HTC Corporation. All rights reserved. ===========
 #pragma warning disable 0649
 using System;
 using System.Collections.Generic;
@@ -189,6 +189,17 @@ namespace HTC.UnityPlugin.Vive
             if (s_settings != null) { return; }
 
             s_settings = new List<IPropSetting>();
+
+#if ENABLE_INPUT_SYSTEM
+            s_settings.Add(new RecommendedSetting<bool>()
+            {
+                settingTitle = "Initialize on Startup",
+                toolTip = VRModuleManagement.VRModuleSettings.INITIALIZE_ON_STARTUP_TOOLTIP,
+                recommendedValueFunc = () => true,
+                currentValueFunc = () => VRModuleManagement.VRModuleSettings.initializeOnStartup,
+                setValueFunc = (v) => VRModuleManagement.VRModuleSettings.initializeOnStartup = v,
+            });
+#endif
 
             foreach (var type in Assembly.GetAssembly(typeof(RecommendedSettingCollection)).GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(RecommendedSettingCollection))))
             {

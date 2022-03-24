@@ -1,4 +1,4 @@
-//========= Copyright 2016-2020, HTC Corporation. All rights reserved. ===========
+//========= Copyright 2016-2022, HTC Corporation. All rights reserved. ===========
 
 using HTC.UnityPlugin.VRModuleManagement;
 using System;
@@ -89,7 +89,11 @@ namespace HTC.UnityPlugin.Vive
                 {
                     if (support == value) { return; }
 #if UNITY_2019_3_OR_NEWER
-                    XRPluginManagementUtils.SetXRLoaderEnabled(WINDOWSMR_XR_LOADER_CLASS_NAME, requirdPlatform, value);
+                    if (PackageManagerHelper.IsPackageInList(WINDOWSMR_PACKAGE_NAME))
+                    {
+                        XRPluginManagementUtils.SetXRLoaderEnabled(WINDOWSMR_XR_LOADER_CLASS_NAME, requirdPlatform, value);
+                    }
+
                     VIUSettings.activateUnityXRModule = XRPluginManagementUtils.IsAnyXRLoaderEnabled(requirdPlatform);
 #elif UNITY_2018_2_OR_NEWER
                     WindowsMRSDK.enabled = value;
@@ -103,7 +107,9 @@ namespace HTC.UnityPlugin.Vive
                 const string title = "Windows MR";
                 if (canSupport)
                 {
-                    support = m_foldouter.ShowFoldoutButtonOnToggleEnabled(new GUIContent(title, "Windows MR"), support);
+                    var wasSupported = support;
+                    support = Foldouter.ShowFoldoutBlankWithEnabledToggle(new GUIContent(title, "Windows MR"), wasSupported);
+                    s_symbolChanged |= wasSupported != support;
                 }
                 else
                 {
@@ -118,7 +124,16 @@ namespace HTC.UnityPlugin.Vive
                         GUILayout.FlexibleSpace();
                         ShowSwitchPlatformButton(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64);
                     }
-#if UNITY_2019_3_OR_NEWER
+#if UNITY_2020_2_OR_NEWER && FALSE // openxr not fully supported yet
+                    else if (!PackageManagerHelper.IsPackageInList(OPENXR_PLUGIN_PACKAGE_NAME))
+                    {
+                        GUI.enabled = false;
+                        ShowToggle(new GUIContent(title, "OpenXR Plugin package required."), false, GUILayout.Width(230f));
+                        GUI.enabled = true;
+                        GUILayout.FlexibleSpace();
+                        ShowAddPackageButton("OpenXR Plugin", OPENXR_PLUGIN_PACKAGE_NAME);
+                    }
+#elif UNITY_2019_3_OR_NEWER
                     else if (!PackageManagerHelper.IsPackageInList(WINDOWSMR_XR_PACKAGE_NAME))
                     {
                         GUI.enabled = false;
@@ -127,8 +142,7 @@ namespace HTC.UnityPlugin.Vive
                         GUILayout.FlexibleSpace();
                         ShowAddPackageButton("Windows XR Plugin", WINDOWSMR_XR_PACKAGE_NAME);
                     }
-#endif
-#if UNITY_2018_2_OR_NEWER && !UNITY_2020_1_OR_NEWER
+#elif UNITY_2018_2_OR_NEWER
                     else if (!PackageManagerHelper.IsPackageInList(WINDOWSMR_PACKAGE_NAME))
                     {
                         GUI.enabled = false;

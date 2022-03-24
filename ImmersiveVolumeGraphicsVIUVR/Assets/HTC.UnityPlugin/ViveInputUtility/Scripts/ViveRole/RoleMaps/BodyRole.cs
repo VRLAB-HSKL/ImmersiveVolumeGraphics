@@ -1,5 +1,6 @@
-﻿//========= Copyright 2016-2020, HTC Corporation. All rights reserved. ===========
+﻿//========= Copyright 2016-2022, HTC Corporation. All rights reserved. ===========
 
+using HTC.UnityPlugin.Utility;
 using HTC.UnityPlugin.VRModuleManagement;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ namespace HTC.UnityPlugin.Vive
         LeftFoot,
         Hip,
     }
+
+    internal class BodyRoleIntReslver : EnumToIntResolver<BodyRole> { public override int Resolve(BodyRole e) { return (int)e; } }
 
     public class BodyRoleHandler : ViveRole.MapHandler<BodyRole>
     {
@@ -57,7 +60,7 @@ namespace HTC.UnityPlugin.Vive
 
             UnmappingAll();
 
-            if (!VRModule.IsValidDeviceIndex(VRModule.HMD_DEVICE_INDEX)) { return; }
+            if (!VRModule.GetCurrentDeviceState(VRModule.HMD_DEVICE_INDEX).isConnected) { return; }
 
             MappingRoleIfUnbound(BodyRole.Head, VRModule.HMD_DEVICE_INDEX);
 

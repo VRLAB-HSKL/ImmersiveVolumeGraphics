@@ -1,4 +1,4 @@
-﻿//========= Copyright 2016-2020, HTC Corporation. All rights reserved. ===========
+﻿//========= Copyright 2016-2022, HTC Corporation. All rights reserved. ===========
 
 using HTC.UnityPlugin.Utility;
 using HTC.UnityPlugin.VRModuleManagement;
@@ -58,13 +58,13 @@ namespace HTC.UnityPlugin.Vive
             switch (VRModule.activeModule)
             {
                 case VRModuleActiveEnum.DayDream:
-                    transform.localPosition = new Vector3(pos.x, m_height, pos.y);
+                    transform.localPosition = new Vector3(pos.x, m_height, pos.z);
                     break;
 #if VIU_OCULUSVR && !VIU_OCULUSVR_19_0_OR_NEWER
                 case VRModuleActiveEnum.OculusVR:
                     if (OVRPlugin.GetSystemHeadsetType().Equals(OVRPlugin.SystemHeadset.Oculus_Go))
                     {
-                        transform.localPosition = new Vector3(pos.x, m_height, pos.y);
+                        transform.localPosition = new Vector3(pos.x, m_height, pos.z);
                     }
                     break;
 #endif
@@ -72,13 +72,8 @@ namespace HTC.UnityPlugin.Vive
                 case VRModuleActiveEnum.UnityNativeVR:
                     if (XRDevice.model.Equals("Oculus Go"))
                     {
-                        transform.localPosition = new Vector3(pos.x, m_height, pos.y);
+                        transform.localPosition = new Vector3(pos.x, m_height, pos.z);
                     }
-                    break;
-#endif
-#if UNITY_2019_3_OR_NEWER && UNITY_ANDROID
-                case VRModuleActiveEnum.UnityXR:
-                    transform.localPosition = new Vector3(pos.x, m_height, pos.y);
                     break;
 #endif
             }

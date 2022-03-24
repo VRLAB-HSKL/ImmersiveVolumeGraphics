@@ -1,8 +1,10 @@
-//========= Copyright 2016-2020, HTC Corporation. All rights reserved. ===========
+//========= Copyright 2016-2022, HTC Corporation. All rights reserved. ===========
 
-using HTC.UnityPlugin.Utility;
-#if VIU_OCULUSVR
+using System;
 using UnityEngine;
+using HTC.UnityPlugin.Utility;
+using Object = UnityEngine.Object;
+#if VIU_OCULUSVR
 using HTC.UnityPlugin.Vive;
 using HTC.UnityPlugin.Vive.OculusVRExtension;
 #if UNITY_2017_2_OR_NEWER
@@ -50,6 +52,32 @@ namespace HTC.UnityPlugin.VRModuleManagement
 
     public sealed class OculusVRModule : VRModule.ModuleBase
     {
+        public enum OVRSystemHeadset
+        {
+            None = 0,
+
+            GearVR_R320, // Note4 Innovator
+            GearVR_R321, // S6 Innovator
+            GearVR_R322, // Commercial 1
+            GearVR_R323, // Commercial 2 (USB Type C)
+            GearVR_R324, // Commercial 3 (USB Type C)
+            GearVR_R325, // Commercial 4 (USB Type C)
+
+            // Standalone headsets
+            Oculus_Go = 7,
+            Oculus_Quest,
+            Oculus_Quest_2,
+
+            // PC headsets
+            Rift_DK1 = 0x1000,
+            Rift_DK2,
+            Rift_CV1,
+            Rift_CB,
+            Rift_S,
+            Oculus_Link_Quest,
+            Oculus_Link_Quest_2,
+        }
+
         public override int moduleOrder { get { return (int)DefaultModuleOrder.OculusVR; } }
 
         public override int moduleIndex { get { return (int)VRModuleSelectEnum.OculusVR; } }
@@ -58,6 +86,90 @@ namespace HTC.UnityPlugin.VRModuleManagement
         public const string OCULUS_XR_LOADER_CLASS_NAME = "OculusLoader";
 
 #if VIU_OCULUSVR
+        private class Skeleton
+        {
+            private const string LeftHandSkeletonName = "LeftHandSkeleton";
+            private const string RightHandSkeletonName = "RightHandSkeleton";
+
+            private static readonly Quaternion WristFixupRotation = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+            private static readonly Quaternion LeftHandOpenXRFixRotation = Quaternion.Euler(0.0f, -90.0f, 180.0f);
+            private static readonly Quaternion RightHandOpenXRFixRotation = Quaternion.Euler(0.0f, 90.0f, 0.0f);
+
+            public readonly OVRPlugin.SkeletonType Handedness;
+            public readonly Transform Root;
+            public readonly Transform[] Bones = new Transform[(int) OVRPlugin.BoneId.Max];
+
+            public Skeleton(OVRPlugin.SkeletonType handedness)
+            {
+                Handedness = handedness;
+
+                string name = Handedness == OVRPlugin.SkeletonType.HandLeft ? LeftHandSkeletonName : RightHandSkeletonName;
+                Root = new GameObject(name).transform;
+                OVRPlugin.Skeleton ovrSkeleton;
+                if (OVRPlugin.GetSkeleton(Handedness, out ovrSkeleton))
+                {
+                    for (int i = 0; i < (int) OVRSkeleton.BoneId.Hand_End; i++)
+                    {
+                        OVRSkeleton.BoneId id = (OVRSkeleton.BoneId) ovrSkeleton.Bones[i].Id;
+                        GameObject boneObj = new GameObject(id.ToString());
+                        Bones[i] = boneObj.transform;
+
+                        Vector3 pos = ovrSkeleton.Bones[i].Pose.Position.FromFlippedXVector3f();
+                        Quaternion rot = ovrSkeleton.Bones[i].Pose.Orientation.FromFlippedXQuatf();
+                        Bones[i].localPosition = pos;
+                        Bones[i].localRotation = rot;
+                    }
+
+                    for (int i = 0; i < (int) OVRSkeleton.BoneId.Hand_End; i++)
+                    {
+                        int parentIndex = ovrSkeleton.Bones[i].ParentBoneIndex;
+                        if (parentIndex == (int) OVRPlugin.BoneId.Invalid)
+                        {
+                            Bones[i].SetParent(Root);
+                        }
+                        else
+                        {
+                            Bones[i].SetParent(Bones[parentIndex]);
+                        }
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("OvrSkeleton not found: " + Handedness);
+                }
+            }
+
+            public void Update(OVRPlugin.HandState handState)
+            {
+                Root.localPosition = handState.RootPose.Position.FromFlippedZVector3f();
+                Root.localRotation = handState.RootPose.Orientation.FromFlippedZQuatf();
+                Root.localScale = new Vector3(handState.HandScale, handState.HandScale, handState.HandScale);
+
+                OVRPlugin.Skeleton ovrSkeleton;
+                if (OVRPlugin.GetSkeleton(Handedness, out ovrSkeleton))
+                {
+                    for (int i = 0; i < (int) OVRSkeleton.BoneId.Hand_End; i++)
+                    {
+                        Vector3 pos = ovrSkeleton.Bones[i].Pose.Position.FromFlippedXVector3f();
+                        Quaternion rot = handState.BoneRotations[i].FromFlippedXQuatf();
+                        Bones[i].localPosition = pos;
+                        Bones[i].localRotation = rot;
+
+                        if (i == (int) OVRSkeleton.BoneId.Hand_WristRoot)
+                        {
+                            Bones[i].localRotation *= WristFixupRotation;
+                        }
+                    }
+                }
+            }
+
+            public Quaternion GetOpenXRRotation(OVRPlugin.BoneId boneId)
+            {
+                Quaternion fixQuat = Handedness == OVRPlugin.SkeletonType.HandLeft ? LeftHandOpenXRFixRotation : RightHandOpenXRFixRotation;
+                return Bones[(int) boneId].rotation * fixQuat;
+            }
+        }
+
         private class CameraCreator : VRCameraHook.CameraCreator
         {
             public override bool shouldActive { get { return s_moduleInstance == null ? false : s_moduleInstance.isActivated; } }
@@ -72,13 +184,13 @@ namespace HTC.UnityPlugin.VRModuleManagement
 #endif
             }
         }
-#endif
 
-#if VIU_OCULUSVR_1_32_0_OR_NEWER || VIU_OCULUSVR_1_36_0_OR_NEWER || VIU_OCULUSVR_1_37_0_OR_NEWER
+#if VIU_OCULUSVR_AVATAR && VIU_OCULUSVR_1_32_0_OR_NEWER
         private class RenderModelCreator : RenderModelHook.RenderModelCreator
         {
             private uint m_index = INVALID_DEVICE_INDEX;
-            private VIUOculusVRRenderModel m_model;
+            private VIUOculusVRRenderModel m_controllerModel;
+            private OculusHandRenderModel m_handModel;
 
             public override bool shouldActive { get { return s_moduleInstance == null ? false : s_moduleInstance.isActivated; } }
 
@@ -86,109 +198,222 @@ namespace HTC.UnityPlugin.VRModuleManagement
             {
                 if (!ChangeProp.Set(ref m_index, hook.GetModelDeviceIndex())) { return; }
 
-                if (VRModule.IsValidDeviceIndex(m_index))
+                DisableAllModels();
+                if (!VRModule.IsValidDeviceIndex(m_index))
                 {
-                    // create object for render model
-                    if (m_model == null)
+                    return;
+                }
+
+                if (IsHand())
+                {
+                    bool isLeftHand = m_index == s_leftHandIndex;
+                    if (m_handModel == null)
                     {
-                        var go = new GameObject("Model");
-                        go.transform.SetParent(hook.transform, false);
-                        m_model = go.AddComponent<VIUOculusVRRenderModel>();
+                        GameObject handObj = new GameObject("OculusHandModel");
+                        handObj.transform.SetParent(hook.transform.parent.parent, false);
+                        m_handModel = handObj.AddComponent<OculusHandRenderModel>();
+                        m_handModel.Initialize(isLeftHand);
                     }
 
-                    // set render model index
-                    m_model.gameObject.SetActive(true);
-                    m_model.shaderOverride = hook.overrideShader;
-#if VIU_OCULUSVR_1_32_0_OR_NEWER || VIU_OCULUSVR_1_36_0_OR_NEWER
-                    m_model.gameObject.AddComponent(System.Type.GetType("OvrAvatarTouchController"));
-#endif
-                    m_model.SetDeviceIndex(m_index);
+                    m_handModel.gameObject.SetActive(true);
+                    m_handModel.SetHand(isLeftHand);
                 }
                 else
                 {
-                    // deacitvate object for render model
-                    if (m_model != null)
+                    // create object for render model
+                    if (m_controllerModel == null)
                     {
-                        m_model.gameObject.SetActive(false);
+                        var go = new GameObject("OculusControllerModel");
+                        go.transform.SetParent(hook.transform, false);
+                        m_controllerModel = go.AddComponent<VIUOculusVRRenderModel>();
                     }
+
+                    // set render model index
+                    m_controllerModel.gameObject.SetActive(true);
+                    m_controllerModel.shaderOverride = hook.overrideShader;
+#if VIU_OCULUSVR_1_32_0_OR_NEWER && !VIU_OCULUSVR_1_37_0_OR_NEWER
+                    m_controllerModel.gameObject.AddComponent<OvrAvatarTouchController>();
+#endif
+                    m_controllerModel.SetDeviceIndex(m_index);
                 }
             }
 
             public override void CleanUpRenderModel()
             {
-                if (m_model != null)
+                if (m_handModel != null)
                 {
-                    Object.Destroy(m_model.gameObject);
-                    m_model = null;
-                    m_index = INVALID_DEVICE_INDEX;
+                    Object.Destroy(m_handModel.gameObject);
+                    m_handModel = null;
                 }
+
+                if (m_controllerModel != null)
+                {
+                    Object.Destroy(m_controllerModel.gameObject);
+                    m_controllerModel = null;
+                }
+
+                m_index = INVALID_DEVICE_INDEX;
+            }
+
+            private void DisableAllModels()
+            {
+                if (m_controllerModel != null)
+                {
+                    m_controllerModel.gameObject.SetActive(false);
+                }
+
+                if (m_handModel != null)
+                {
+                    m_handModel.gameObject.SetActive(false);
+                }
+            }
+
+            private bool IsHand()
+            {
+                return m_index == s_leftHandIndex || m_index == s_rightHandIndex;
+            }
+        }
+#endif
+
+        private const uint s_leftControllerIndex = 1;
+        private const uint s_rightControllerIndex = 2;
+        private const uint s_leftHandIndex = 7;
+        private const uint s_rightHandIndex = 8;
+
+        private static OculusVRModule s_moduleInstance;
+        private static readonly OVRPlugin.Node[] s_index2node;
+        private static readonly VRModuleDeviceClass[] s_index2class;
+        private static readonly HandJointName[] s_ovrBoneIdToHandJointName;
+
+        private OVRPlugin.SystemHeadset m_systemHeadsetType;
+        private string m_systemHeadsetName;
+        private OVRPlugin.TrackingOrigin m_prevTrackingSpace;
+
+        private bool m_isLeftHandTracked;
+        private bool m_isRightHandTracked;
+
+        private Skeleton m_leftHandSkeleton;
+        private Skeleton m_rightHandSkeleton;
+
+        private Skeleton leftHandSkeleton
+        {
+            get
+            {
+                if (m_leftHandSkeleton == null)
+                {
+                    m_leftHandSkeleton = new Skeleton(OVRPlugin.SkeletonType.HandLeft);
+                }
+
+                return m_leftHandSkeleton;
             }
         }
 
-        private static OculusVRModule s_moduleInstance;
-#endif
+        private Skeleton rightHandSkeleton
+        {
+            get
+            {
+                if (m_rightHandSkeleton == null)
+                {
+                    m_rightHandSkeleton = new Skeleton(OVRPlugin.SkeletonType.HandRight);
+                }
 
-#if VIU_OCULUSVR
-        public const int VALID_NODE_COUNT = 7;
-        private static readonly OVRPlugin.Node[] s_index2node;
-        private static readonly uint[] s_node2index;
-        private static readonly VRModuleDeviceClass[] s_node2class;
-
-        private OVRPlugin.TrackingOrigin m_prevTrackingSpace;
+                return m_rightHandSkeleton;
+            }
+        }
 
         static OculusVRModule()
         {
-            s_index2node = new OVRPlugin.Node[VALID_NODE_COUNT];
-            for (int i = 0; i < s_index2node.Length; ++i) { s_index2node[i] = OVRPlugin.Node.None; }
-            s_index2node[0] = OVRPlugin.Node.Head;
-            s_index2node[1] = OVRPlugin.Node.HandLeft;
-            s_index2node[2] = OVRPlugin.Node.HandRight;
-            s_index2node[3] = OVRPlugin.Node.TrackerZero;
-            s_index2node[4] = OVRPlugin.Node.TrackerOne;
-            s_index2node[5] = OVRPlugin.Node.TrackerTwo;
-            s_index2node[6] = OVRPlugin.Node.TrackerThree;
+            s_index2node = new []
+            {
+                OVRPlugin.Node.Head,
+                OVRPlugin.Node.HandLeft,
+                OVRPlugin.Node.HandRight,
+                OVRPlugin.Node.TrackerZero,
+                OVRPlugin.Node.TrackerOne,
+                OVRPlugin.Node.TrackerTwo,
+                OVRPlugin.Node.TrackerThree,
+#if VIU_OCULUSVR_20_0_OR_NEWER
+                OVRPlugin.Node.HandLeft,
+                OVRPlugin.Node.HandRight,
+#endif
+            };
 
-            s_node2index = new uint[(int)OVRPlugin.Node.Count];
-            for (int i = 0; i < s_node2index.Length; ++i) { s_node2index[i] = INVALID_DEVICE_INDEX; }
-            s_node2index[(int)OVRPlugin.Node.Head] = 0;
-            s_node2index[(int)OVRPlugin.Node.HandLeft] = 1;
-            s_node2index[(int)OVRPlugin.Node.HandRight] = 2;
-            s_node2index[(int)OVRPlugin.Node.TrackerZero] = 3;
-            s_node2index[(int)OVRPlugin.Node.TrackerOne] = 4;
-            s_node2index[(int)OVRPlugin.Node.TrackerTwo] = 5;
-            s_node2index[(int)OVRPlugin.Node.TrackerThree] = 6;
+            s_index2class = new []
+            {
+                VRModuleDeviceClass.HMD,
+                VRModuleDeviceClass.Controller,
+                VRModuleDeviceClass.Controller,
+                VRModuleDeviceClass.TrackingReference,
+                VRModuleDeviceClass.TrackingReference,
+                VRModuleDeviceClass.TrackingReference,
+                VRModuleDeviceClass.TrackingReference,
+#if VIU_OCULUSVR_20_0_OR_NEWER
+                VRModuleDeviceClass.TrackedHand,
+                VRModuleDeviceClass.TrackedHand,
+#endif
+            };
 
-            s_node2class = new VRModuleDeviceClass[(int)OVRPlugin.Node.Count];
-            for (int i = 0; i < s_node2class.Length; ++i) { s_node2class[i] = VRModuleDeviceClass.Invalid; }
-            s_node2class[(int)OVRPlugin.Node.Head] = VRModuleDeviceClass.HMD;
-            s_node2class[(int)OVRPlugin.Node.HandLeft] = VRModuleDeviceClass.Controller;
-            s_node2class[(int)OVRPlugin.Node.HandRight] = VRModuleDeviceClass.Controller;
-            s_node2class[(int)OVRPlugin.Node.TrackerZero] = VRModuleDeviceClass.TrackingReference;
-            s_node2class[(int)OVRPlugin.Node.TrackerOne] = VRModuleDeviceClass.TrackingReference;
-            s_node2class[(int)OVRPlugin.Node.TrackerTwo] = VRModuleDeviceClass.TrackingReference;
-            s_node2class[(int)OVRPlugin.Node.TrackerThree] = VRModuleDeviceClass.TrackingReference;
+#if VIU_OCULUSVR_20_0_OR_NEWER
+            s_ovrBoneIdToHandJointName = new HandJointName[(int) OVRPlugin.BoneId.Max];
+
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_WristRoot] = HandJointName.Wrist;
+
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Thumb0] = HandJointName.ThumbTrapezium;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Thumb1] = HandJointName.ThumbMetacarpal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Thumb2] = HandJointName.ThumbProximal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Thumb3] = HandJointName.ThumbDistal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_ThumbTip] = HandJointName.ThumbTip;
+
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Index1] = HandJointName.IndexProximal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Index2] = HandJointName.IndexIntermediate;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Index3] = HandJointName.IndexDistal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_IndexTip] = HandJointName.IndexTip;
+
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Middle1] = HandJointName.MiddleProximal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Middle2] = HandJointName.MiddleIntermediate;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Middle3] = HandJointName.MiddleDistal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_MiddleTip] = HandJointName.MiddleTip;
+
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Ring1] = HandJointName.RingProximal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Ring2] = HandJointName.RingIntermediate;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Ring3] = HandJointName.RingDistal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_RingTip] = HandJointName.RingTip;
+
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Pinky0] = HandJointName.PinkyMetacarpal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Pinky1] = HandJointName.PinkyProximal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Pinky2] = HandJointName.PinkyIntermediate;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_Pinky3] = HandJointName.PinkyDistal;
+            s_ovrBoneIdToHandJointName[(int) OVRPlugin.BoneId.Hand_PinkyTip] = HandJointName.PinkyTip;
+#endif
         }
 
         public override bool ShouldActiveModule()
         {
-#if UNITY_2019_3_OR_NEWER && VIU_XR_GENERAL_SETTINGS
-            return VIUSettings.activateOculusVRModule && (UnityXRModule.HasActiveLoader(OCULUS_XR_LOADER_NAME) ||
-                XRSettings.enabled && XRSettings.loadedDeviceName == "Oculus");
-#else
-            return VIUSettings.activateOculusVRModule && XRSettings.enabled && XRSettings.loadedDeviceName == "Oculus";
+            if (!VIUSettings.activateOculusVRModule) { return false; }
+#pragma warning disable 0162
+#if VIU_XR_GENERAL_SETTINGS
+            return UnityXRModuleBase.HasActiveLoader(OCULUS_XR_LOADER_NAME);
 #endif
+#if UNITY_2019_3_OR_NEWER
+            return false;
+#else
+            return XRSettings.enabled && XRSettings.loadedDeviceName == "Oculus";
+#endif
+#pragma warning restore 0162
         }
 
         public override void OnActivated()
         {
+            Debug.Log("[VIU][OculusVRModule] OnActivated");
+
+            m_systemHeadsetType = OVRPlugin.GetSystemHeadsetType();
+            m_systemHeadsetName = m_systemHeadsetType.ToString();
             m_prevTrackingSpace = OVRPlugin.GetTrackingOriginType();
             UpdateTrackingSpaceType();
 
-            EnsureDeviceStateLength(VALID_NODE_COUNT);
+            EnsureDeviceStateLength((uint) s_index2node.Length);
 
-#if VIU_OCULUSVR_1_32_0_OR_NEWER || VIU_OCULUSVR_1_36_0_OR_NEWER || VIU_OCULUSVR_1_37_0_OR_NEWER
             s_moduleInstance = this;
-#endif
         }
 
         public override void OnDeactivated()
@@ -234,12 +459,20 @@ namespace HTC.UnityPlugin.VRModuleManagement
 
         public override uint GetLeftControllerDeviceIndex()
         {
-            return s_node2index[(int)OVRPlugin.Node.HandLeft];
+            IVRModuleDeviceState prevState;
+            IVRModuleDeviceStateRW currState;
+            if (TryGetValidDeviceState(s_leftHandIndex, out prevState, out currState)) { return s_leftHandIndex; }
+            if (TryGetValidDeviceState(s_leftControllerIndex, out prevState, out currState) && currState.isConnected) { return s_leftControllerIndex; }
+            return INVALID_DEVICE_INDEX;
         }
 
         public override uint GetRightControllerDeviceIndex()
         {
-            return s_node2index[(int)OVRPlugin.Node.HandRight];
+            IVRModuleDeviceState prevState;
+            IVRModuleDeviceStateRW currState;
+            if (TryGetValidDeviceState(s_rightHandIndex, out prevState, out currState)) { return s_rightHandIndex; }
+            if (TryGetValidDeviceState(s_rightControllerIndex, out prevState, out currState) && currState.isConnected) { return s_rightControllerIndex; }
+            return INVALID_DEVICE_INDEX;
         }
 
         private static RigidPose ToPose(OVRPlugin.Posef value)
@@ -255,6 +488,8 @@ namespace HTC.UnityPlugin.VRModuleManagement
             for (uint i = 0u, imax = GetDeviceStateLength(); i < imax; ++i)
             {
                 var node = s_index2node[i];
+                var deviceClass = s_index2class[i];
+
                 if (node == OVRPlugin.Node.None) { continue; }
 
                 IVRModuleDeviceState prevState;
@@ -265,25 +500,52 @@ namespace HTC.UnityPlugin.VRModuleManagement
                 {
                     if (prevState.isConnected)
                     {
-                        currState.Reset();
+                        Debug.Log("[VIU][OculusVRModule] device disconnected. name:" + prevState.modelNumber + " model:" + prevState.deviceModel);
                     }
 
+                    currState.Reset();
                     continue;
+                }
+
+                // Hand state
+                OVRPlugin.HandState handState = new OVRPlugin.HandState();
+                if (node == OVRPlugin.Node.HandLeft)
+                {
+                    OVRPlugin.GetHandState(OVRPlugin.Step.Render, OVRPlugin.Hand.HandLeft, ref handState);
+                }
+                else if (node == OVRPlugin.Node.HandRight)
+                {
+                    OVRPlugin.GetHandState(OVRPlugin.Step.Render, OVRPlugin.Hand.HandRight, ref handState);
+                }
+
+                bool isHandTracked = (handState.Status & OVRPlugin.HandStatus.HandTracked) != 0;
+                if ((deviceClass == VRModuleDeviceClass.Controller && isHandTracked)
+                    || (deviceClass == VRModuleDeviceClass.TrackedHand && !isHandTracked))
+                {
+                    currState.Reset();
+                    continue;
+                }
+
+                if (node == OVRPlugin.Node.HandLeft)
+                {
+                    m_isLeftHandTracked = isHandTracked;
+                }
+                else if (node == OVRPlugin.Node.HandRight)
+                {
+                    m_isRightHandTracked = isHandTracked;
                 }
 
                 // update device connected state
                 if (!prevState.isConnected)
                 {
-                    var platform = OVRPlugin.GetSystemHeadsetType();
-                    var ovrProductName = platform.ToString();
-                    var deviceClass = s_node2class[(int)node];
+                    var deviceName = m_systemHeadsetName + " " + node + " " + deviceClass;
 
                     currState.isConnected = true;
                     currState.deviceClass = deviceClass;
                     // FIXME: how to get device id from OVRPlugin?
-                    currState.modelNumber = ovrProductName + " " + deviceClass;
-                    currState.renderModelName = ovrProductName + " " + deviceClass;
-                    currState.serialNumber = ovrProductName + " " + node;
+                    currState.modelNumber = deviceName;
+                    currState.renderModelName = deviceName;
+                    currState.serialNumber = deviceName;
 
                     switch (deviceClass)
                     {
@@ -294,61 +556,64 @@ namespace HTC.UnityPlugin.VRModuleManagement
                             currState.deviceModel = VRModuleDeviceModel.OculusSensor;
                             break;
                         case VRModuleDeviceClass.Controller:
-                            switch (platform)
+                            switch ((OVRSystemHeadset)m_systemHeadsetType)
                             {
-#if !VIU_OCULUSVR_19_0_OR_NEWER
-                                case OVRPlugin.SystemHeadset.Oculus_Go:
+                                case OVRSystemHeadset.Oculus_Go:
                                     currState.deviceModel = VRModuleDeviceModel.OculusGoController;
                                     currState.input2DType = VRModuleInput2DType.TouchpadOnly;
                                     break;
-
-                                case OVRPlugin.SystemHeadset.GearVR_R320:
-                                case OVRPlugin.SystemHeadset.GearVR_R321:
-                                case OVRPlugin.SystemHeadset.GearVR_R322:
-                                case OVRPlugin.SystemHeadset.GearVR_R323:
-                                case OVRPlugin.SystemHeadset.GearVR_R324:
-                                case OVRPlugin.SystemHeadset.GearVR_R325:
+                                case OVRSystemHeadset.GearVR_R320:
+                                case OVRSystemHeadset.GearVR_R321:
+                                case OVRSystemHeadset.GearVR_R322:
+                                case OVRSystemHeadset.GearVR_R323:
+                                case OVRSystemHeadset.GearVR_R324:
+                                case OVRSystemHeadset.GearVR_R325:
                                     currState.deviceModel = VRModuleDeviceModel.OculusGearVrController;
                                     currState.input2DType = VRModuleInput2DType.TouchpadOnly;
                                     break;
-#endif
-                                case OVRPlugin.SystemHeadset.Rift_DK1:
-                                case OVRPlugin.SystemHeadset.Rift_DK2:
-                                case OVRPlugin.SystemHeadset.Rift_CV1:
-                                    switch (node)
+                                case OVRSystemHeadset.Rift_DK1:
+                                case OVRSystemHeadset.Rift_DK2:
+                                case OVRSystemHeadset.Rift_CV1:
+                                    if (node == OVRPlugin.Node.HandLeft)
                                     {
-                                        case OVRPlugin.Node.HandLeft:
-                                            currState.deviceModel = VRModuleDeviceModel.OculusTouchLeft;
-                                            break;
-                                        case OVRPlugin.Node.HandRight:
-                                        default:
-                                            currState.deviceModel = VRModuleDeviceModel.OculusTouchRight;
-                                            break;
+                                        currState.deviceModel = VRModuleDeviceModel.OculusTouchLeft;
+                                    }
+                                    else
+                                    {
+                                        currState.deviceModel = VRModuleDeviceModel.OculusTouchRight;
                                     }
                                     currState.input2DType = VRModuleInput2DType.JoystickOnly;
                                     break;
-#if VIU_OCULUSVR_16_0_OR_NEWER
-                                case OVRPlugin.SystemHeadset.Oculus_Link_Quest:
-#endif
-#if VIU_OCULUSVR_1_37_0_OR_NEWER
-                                case OVRPlugin.SystemHeadset.Oculus_Quest:
-                                case OVRPlugin.SystemHeadset.Rift_S:
-                                    switch (node)
+                                case OVRSystemHeadset.Oculus_Link_Quest:
+                                case OVRSystemHeadset.Oculus_Link_Quest_2:
+                                case OVRSystemHeadset.Oculus_Quest:
+                                case OVRSystemHeadset.Oculus_Quest_2:
+                                case OVRSystemHeadset.Rift_S:
+                                    if (node == OVRPlugin.Node.HandLeft)
                                     {
-                                        case OVRPlugin.Node.HandLeft:
-                                            currState.deviceModel = VRModuleDeviceModel.OculusQuestControllerLeft;
-                                            break;
-                                        case OVRPlugin.Node.HandRight:
-                                        default:
-                                            currState.deviceModel = VRModuleDeviceModel.OculusQuestControllerRight;
-                                            break;
+                                        currState.deviceModel = VRModuleDeviceModel.OculusQuestControllerLeft;
+                                    }
+                                    else
+                                    {
+                                        currState.deviceModel = VRModuleDeviceModel.OculusQuestControllerRight;
                                     }
                                     currState.input2DType = VRModuleInput2DType.JoystickOnly;
                                     break;
-#endif
+                            }
+                            break;
+                        case VRModuleDeviceClass.TrackedHand:
+                            if (node == OVRPlugin.Node.HandLeft)
+                            {
+                                currState.deviceModel = VRModuleDeviceModel.OculusTrackedHandLeft;
+                            }
+                            else
+                            {
+                                currState.deviceModel = VRModuleDeviceModel.OculusTrackedHandRight;
                             }
                             break;
                     }
+
+                    Debug.Log("[VIU][OculusVRModule] device connected. name:" + deviceName + " model:" + currState.deviceModel);
                 }
 
                 // update device pose
@@ -412,6 +677,47 @@ namespace HTC.UnityPlugin.VRModuleManagement
                             currState.SetAxisValue(VRModuleRawAxis.CapSenseGrip, ctrlState.RHandTrigger);
                             break;
                         }
+                    case VRModuleDeviceModel.OculusTrackedHandLeft:
+                    case VRModuleDeviceModel.OculusTrackedHandRight:
+                        if ((handState.Status & OVRPlugin.HandStatus.InputStateValid) != 0)
+                        {
+                            currState.SetButtonPress(VRModuleRawButton.GestureIndexPinch, (handState.Pinches & OVRPlugin.HandFingerPinch.Index) == OVRPlugin.HandFingerPinch.Index);
+                            currState.SetButtonPress(VRModuleRawButton.GestureMiddlePinch, (handState.Pinches & OVRPlugin.HandFingerPinch.Middle) == OVRPlugin.HandFingerPinch.Middle);
+                            currState.SetButtonPress(VRModuleRawButton.GestureRingPinch, (handState.Pinches & OVRPlugin.HandFingerPinch.Ring) == OVRPlugin.HandFingerPinch.Ring);
+                            currState.SetButtonPress(VRModuleRawButton.GesturePinkyPinch, (handState.Pinches & OVRPlugin.HandFingerPinch.Pinky) == OVRPlugin.HandFingerPinch.Pinky);
+
+                            currState.SetButtonTouch(VRModuleRawButton.GestureIndexPinch, (handState.Pinches & OVRPlugin.HandFingerPinch.Index) == OVRPlugin.HandFingerPinch.Index);
+                            currState.SetButtonTouch(VRModuleRawButton.GestureMiddlePinch, (handState.Pinches & OVRPlugin.HandFingerPinch.Middle) == OVRPlugin.HandFingerPinch.Middle);
+                            currState.SetButtonTouch(VRModuleRawButton.GestureRingPinch, (handState.Pinches & OVRPlugin.HandFingerPinch.Ring) == OVRPlugin.HandFingerPinch.Ring);
+                            currState.SetButtonTouch(VRModuleRawButton.GesturePinkyPinch, (handState.Pinches & OVRPlugin.HandFingerPinch.Pinky) == OVRPlugin.HandFingerPinch.Pinky);
+
+                            currState.SetAxisValue(VRModuleRawAxis.IndexPinch, handState.PinchStrength[(int) HandFinger.Index]);
+                            currState.SetAxisValue(VRModuleRawAxis.MiddlePinch, handState.PinchStrength[(int) HandFinger.Middle]);
+                            currState.SetAxisValue(VRModuleRawAxis.RingPinch, handState.PinchStrength[(int) HandFinger.Ring]);
+                            currState.SetAxisValue(VRModuleRawAxis.PinkyPinch, handState.PinchStrength[(int) HandFinger.Pinky]);
+
+                            // Map index pinch to trigger
+                            currState.SetButtonPress(VRModuleRawButton.Trigger, currState.GetButtonPress(VRModuleRawButton.GestureIndexPinch));
+                            currState.SetButtonTouch(VRModuleRawButton.Trigger, currState.GetButtonTouch(VRModuleRawButton.GestureIndexPinch));
+                            currState.SetAxisValue(VRModuleRawAxis.Trigger, currState.GetAxisValue(VRModuleRawAxis.IndexPinch));
+                        }
+                        
+                        if (isHandTracked)
+                        {
+                            Skeleton skeleton = node == OVRPlugin.Node.HandLeft ? leftHandSkeleton : rightHandSkeleton;
+                            skeleton.Update(handState);
+
+                            JointEnumArray jointArray = currState.handJoints;
+                            for (int j = 0; j < (int) OVRPlugin.BoneId.Hand_End; j++)
+                            {
+                                Transform joint = skeleton.Bones[j];
+                                jointArray[s_ovrBoneIdToHandJointName[j]] = new JointPose(joint.position, skeleton.GetOpenXRRotation((OVRPlugin.BoneId) j));
+                            }
+
+                            currState.pose = new RigidPose(currState.pose.pos, skeleton.GetOpenXRRotation(OVRPlugin.BoneId.Hand_WristRoot));
+                        }
+
+                        break;
 #if !VIU_OCULUSVR_19_0_OR_NEWER
                     case VRModuleDeviceModel.OculusGoController:
                     case VRModuleDeviceModel.OculusGearVrController:
@@ -465,5 +771,5 @@ namespace HTC.UnityPlugin.VRModuleManagement
             ProcessDeviceInputChanged();
         }
 #endif
-                }
-            }
+    }
+}

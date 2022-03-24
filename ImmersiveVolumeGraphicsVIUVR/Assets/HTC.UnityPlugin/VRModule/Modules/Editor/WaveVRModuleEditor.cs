@@ -1,4 +1,4 @@
-﻿//========= Copyright 2016-2020, HTC Corporation. All rights reserved. ===========
+﻿//========= Copyright 2016-2022, HTC Corporation. All rights reserved. ===========
 
 using System;
 using System.Reflection;
@@ -25,11 +25,25 @@ namespace HTC.UnityPlugin.VRModuleManagement
                 reqFileNames = new string[] { "WaveVR.cs" },
             });
 
-            Add(new VRModuleManagerEditor.SymbolRequirement()
+            Add(new SymbolRequirement()
             {
                 symbol = "VIU_WAVEXR_ESSENCE_RENDERMODEL",
                 reqTypeNames = new string[] { "Wave.Essence.Controller.RenderModel", "Wave.Essence.Controller.ButtonEffect", "Wave.Essence.Controller.ShowIndicator" },
                 reqFileNames = new string[] { "RenderModel.cs", "ButtonEffect.cs", "ShowIndicator.cs" },
+            });
+
+            Add(new SymbolRequirement()
+            {
+                symbol = "VIU_WAVEXR_ESSENCE_CONTROLLER_MODEL",
+                reqTypeNames = new string[] { "Wave.Essence.Controller.Model.RenderModel", "Wave.Essence.Controller.Model.ButtonEffect", "Wave.Essence.Controller.Model.ControllerTips" },
+                reqFileNames = new string[] { "RenderModel.cs", "ButtonEffect.cs", "ControllerTips.cs" },
+            });
+
+            Add(new SymbolRequirement()
+            {
+                symbol = "VIU_WAVEXR_OPENXR",
+                reqTypeNames = new string[] { "Wave.OpenXR.VIVEFocus3Feature", "Wave.OpenXR.HTCViveFocus3Profile" },
+                reqFileNames = new string[] { "VIVEOpenXRFeature.cs", "HTCViveFocus3Profile.cs" },
             });
 
             Add(new SymbolRequirement()
@@ -126,6 +140,126 @@ namespace HTC.UnityPlugin.VRModuleManagement
                     }
                 },
                 reqFileNames = new string[] { "wvr.cs" },
+            });
+
+            Add(new SymbolRequirement()
+            {
+                symbol = "VIU_WAVE_XRSDK_3_99_31_OR_NEWER",
+                reqMethods = new SymbolRequirement.ReqMethodInfo[]
+                {
+                    new SymbolRequirement.ReqMethodInfo()
+                    {
+                        typeName = "Wave.Native.Interop",
+                        name = "WVR_SetControllerPoseMode",
+                        argTypeNames = new string[]
+                        {
+                            "Wave.Native.WVR_DeviceType",
+                            "Wave.Native.WVR_ControllerPoseMode",
+                        },
+                        bindingAttr = BindingFlags.Public | BindingFlags.Static,
+                    }
+                },
+                reqFileNames = new string[] { "wvr.cs" },
+            });
+
+            Add(new SymbolRequirement()
+            {
+                symbol = "VIU_WAVE_XRSDK_4_2_90_OR_NEWER",
+                reqTypeNames = new string[] { "Wave.Native.WVR_HandGestureType" },
+                validateFunc = (req) =>
+                {
+                    Type wvrGestureType;
+                    if (SymbolRequirement.s_foundTypes.TryGetValue("Wave.Native.WVR_HandGestureType", out wvrGestureType) && wvrGestureType.IsEnum)
+                    {
+                        if (Enum.IsDefined(wvrGestureType, "WVR_HandGestureType_Palm_Pinch"))
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                },
+                reqFileNames = new string[] { "wvr.cs" },
+            });
+
+            Add(new SymbolRequirement()
+            {
+                symbol = "VIU_WAVEVR_LEGACY_HAND_TRACKING",
+                reqMethods = new SymbolRequirement.ReqMethodInfo[]
+                {
+                    new SymbolRequirement.ReqMethodInfo()
+                    {
+                        typeName = "Wave.Native.Interop",
+                        name = "WVR_GetHandTrackingData",
+                        argTypeNames = new string[]
+                        {
+                            "Wave.Native.WVR_HandSkeletonData_t&",
+                            "Wave.Native.WVR_HandPoseData_t&",
+                            "Wave.Native.WVR_PoseOriginModel",
+                        },
+                        bindingAttr = BindingFlags.Public | BindingFlags.Static,
+                    }
+                },
+                reqFileNames = new string[] { "wvr.cs" },
+            });
+
+            Add(new SymbolRequirement()
+            {
+                symbol = "VIU_WAVEVR_HAND_TRACKING",
+                reqMethods = new SymbolRequirement.ReqMethodInfo[]
+                {
+                    new SymbolRequirement.ReqMethodInfo()
+                    {
+                        typeName = "Wave.Native.Interop",
+                        name = "WVR_GetHandTrackingData",
+                        argTypeNames = new string[]
+                        {
+                            "Wave.Native.WVR_HandTrackerType",
+                            "Wave.Native.WVR_HandModelType",
+                            "Wave.Native.WVR_PoseOriginModel",
+                            "Wave.Native.WVR_HandTrackingData_t&",
+                            "Wave.Native.WVR_HandPoseData_t&",
+                        },
+                        bindingAttr = BindingFlags.Public | BindingFlags.Static,
+                    }
+                },
+                reqFileNames = new string[] { "wvr.cs" },
+            });
+
+            Add(new SymbolRequirement()
+            {
+                symbol = "VIU_WAVEVR_CONTROLLER_RENDERMODEL",
+                reqMethods = new SymbolRequirement.ReqMethodInfo[]
+                {
+                    new SymbolRequirement.ReqMethodInfo()
+                    {
+                        typeName = "Wave.Native.Interop",
+                        name = "WVR_GetCurrentControllerModel",
+                        argTypeNames = new string[]
+                        {
+                            "Wave.Native.WVR_DeviceType",
+                            "System.IntPtr&",
+                            "System.Boolean",
+                        },
+                        bindingAttr = BindingFlags.Public | BindingFlags.Static,
+                    }
+                },
+                reqFileNames = new string[] { "wvr.cs" },
+            });
+
+            Add(new SymbolRequirement()
+            {
+                symbol = "VIU_WAVEVR_HAND_TRACKING_CHECK",
+                reqMethods = new SymbolRequirement.ReqMethodInfo[]
+                {
+                    new SymbolRequirement.ReqMethodInfo()
+                    {
+                        typeName = "Wave.XR.BuildCheck.CheckIfHandTrackingEnabled",
+                        name = "ValidateEnabled",
+                        argTypeNames = new string[0],
+                        bindingAttr = BindingFlags.Public | BindingFlags.Static,
+                    }
+                },
+                reqFileNames = new string[] { "WaveXRBuildCheck.cs" },
             });
         }
     }

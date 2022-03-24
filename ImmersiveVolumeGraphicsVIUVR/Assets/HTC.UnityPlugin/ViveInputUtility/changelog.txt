@@ -1,6 +1,48 @@
-﻿# Vive Input Utility for Unity - v1.12.0
-Copyright (c) 2016-2020, HTC Corporation. All rights reserved.
+﻿# Vive Input Utility for Unity - v1.13.2
+Copyright (c) 2016-2021, HTC Corporation. All rights reserved.
 
+
+## Changes for v1.13.2:
+
+* New Features
+  - Add support for Wave 4.1
+  - Add support for Vive Hand Tracking 0.10
+
+* Changes
+  - Now Grabbable able to be stretch around using 2 grabbers
+    - Requires enabling "multiple grabbers" option
+    - Able to scale if min/maxScaleOnStretch set to proper values (min < max)
+  - Optimize process creating Wave Render Model
+
+* Bug Fixes
+  - Fix Grip axis returns joystick value on Oculus controller (Unity XR only)
+  - Fix ControllerRole doesn't map left hand device correctly
+  - Fix unable to get Grip/A/B/X/Y button values on Wave controllers (Wave 3.2 only)
+
+
+## Changes for v1.13.1:
+
+* New Features
+  - Add support for Wave 4.0
+  - New tracked hand rigs API (Experimental)
+  - New tooltip framework (Experimental)
+
+
+## Changes for v1.12.2:
+
+* New Features
+  - Add ControllerButtonMask to able to mask out multiple buttin input simultaneously
+```csharp
+// return true if right controller trigger or pad button pressed
+ViveInput.GetAnyPress(HandRole.RightHand, new ControllerButtonMask(ControllerButton.Trigger, ControllerButton.Pad))
+
+// return true if both right controller trigger and pad button pressed
+ViveInput.GetAllPress(HandRole.RightHand, new ControllerButtonMask(ControllerButton.Trigger, ControllerButton.Pad))
+```
+
+* Bug Fixes
+  - Fix error when Wave Essence RenderModel module is installed
+  - Fix teleport in wrong height for some device in example 6
 
 ## Changes for v1.12.0:
 
