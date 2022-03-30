@@ -7,13 +7,14 @@
 **/mbvr.unitypackage
 
 # Ignores für Unity
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-[Dd]ataFiles/
-Assets/AssetStoreTools*
+**/[Ll]ibrary/
+**/[Tt]emp/
+**/[Oo]bj/
+**/[Bb]uild/
+**/[Bb]uilds/
+**/[Dd]ataFiles/
+**/Logs/
+**/Assets/AssetStoreTools*
 
 # Visual Studio cache directory
 .vs/
@@ -22,23 +23,27 @@ Assets/AssetStoreTools*
 # Aktuell gehen wir davon aus, dass wir dies rekonstruieren können.
 # Wenn wir diese Verzeichnisse jedes mal in Git schreiben wird das repo
 # redundante Informationen enthalten, was vermieden werden soll.
-**/Assets/MiddleVR/*
-**/Assets/SteamVR/*
-**/Assets/VIUSettings/*
-**/Assets/GoogleVR/*
-**/Assets/SteamVR_Input/**/*
-**/Assets/HTC.UnityPlugin/
-**/Assets/HTC.UnityPlugin/ViveInputUtility/*
-**/Assets/Plugins
+**/Assets/**/MiddleVR/*
+**/Assets/**/SteamVR/*
+**/Assets/**/SteamVR_Input/**/*
+**/Assets/**/SteamVR_Resources/**/*
+**/Assets/**/VIUSettings/*
+**/Assets/**/GoogleVR/*
+
+**/Assets/**/HTC.UnityPlugin/
+**/Assets/**/HTC.UnityPlugin/ViveInputUtility/*
+**/Assets/**/Plugins
 # FirstPerson von MVR und von Unity ignorieren?
-**/Assets/MiddleVR_First*/*
-**/Assets/Standard Assets/*
+**/Assets/**/MiddleVR_First*/*
+**/Assets/**/Standard Assets/*
 **/Assets/XR/*
 # Unity Meta-Files
-**/Assets/MiddleVR.meta
-**/Assets/GoogleVR.meta
-**/Assets/SteamVR.meta
-**/Assets/HTC.UnityPlugin.meta
+**/Assets/**/MiddleVR.meta
+**/Assets/**/GoogleVR.meta
+**/Assets/**/SteamVR.meta
+**/Assets/**/SteamVR_Input.meta
+**/Assets/**/SteamVR_Resources.meta
+**/Assets/**/HTC.UnityPlugin.meta
 **/Assets/**/XR.meta
 **/Assets/**/VIUSettings.meta
 
