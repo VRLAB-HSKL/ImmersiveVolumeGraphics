@@ -1,11 +1,26 @@
 {
   "dependencies": {
     "com.unity.collab-proxy": {
+<<<<<<< HEAD:VR-Application/Packages/packages-lock.json
       "version": "1.15.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.nuget.newtonsoft-json": "2.0.0",
+=======
+<<<<<<< HEAD
+      "version": "1.15.13",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+=======
+      "version": "1.15.7",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "2.0.0",
+>>>>>>> main
+>>>>>>> develop:ImmersiveVolumeGraphicsVIUVR/Packages/packages-lock.json
         "com.unity.services.core": "1.0.1"
       },
       "url": "https://packages.unity.com"
@@ -27,7 +42,15 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
+<<<<<<< HEAD:VR-Application/Packages/packages-lock.json
       "version": "2.0.12",
+=======
+<<<<<<< HEAD
+      "version": "2.0.14",
+=======
+      "version": "2.0.12",
+>>>>>>> main
+>>>>>>> develop:ImmersiveVolumeGraphicsVIUVR/Packages/packages-lock.json
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -36,12 +59,25 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
+<<<<<<< HEAD:VR-Application/Packages/packages-lock.json
       "version": "1.2.4",
+=======
+<<<<<<< HEAD
+      "version": "1.2.5",
+=======
+      "version": "1.2.4",
+>>>>>>> main
+>>>>>>> develop:ImmersiveVolumeGraphicsVIUVR/Packages/packages-lock.json
       "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+<<<<<<< HEAD:VR-Application/Packages/packages-lock.json
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> develop:ImmersiveVolumeGraphicsVIUVR/Packages/packages-lock.json
     "com.unity.nuget.newtonsoft-json": {
       "version": "2.0.0",
       "depth": 1,
@@ -49,6 +85,10 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+<<<<<<< HEAD:VR-Application/Packages/packages-lock.json
+=======
+>>>>>>> main
+>>>>>>> develop:ImmersiveVolumeGraphicsVIUVR/Packages/packages-lock.json
     "com.unity.services.core": {
       "version": "1.0.1",
       "depth": 1,
@@ -66,7 +106,15 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
+<<<<<<< HEAD:VR-Application/Packages/packages-lock.json
       "version": "1.1.29",
+=======
+<<<<<<< HEAD
+      "version": "1.1.31",
+=======
+      "version": "1.1.29",
+>>>>>>> main
+>>>>>>> develop:ImmersiveVolumeGraphicsVIUVR/Packages/packages-lock.json
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -107,7 +155,15 @@
       }
     },
     "com.unity.xr.legacyinputhelpers": {
+<<<<<<< HEAD:VR-Application/Packages/packages-lock.json
       "version": "2.1.8",
+=======
+<<<<<<< HEAD
+      "version": "2.1.9",
+=======
+      "version": "2.1.8",
+>>>>>>> main
+>>>>>>> develop:ImmersiveVolumeGraphicsVIUVR/Packages/packages-lock.json
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -129,6 +185,11 @@
       },
       "url": "https://packages.unity.com"
     },
+<<<<<<< HEAD:VR-Application/Packages/packages-lock.json
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> develop:ImmersiveVolumeGraphicsVIUVR/Packages/packages-lock.json
     "com.valvesoftware.unity.openvr": {
       "version": "file:../Assets/SteamVR/OpenVRUnityXRPackage/Editor/com.valvesoftware.unity.openvr-1.1.4.tgz",
       "depth": 0,
@@ -139,6 +200,7 @@
         "com.unity.xr.legacyinputhelpers": "2.1.4"
       }
     },
+>>>>>>> main
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

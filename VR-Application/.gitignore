@@ -1,7 +1,7 @@
 # Windows
 **/desktop.ini
 
-# mbu Package ignorieren, wir fügen das mit Hilfe eines 
+# mbu und mbvr Package ignorieren, wir fügen das mit Hilfe eines 
 # GitHub-Release als binary hinzu
 **/mbu.unitypackage
 **/mbvr.unitypackage
@@ -19,6 +19,12 @@
 # Visual Studio cache directory
 .vs/
 
+# MBU and MBVR
+**/MBU/*
+**/MBVR/*
+# meta files
+**/MBU.meta
+**/MBVR.meta
 # Assets wie MiddleVR, Steam, VRTK oder GitHub
 # Aktuell gehen wir davon aus, dass wir dies rekonstruieren können.
 # Wenn wir diese Verzeichnisse jedes mal in Git schreiben wird das repo
