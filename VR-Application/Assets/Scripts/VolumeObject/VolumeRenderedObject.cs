@@ -6,7 +6,7 @@ namespace UnityVolumeRendering
     public class VolumeRenderedObject : MonoBehaviour
     {
         [HideInInspector]
-        public TransferFunction transferFunction;
+        public TransferFunction transferFunction { get; set; }
 
         [HideInInspector]
         public TransferFunction2D transferFunction2D;
@@ -15,7 +15,7 @@ namespace UnityVolumeRendering
         public VolumeDataset dataset;
 
         [HideInInspector]
-        public MeshRenderer meshRenderer;
+        public MeshRenderer meshRenderer { get; set; }
 
         private RenderMode renderMode;
         private TFRenderMode tfRenderMode;
@@ -98,6 +98,8 @@ namespace UnityVolumeRendering
 
         private void UpdateMaaterialProperties()
         {
+            if (meshRenderer is null) return;
+            
             bool useGradientTexture = tfRenderMode == TFRenderMode.TF2D || renderMode == RenderMode.IsosurfaceRendering || lightingEnabled;
             meshRenderer.sharedMaterial.SetTexture("_GradientTex", useGradientTexture ? dataset.GetGradientTexture() : null);
 

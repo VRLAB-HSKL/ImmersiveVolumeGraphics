@@ -32,7 +32,7 @@ namespace ImmersiveVolumeGraphics {
             /// Only reasonable information is included
             /// </summary>
             private static string[] metaInformation = new string[50];
-         
+
             /// <summary>
             /// Textfield which shows the metainformation to the user 
             /// </summary>
@@ -66,11 +66,14 @@ namespace ImmersiveVolumeGraphics {
             /// </remarks>
             /// <param name="void"></param>
             /// <returns>void</returns>
-            void Start()
+            void OnEnable()//Start()
             {
                 // Finding the text in the scene 
                 MetaInformationText = GameObject.Find("MetaInfoLabel").GetComponent<TMP_Text>();
-
+                if (MetaInformationText is null)
+                {
+                    Debug.Log("MetaInfo null");
+                }
             }
 
 
@@ -381,14 +384,20 @@ namespace ImmersiveVolumeGraphics {
                 // The path to the meta information (saved as a text file) based on the model.
                 //The model´s path or name is loaded when the user clicks on dropdown element
                 // For Example : string path = Application.dataPath + "/StreamingAssets/" + "Male_Head.metainfo" + ".txt";
-                string path = Application.dataPath + "/StreamingAssets/" + ImportRAWModel.ModelPath + ".txt";
-
+                //string path = Application.dataPath + "/StreamingAssets/" + ImportRAWModel.ModelPath + ".txt";
+                string path = Application.streamingAssetsPath + ImportRAWModel.ModelPath + ".txt";
 
 
                 // Resets when you change the model
                 pixelSpacingX = 0;
                 pixelSpacingY = 0;
                 sliceThickness = 0;
+
+                if (MetaInformationText is null)
+                {
+                    MetaInformationText = GameObject.Find("MetaInfoLabel").GetComponent<TMP_Text>();
+                }
+                
                 MetaInformationText.text = "";
 
                 // Check if the model has a corresponding metainfo file

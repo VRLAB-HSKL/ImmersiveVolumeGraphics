@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,12 +45,13 @@ namespace ImmersiveVolumeGraphics {
             public void LoadPath()
             {
                 //Sets the model´s path 
+                // ToDo: Set init path of first found asset on startup
+                Debug.Log("SetInitPath: " + DropDown.options[DropDown.value].text);
                 ImportRAWModel.SetModelPath(DropDown.options[DropDown.value].text);
                 //
 
                 Path = DropDown.options[DropDown.value].text;
-
-
+                
                 //Reads the MetaInformation in 
                 DICOMMetaReader.ReadDICOMMetaInformation();
                 Debug.Log("Path + MetaInfo loaded");
@@ -74,10 +76,29 @@ namespace ImmersiveVolumeGraphics {
 
             }
 
+            private void Start()
+            {
+                Debug.Log("Init model path load");
+                string initPath = "Skull";
+        
+                ImportRAWModel.SetModelPath(initPath);
+                
+                //Reads the MetaInformation in 
+                DICOMMetaReader.ReadDICOMMetaInformation();
+                Debug.Log("Path + MetaInfo loaded");
+                
+                //StartCoroutine()
 
-
-
-
+                var importer = FindObjectOfType<ImportRAWModel>();
+                if (importer != null)
+                {
+                    Debug.Log("Importing initial data");
+                    //importer.OpenRAWData();    
+                    StartCoroutine(importer.OpenRawDataRoutine());
+                }
+                
+            }
+            
         }
     }
 }

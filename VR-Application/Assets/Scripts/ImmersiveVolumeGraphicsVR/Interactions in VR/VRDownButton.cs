@@ -184,7 +184,7 @@ namespace ImmersiveVolumeGraphics
                             regulator3.transform.localPosition += ObjectDisplacement * Time.deltaTime;
                             sliceRenderer.transform.localPosition += ObjectDisplacement * Time.deltaTime;
                             volumeObject.transform.localPosition += ObjectDisplacement * Time.deltaTime; ;
-                            Debug.Log("runter");
+                            //Debug.Log("runter");
 
                         }
 

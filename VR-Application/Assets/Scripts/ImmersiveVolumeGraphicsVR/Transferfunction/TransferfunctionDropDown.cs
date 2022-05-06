@@ -54,9 +54,9 @@ namespace ImmersiveVolumeGraphics {
 
             public void  AddDropDownList()
             {
-                string path = "" + Application.dataPath + "/StreamingAssets/TransferFunctions/";
-
-
+                //string path = "" + Application.dataPath + "/StreamingAssets/TransferFunctions/";
+                string path = Application.streamingAssetsPath + "/TransferFunctions/";
+                
                 //Creates a new DropDownlist
                 List<string> DropDownOptions = new List<string>();
 

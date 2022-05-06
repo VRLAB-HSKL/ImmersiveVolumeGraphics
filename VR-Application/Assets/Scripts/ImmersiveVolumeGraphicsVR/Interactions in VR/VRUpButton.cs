@@ -175,7 +175,7 @@ namespace ImmersiveVolumeGraphics
 
 
 
-                            Debug.Log("hoch");
+                            //Debug.Log("hoch");
 
                         }
 
