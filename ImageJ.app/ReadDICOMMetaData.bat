@@ -1,4 +1,0 @@
-python ReadDICOMMetaData.py
-
-
-pause
