@@ -1,5 +1,5 @@
 # Immersive Volume Graphics
-VR and AR applications using volume graphics.
+Repository für die Masterarbeit von Marco Noll.
 
 Verwendete Unity-Version: Unity 2020.3.33f1 LTS
 
